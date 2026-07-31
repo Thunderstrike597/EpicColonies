@@ -63,6 +63,8 @@ public abstract class MixinRaiderRangedAi {
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void tryStopShoot(LivingEntity target, CallbackInfo ci) {
+        if (mobSelf == null) return;
+        ci.cancel();
         ((AbstractEntityMinecoloniesMonster) this.mobSelf).getNavigation().stop();
         AbstractArrow arrowEntity = CombatUtils.createArrowForShooter(this.mobSelf);
         if (((IRangedMobEntity) ((AbstractEntityMinecoloniesMonster) this.mobSelf)).penetrateFluids() && arrowEntity instanceof CustomArrowEntity customArrowEntity) {

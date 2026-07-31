@@ -112,15 +112,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     @SuppressWarnings("unchecked")
     private static void buildMotions(){
         swordOneHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -129,15 +129,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         swordDualBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -146,15 +146,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         daggerBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 2).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO3).distanceMinMax(1, 2).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO3).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -163,17 +163,17 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         daggerDualBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 2).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 2).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(8, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(20, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_DUAL_AUTO4).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -182,15 +182,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         tachiBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -200,15 +200,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
         );
 
         longswordOneHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -217,15 +217,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         longswordTwoHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -235,7 +235,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
         );
 
         spearOneHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -244,11 +244,11 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         spearTwoHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -257,11 +257,11 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         greatswordBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -270,15 +270,15 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         katanaBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(19, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(

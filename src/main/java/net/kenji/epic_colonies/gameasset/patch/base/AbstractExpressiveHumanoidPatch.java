@@ -22,6 +22,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.LivingMotion;
@@ -66,6 +67,14 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     protected static float ANGLE_FADE_DEG = 15F;
     protected static float MAX_EYE_OFFSET = 0.075F;
     protected static float HEAD_TURN_SPEED_DEG = 8.0F;
+
+    public void debugLogNearestPlayer(String log){
+        Player player = this.getOriginal().level().getNearestPlayer(getOriginal(), 2.0F);
+
+        if(player != null){
+            Log.info(log);
+        }
+    }
 
 
     protected Player getNearestPlayer(Entity entity){

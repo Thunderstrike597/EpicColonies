@@ -1,5 +1,6 @@
 package net.kenji.epic_colonies.gameasset.patch;
 
+import com.minecolonies.api.client.render.modeltype.ModModelTypes;
 import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.ICitizenDataView;
 import com.minecolonies.api.colony.IColony;
@@ -65,7 +66,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         }
         return null;
     }
-
 
     public HumanoidArmature getCurrentCitizenArmature() {
         return currentCitizenArmature;
@@ -290,11 +290,14 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     }
 
 
+
     @Override
     public void serverTick(LivingEvent.LivingTickEvent event) {
         super.serverTick(event); // already dispatches to clientTick()/serverTick() internally, including onCitizenTick() on the client
         onCitizenTick(); // only need to run it here for the server, since clientTick() already covers the client path
         manageHeadRotWithEyes();
+        debugLogNearestPlayer("Getting Model Type: " + this.getOriginal().getModelType());
+
     }
 
     protected void setSleepDir(){

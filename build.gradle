@@ -202,7 +202,7 @@ dependencies {
     implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:7517612")
 
     implementation fg.deobf("curse.maven:samurai-dynasty-848381:7394415")
-    implementation fg.deobf("curse.maven:azurelib-817423:8367230")
+    implementation fg.deobf("curse.maven:azurelib-817423:8107336")
     implementation fg.deobf("curse.maven:curios-309927:6418456")
 
     implementation fg.deobf("curse.maven:packet-fixer-689467:7221527")
