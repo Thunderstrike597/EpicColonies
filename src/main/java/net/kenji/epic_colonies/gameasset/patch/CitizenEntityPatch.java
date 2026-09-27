@@ -377,7 +377,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         citizenPatchData.currentOptionalCompositeMotion = compositeMotion;
 
         EpicColoniesPacketHandler.sendToAll(new ClientCitizenSyncPacket(citizen.getId(), this.getOriginal().getUUID(), citizenPatchData));
-        debugLogNearestPlayer("Logging Optional Motion Set: " + citizenPatchData.currentOptionalMotion);
+        //debugLogNearestPlayer("Logging Optional Motion Set: " + citizenPatchData.currentOptionalMotion);
         if(didJump && citizen.onGround()){
             didJump = false;
         }
@@ -458,25 +458,22 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     }
 
     private void tryStopAnim(LivingMotion motion) {
-
         AssetAccessor<? extends StaticAnimation> anim = animator.getLivingAnimation(motion, null);
-
+        boolean isComposite = false;
         if (anim == null) {
             anim = this.getClientAnimator().getCompositeLivingMotion(motion);
+            isComposite = true;
         }
-
         if (anim != null) {
-
             AnimationPlayer animPlayer = getClientAnimator().getPlayerFor(anim);
             if (animPlayer != null) {
-
-
                 AssetAccessor<? extends DynamicAnimation> dynamicAnim = animPlayer.getAnimation();
-
-                if (dynamicAnim != null) {
-                    if (dynamicAnim.get() == anim.get()) {
-                        if (citizenPatchData.currentOptionalMotion != motion)
-                            stopCompositeOnLayer(anim.get().getAccessor(), anim.get().getPriority());
+                if (dynamicAnim != null && dynamicAnim.get() == anim.get()) {
+                    LivingMotion tracked = isComposite
+                            ? citizenPatchData.currentOptionalCompositeMotion
+                            : citizenPatchData.currentOptionalMotion;
+                    if (tracked != motion) {
+                        animator.stopPlaying(anim.get().getAccessor()); // skip stopCompositeOnLayer's priority-guessing entirely
                     }
                 }
             }

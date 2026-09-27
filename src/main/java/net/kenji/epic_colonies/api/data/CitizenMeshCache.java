@@ -94,6 +94,7 @@ public final class CitizenMeshCache {
         return textureStr != null
                 && textureStr.contains(":")           // rules out bare "0" (no namespace separator)
                 && !textureStr.endsWith(":0")          // rules out "minecraft:0" specifically
-                && !textureStr.equals("minecraft:0");
+                && !textureStr.equals("minecraft:0")
+                && !textureStr.contains("minecraft")  ;
     }
 }

@@ -131,6 +131,13 @@ dependencies {
     // Epic Fight - 21.16.4, mc1.21.1-neoforge
     implementation "curse.maven:epic-fight-mod-405076:7956628"
 
+
+
+
+    implementation "curse.maven:epicfight-extra-1434276:8681592"
+    implementation "curse.maven:epicfight-nightfall-1307848:8573921"
+    implementation "curse.maven:epic-fight-avalon-1268823:7420442"
+    implementation "curse.maven:epic-fight-invincible-1184379:8390375"
     // EpicFight: Resurrection is Forge-only (capped at 1.20.1 / 1.18.2) - no NeoForge build exists.
     // implementation "curse.maven:epicfight-resurrection-1151542:XXXXXXX"
     // Its crash-fix companion mod is likewise Forge-only for the same reason.

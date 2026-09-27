@@ -1,6 +1,5 @@
 package net.kenji.epic_colonies.api.data;
 
-import dev.architectury.event.events.common.TickEvent;
 import net.kenji.epic_colonies.EpicColonies;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
