@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
+import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -56,6 +57,8 @@ public class CitizenDetailsLayer<E extends AbstractEntityCitizen, T extends Livi
         if (accessor == null || accessor.isEmpty()) {
             return;
         }
+        if(entitypatch instanceof CitizenEntityPatch<?> citizenEntityPatch)
+            citizenEntityPatch.debugLogNearestPlayer("Details Mesh: " + accessor.registryName());
 
         this.currentMesh = accessor.get();
         this.currentMesh.initialize(); // cheap state reset on the cached mesh, no rebuild

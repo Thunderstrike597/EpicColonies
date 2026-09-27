@@ -296,8 +296,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         super.serverTick(event); // already dispatches to clientTick()/serverTick() internally, including onCitizenTick() on the client
         onCitizenTick(); // only need to run it here for the server, since clientTick() already covers the client path
         manageHeadRotWithEyes();
-        debugLogNearestPlayer("Getting Model Type: " + this.getOriginal().getModelType());
-
     }
 
     protected void setSleepDir(){
@@ -460,25 +458,22 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     }
 
     private void tryStopAnim(LivingMotion motion) {
-
         AssetAccessor<? extends StaticAnimation> anim = animator.getLivingAnimation(motion, null);
-
+        boolean isComposite = false;
         if (anim == null) {
             anim = this.getClientAnimator().getCompositeLivingMotion(motion);
+            isComposite = true;
         }
-
         if (anim != null) {
-
             AnimationPlayer animPlayer = getClientAnimator().getPlayerFor(anim);
             if (animPlayer != null) {
-
-
                 AssetAccessor<? extends DynamicAnimation> dynamicAnim = animPlayer.getAnimation();
-
-                if (dynamicAnim != null) {
-                    if (dynamicAnim.get() == anim.get()) {
-                        if (citizenPatchData.currentOptionalMotion != motion)
-                            stopCompositeOnLayer(anim.get().getAccessor(), anim.get().getPriority());
+                if (dynamicAnim != null && dynamicAnim.get() == anim.get()) {
+                    LivingMotion tracked = isComposite
+                            ? citizenPatchData.currentOptionalCompositeMotion
+                            : citizenPatchData.currentOptionalMotion;
+                    if (tracked != motion) {
+                        animator.stopPlaying(anim.get().getAccessor()); // skip stopCompositeOnLayer's priority-guessing entirely
                     }
                 }
             }

@@ -38,6 +38,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CITIZEN_MALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> SETTLER_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_MALE;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> COURIER_MALE;
@@ -92,6 +93,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE_LOWER_EYES;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CITIZEN_FEMALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> SETTLER_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE_BIG_EYES;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE_LOWER_EYES;
@@ -164,6 +166,8 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     static {
         DEFAULT_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         CITIZEN_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/citizen_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        meshMap.put(new Pair<>(false, ModModelTypes.SETTLER_ID), SETTLER_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/settler_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
+
         meshMap.put(new Pair<>(false, ModModelTypes.CHILD_ID), CHILD_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
 
         meshMap.put(new Pair<>(false, ModModelTypes.COURIER_ID), COURIER_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/courier_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
@@ -217,6 +221,8 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
         CITIZEN_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/citizen_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         CHILD_FEMALE_BIG_EYES = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_female_big_eyes", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         CHILD_FEMALE_LOWER_EYES = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_female_eyes_lower", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+
+        meshMap.put(new Pair<>(true, ModModelTypes.SETTLER_ID), SETTLER_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/settler_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
 
         meshMap.put(new Pair<>(true, ModModelTypes.CHILD_ID), CHILD_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
 

@@ -201,6 +201,14 @@ dependencies {
     implementation fg.deobf("curse.maven:epicfight-resurrection-crash-fix-1520550:8086417")
     implementation fg.deobf("curse.maven:weapons-of-miracles-epicfight-918614:7517612")
 
+    implementation fg.deobf("curse.maven:epic-fight-invincible-1184379:7679941")
+
+    implementation fg.deobf("curse.maven:epicfight-extra-1434276:8681446")
+
+
+    implementation fg.deobf("curse.maven:epicfight-nightfall-1307848:8693642")
+    implementation fg.deobf("curse.maven:epic-fight-avalon-1268823:8849430")
+
     implementation fg.deobf("curse.maven:samurai-dynasty-848381:7394415")
     implementation fg.deobf("curse.maven:azurelib-817423:8107336")
     implementation fg.deobf("curse.maven:curios-309927:6418456")

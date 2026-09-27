@@ -1,5 +1,6 @@
 package net.kenji.epic_colonies.mixins;
 
+import com.minecolonies.api.client.render.modeltype.ModModelTypes;
 import com.minecolonies.api.colony.jobs.IJobView;
 import com.minecolonies.api.colony.jobs.ModJobs;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
@@ -23,7 +24,7 @@ public class RenderBipedCitizenMixin {
     @Inject(method = "getTextureLocation(Lcom/minecolonies/api/entity/citizen/AbstractEntityCitizen;)Lnet/minecraft/resources/ResourceLocation;", at = @At("RETURN"), cancellable = true)
     public void onGetTextureLocation(AbstractEntityCitizen entity, CallbackInfoReturnable<ResourceLocation> cir){
         RenderBipedCitizen self = (RenderBipedCitizen) (Object)this;
-        if(entity.getCitizenDataView() == null) {
+        if(entity.getCitizenDataView() == null || entity.getModelType().equals(ModModelTypes.SETTLER_ID)) {
             CitizenMeshCache.Entry cached = CitizenMeshCache.get(entity.getUUID());
             if (cached != null) {
                 ResourceLocation location = CitizenMeshCache.resolveTextLocation(cached.skinTextureId());

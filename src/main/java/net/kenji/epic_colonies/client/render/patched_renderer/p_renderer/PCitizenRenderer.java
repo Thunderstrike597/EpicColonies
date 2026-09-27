@@ -132,13 +132,17 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
                 return childMesh;
             }
             if(citizen.getModelType() != null) {
-                if (citizen.getModelType() == ModModelTypes.ARISTOCRAT_ID) {
+                if (citizen.getModelType().equals(ModModelTypes.ARISTOCRAT_ID)) {
                     patch.setCurrentCitizenArmatureFromArmatureType(CitizenArmatureTypes.REGULAR);
                     return citizen.isFemale() ? EpicColoniesMeshes.ARISTOCRAT_FEMALE : EpicColoniesMeshes.ARISTOCRAT_MALE;
-                } else if (citizen.getModelType() == ModModelTypes.NOBLE_ID) {
+                } else if (citizen.getModelType().equals(ModModelTypes.NOBLE_ID)) {
                     patch.setCurrentCitizenArmatureFromArmatureType(CitizenArmatureTypes.REGULAR);
                     return citizen.isFemale() ? EpicColoniesMeshes.NOBLE_FEMALE : EpicColoniesMeshes.NOBLE_MALE;
-                } else {
+                } else if (citizen.getModelType().equals(ModModelTypes.SETTLER_ID)) {
+                    patch.setCurrentCitizenArmatureFromArmatureType(CitizenArmatureTypes.REGULAR);
+                    return citizen.isFemale() ? EpicColoniesMeshes.SETTLER_FEMALE : EpicColoniesMeshes.SETTLER_MALE;
+                }
+                else {
                     ResourceLocation loc = originalRenderer == null ? citizen.getTexture() : originalRenderer.getTextureLocation(citizen);
                     int getFaceOffset = FaceOffsetDetector.getFaceOffset(loc);
 
@@ -194,7 +198,6 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
     @Override
     protected void renderLayer(LivingEntityRenderer<AbstractEntityCitizen, CitizenModel<AbstractEntityCitizen>> renderer, CitizenEntityPatch<AbstractEntityCitizen> entitypatch, AbstractEntityCitizen entity, OpenMatrix4f[] poses, MultiBufferSource buffer, PoseStack poseStack, int packedLight, float partialTicks) {
         super.renderLayer(renderer, entitypatch, entity, poses, buffer, poseStack, packedLight, partialTicks);
-
     }
 
     public AssetAccessor<EpicColoniesMesh> getDefaultMesh() {
