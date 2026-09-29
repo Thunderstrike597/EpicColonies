@@ -1,5 +1,7 @@
 package net.kenji.epic_colonies.gameasset.patch;
 
+import com.ldtteam.structurize.placement.StructurePlacer;
+import com.ldtteam.structurize.placement.handlers.placement.IPlacementHandler;
 import com.minecolonies.api.client.render.modeltype.ModModelTypes;
 import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.ICitizenDataView;
@@ -7,10 +9,16 @@ import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
+import com.minecolonies.api.util.Tuple;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
+import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
+import com.minecolonies.core.entity.ai.workers.builder.EntityAIStructureBuilder;
+import com.minecolonies.core.entity.ai.workers.util.BuildingProgressStage;
+import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.other.SittingEntity;
+import com.minecolonies.core.placementhandlers.GeneralBlockPlacementHandler;
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.FacialEmotionExpressions;
@@ -21,6 +29,7 @@ import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesArmatures;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
 import net.kenji.epic_colonies.gameasset.patch.base.AbstractExpressiveHumanoidPatch;
+import net.kenji.epic_colonies.mixins.AbstractEntityAiStructureAccessor;
 import net.kenji.epic_colonies.mixins.LivingEntityAccessor;
 import net.kenji.epic_colonies.network.ClientCitizenSyncPacket;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
@@ -362,6 +371,17 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             compositeMotion = EpicColoniesLivingMotions.USE;
         }
 
+        if(iJob != null) {
+            if (iJob instanceof AbstractEntityAIStructure<?, ?> structure) {
+                Tuple<StructurePlacer, BuildingStructureHandler<?, ?>> structurePlacer = ((AbstractEntityAiStructureAccessor) structure).getStructurePlacer();
+                if (structurePlacer.getB() != null) {
+                    if (structurePlacer.getB().getStage() == BuildingProgressStage.BUILD_SOLID) {
+                        compositeMotion = EpicColoniesLivingMotions.PLACE;
+                    }
+                }
+            }
+        }
+
         if(workerState != null) {
             Pair<LivingMotion, Boolean> statePair = EpicColoniesLivingMotions.getLivingMotionFromAiState(workerState);
             if(statePair != null){
@@ -452,8 +472,12 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         playCompositeOnLayer(eyeMoveAnim, Layer.Priority.LOWEST);
 
         playCompositeOptionalAnimation();
+        if (citizenPatchData.prevOptionalCompositeMotion != citizenPatchData.currentOptionalCompositeMotion) {
+            getClientAnimator().resetCompositeMotion();
+        }
         tryStopAnim(LivingMotions.CLIMB);
         tryStopAnim(LivingMotions.DIGGING);
+
         tryStopAnim(LivingMotions.SIT);
     }
 

@@ -233,6 +233,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         animator.addLivingAnimation(LivingMotions.CLIMB, EpicColoniesAnimations.CITIZEN_CLIMB);
         animator.addLivingAnimation(LivingMotions.DIGGING, EpicColoniesAnimations.CITIZEN_DIG);
         animator.addLivingAnimation(EpicColoniesLivingMotions.USE, EpicColoniesAnimations.CITIZEN_DIG);
+        animator.addLivingAnimation(EpicColoniesLivingMotions.PLACE, EpicColoniesAnimations.CITIZEN_USE);
 
         animator.addLivingAnimation(EpicColoniesLivingMotions.SIT_SLEEP, Animations.BIPED_SIT);
 

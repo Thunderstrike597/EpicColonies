@@ -34,6 +34,7 @@ public class EpicColoniesAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_JOG;
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_EAT;
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_DIG;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_USE;
 
     public static AnimationManager.AnimationAccessor<MovementAnimation> CITIZEN_CLIMB;
 
@@ -86,6 +87,9 @@ public class EpicColoniesAnimations {
 
         CITIZEN_DIG = builder.nextAccessor("citizen/living/citizen_dig", (accessor -> new StaticAnimation(0.1F,true, accessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> {
             return 1.25F;
+        })));
+        CITIZEN_USE = builder.nextAccessor("citizen/living/citizen_use", (accessor -> new StaticAnimation(0.1F,false, accessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> {
+            return 1F;
         })));
     }
 
