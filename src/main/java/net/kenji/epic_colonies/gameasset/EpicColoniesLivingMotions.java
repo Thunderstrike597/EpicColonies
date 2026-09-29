@@ -11,6 +11,7 @@ public enum EpicColoniesLivingMotions implements LivingMotion {
     JOG(null, null, false),
     USE(null, null, true),
     DIG(AIWorkerState.MINE_BLOCK, LivingMotions.DIGGING,true),
+    PLACE(null, null, true),
     SIT_SLEEP(AIWorkerState.GUARD_SLEEP, null, false);
 
 

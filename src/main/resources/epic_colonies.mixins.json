@@ -12,6 +12,7 @@
     "MixinRaiderRangedAi",
     "EntityAiVisitorMixin",
     "LivingEntityAccessor",
+    "AbstractEntityAiStructureAccessor",
     "AccessorHumanoidArmorLayer",
     "AccessorLivingEntityRenderer",
     "AccessorWearableItemLayer",
