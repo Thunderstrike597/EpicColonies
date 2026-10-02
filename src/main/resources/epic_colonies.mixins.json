@@ -16,7 +16,9 @@
     "AccessorHumanoidArmorLayer",
     "AccessorLivingEntityRenderer",
     "AccessorWearableItemLayer",
-    "AccessorAbstractArrow"
+    "AccessorAbstractArrow",
+    "AbstractEntityAIStructureMixin",
+    "MixinAbstractEntityAiStructure"
   ],
   "client": [
     "RenderBipedCitizenMixin"

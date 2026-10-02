@@ -55,6 +55,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         super(entity);
     }
 
+    public LivingMotion resetMotion = null;
+
     private HumanoidArmature currentCitizenArmature = EpicColoniesArmatures.CITIZEN_REGULAR.get();
 
     public static AssetAccessor<EpicColoniesMesh> getMeshFromTexture(AbstractEntityCitizen citizen, boolean isChild){
@@ -366,11 +368,13 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         if((citizen.isUsingItem()) && !(citizen.getMainHandItem().getItem() instanceof ProjectileWeaponItem)){
             compositeMotion = EpicColoniesLivingMotions.USE;
         }
-        if(citizen.getCitizenData().getJob() instanceof AbstractEntityAIStructure<?,?> structure){
-            Tuple<StructurePlacer, BuildingStructureHandler<?, ?>> structurePlacer = ((AbstractEntityAiStructureAccessor)structure).getStructurePlacer();
-            if(structurePlacer.getB() != null) {
-                if (structurePlacer.getB().getStage() == BuildingProgressStage.BUILD_SOLID) {
-                    compositeMotion = EpicColoniesLivingMotions.PLACE;
+        if(iJob != null) {
+            if (iJob instanceof AbstractEntityAIStructure<?, ?> structure) {
+                Tuple<StructurePlacer, BuildingStructureHandler<?, ?>> structurePlacer = ((AbstractEntityAiStructureAccessor) structure).getStructurePlacer();
+                if (structurePlacer.getB() != null) {
+                    if (structurePlacer.getB().getStage() == BuildingProgressStage.BUILD_SOLID) {
+                        compositeMotion = EpicColoniesLivingMotions.PLACE;
+                    }
                 }
             }
         }
@@ -383,6 +387,10 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             }
         }
 
+        if(citizenPatchData.currentOptionalCompositeMotion == resetMotion){
+            citizenPatchData.currentOptionalCompositeMotion = null;
+            resetMotion = null;
+        }
 
         citizenPatchData.isAsleep = citizen.getCitizenSleepHandler().isAsleep();
 
