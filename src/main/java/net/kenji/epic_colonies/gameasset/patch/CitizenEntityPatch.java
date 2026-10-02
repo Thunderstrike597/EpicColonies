@@ -13,6 +13,7 @@ import com.minecolonies.api.util.Tuple;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
 import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
+import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructureWithWorkOrder;
 import com.minecolonies.core.entity.ai.workers.builder.EntityAIStructureBuilder;
 import com.minecolonies.core.entity.ai.workers.util.BuildingProgressStage;
 import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
@@ -41,6 +42,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import org.jline.utils.Log;
 import yesman.epicfight.api.animation.*;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
@@ -59,7 +61,11 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         super(Factions.VILLAGER);
     }
 
+    public LivingMotion resetMotion = null;
+
     private HumanoidArmature currentCitizenArmature = EpicColoniesArmatures.CITIZEN_REGULAR.get();
+
+
 
     public static AssetAccessor<EpicColoniesMesh> getMeshFromTexture(AbstractEntityCitizen citizen, boolean isChild){
 
@@ -391,6 +397,12 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             }
         }
 
+        
+        if(citizenPatchData.currentOptionalCompositeMotion == resetMotion){
+            citizenPatchData.currentOptionalCompositeMotion = null;
+            resetMotion = null;
+        }
+
 
         citizenPatchData.isAsleep = citizen.getCitizenSleepHandler().isAsleep();
 
@@ -479,6 +491,11 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         tryStopAnim(LivingMotions.DIGGING);
 
         tryStopAnim(LivingMotions.SIT);
+
+
+       // debugLogNearestPlayer("Logging prevOptionalCompositeMotion: " + citizenPatchData.prevOptionalCompositeMotion);
+       // debugLogNearestPlayer("Logging currentOptionalCompositeMotion: " + citizenPatchData.currentOptionalCompositeMotion);
+
     }
 
     private void tryStopAnim(LivingMotion motion) {

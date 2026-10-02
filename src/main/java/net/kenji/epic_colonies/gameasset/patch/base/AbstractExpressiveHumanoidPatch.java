@@ -95,7 +95,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     }
 
     public boolean isWasUsingBow(){
-        return wasUsingBow && bowUseCounter >= 32;
+        return wasUsingBow;
     }
 
     public double getLastY() {

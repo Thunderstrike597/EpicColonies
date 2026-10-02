@@ -57,8 +57,6 @@ public class CitizenDetailsLayer<E extends AbstractEntityCitizen, T extends Livi
         if (accessor == null || accessor.isEmpty()) {
             return;
         }
-        if(entitypatch instanceof CitizenEntityPatch<?> citizenEntityPatch)
-            citizenEntityPatch.debugLogNearestPlayer("Details Mesh: " + accessor.registryName());
 
         this.currentMesh = accessor.get();
         this.currentMesh.initialize(); // cheap state reset on the cached mesh, no rebuild
