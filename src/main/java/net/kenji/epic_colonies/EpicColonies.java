@@ -67,6 +67,7 @@ public class EpicColonies {
             modEventBus.addListener(EpicFightClientEvents::registerPatchedEntityRenderers);        }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, EpicColoniesConfigClient.SPEC, "EpicColonies-Client.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EpicColoniesConfigCommon.SPEC, "EpicColonies-Common.toml");
 
 
     }
