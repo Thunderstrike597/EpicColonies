@@ -1,9 +1,12 @@
 package net.kenji.epic_colonies.gameasset.patch.base;
 
 import com.google.common.collect.ImmutableMap;
+import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
+import com.minecolonies.api.inventory.InventoryCitizen;
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.api.CitizenPatchData;
-import net.kenji.epic_colonies.compat.CombatBehaviourBase;
+import net.kenji.epic_colonies.gameasset.EpicColoniesStyles;
+import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
@@ -29,6 +32,7 @@ import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Factions;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
 import yesman.epicfight.world.entity.ai.goal.CombatBehaviors;
@@ -62,6 +66,8 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     protected static float ANGLE_FADE_DEG = 15F;
     protected static float MAX_EYE_OFFSET = 0.075F;
     protected static float HEAD_TURN_SPEED_DEG = 8.0F;
+
+    private boolean closeRangeStance;
 
     public void debugLogNearestPlayer(String log){
         Player player = this.getOriginal().level().getNearestPlayer(getOriginal(), 2.0F);
@@ -151,6 +157,34 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     public void setCitizenPatchData(CitizenPatchData citizenPatchData) {
         this.citizenPatchData = citizenPatchData;
     }
+
+    public void setCloseRangeStance(boolean value) {
+        if (this.closeRangeStance == value) return;   // only refresh on transitions
+        this.closeRangeStance = value;
+
+        if (!this.original.level().isClientSide()) {
+            this.initAI();                               // rebuilds AnimatedAttackGoal from the new builder
+            this.modifyLivingMotionByCurrentItem(false); // re-applies + syncs living motions
+        }
+    }
+
+    private boolean useCloseRangeStyle() {
+        return this.closeRangeStance
+                && this.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.DAGGER;
+    }
+
+    @Override
+    protected CombatBehaviors.Builder<HumanoidMobPatch<?>> getHoldingItemWeaponMotionBuilder() {
+        if (this.useCloseRangeStyle()) {
+            var byStyle = this.weaponAttackMotions.get(CapabilityItem.WeaponCategories.DAGGER);
+            if (byStyle != null && byStyle.containsKey(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE)) {
+                return byStyle.get(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE);
+
+            }
+        }
+        return super.getHoldingItemWeaponMotionBuilder();
+    }
+
     @Override
     protected void setWeaponMotions() {
         super.setWeaponMotions();
@@ -199,7 +233,38 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             lastYTickCount--;
         }
     }
-
+    public int getCitizenItemSlotOfWeaponCategory(WeaponCategory category){
+        if(!(this.getOriginal() instanceof AbstractEntityCitizen citizen))return -1;
+        InventoryCitizen inventoryCitizen = citizen.getInventoryCitizen();
+        for(int i = 0; i < inventoryCitizen.getSlots(); i++){
+            if(i < inventoryCitizen.getSlots()){
+                ItemStack stack = inventoryCitizen.getStackInSlot(i);
+                if(stack.isEmpty())continue;
+                CapabilityItem cap = EpicFightCapabilities.getItemStackCapability(stack);
+                if(cap == null) continue;
+                if(cap.getWeaponCategory() == category){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+    public ItemStack getCitizenItemOfWeaponCategory(WeaponCategory category){
+        if(!(this.getOriginal() instanceof AbstractEntityCitizen citizen))return ItemStack.EMPTY;
+        InventoryCitizen inventoryCitizen = citizen.getInventoryCitizen();
+        for(int i = 0; i < inventoryCitizen.getSlots(); i++){
+            if(i < inventoryCitizen.getSlots()){
+                ItemStack stack = inventoryCitizen.getStackInSlot(i);
+                if(stack.isEmpty())continue;
+                CapabilityItem cap = EpicFightCapabilities.getItemStackCapability(stack);
+                if(cap == null) continue;
+                if(cap.getWeaponCategory() == category){
+                    return stack;
+                }
+            }
+        }
+        return ItemStack.EMPTY;
+    }
     @Override
     public void preTickServer() {
         super.preTickServer();

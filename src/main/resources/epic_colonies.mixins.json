@@ -18,7 +18,8 @@
     "AccessorWearableItemLayer",
     "AccessorAbstractArrow",
     "AbstractEntityAIStructureMixin",
-    "MixinAbstractEntityAiStructure"
+    "MixinAbstractEntityAiStructure",
+    "ModEquipmentTypesMixin"
   ],
   "client": [
     "RenderBipedCitizenMixin"

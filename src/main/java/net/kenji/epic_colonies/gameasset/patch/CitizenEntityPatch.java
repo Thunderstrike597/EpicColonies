@@ -8,6 +8,7 @@ import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.util.Tuple;
+import com.minecolonies.core.colony.jobs.guard.JobRanger;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
 import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
@@ -16,6 +17,7 @@ import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.other.SittingEntity;
 import com.mojang.datafixers.util.Pair;
+import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.FacialEmotionExpressions;
 import net.kenji.epic_colonies.api.data.CitizenMeshCache;
@@ -172,7 +174,21 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             if(iCitizenData.isChild()){
                 getAnimator().playAnimation(facialAnim, 0F);
             }
+
+            if (this.getTarget() != null && EpicColoniesConfigCommon.ARCHER_DAGGER_MELEE.get()) {
+                double dist = this.getTarget().position().distanceTo(this.getOriginal().position());
+                boolean canUseWeapon = dist < 2.8 && this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() instanceof JobRanger;
+
+
+
+                ItemStack slot = this.getCitizenItemOfWeaponCategory(CapabilityItem.WeaponCategories.DAGGER);
+                if (!slot.isEmpty() && canUseWeapon) {
+                    this.setCloseRangeStance(canUseWeapon);
+                    this.getOriginal().setItemInHand(InteractionHand.MAIN_HAND, slot);
+                }
+            }
         }
+
     }
 
     @Override

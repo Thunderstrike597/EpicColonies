@@ -1,4 +1,4 @@
-package net.kenji.epic_colonies.compat;
+package net.kenji.epic_colonies.gameasset.behaviours;
 
 import com.mojang.datafixers.util.Pair;
 import yesman.epicfight.api.animation.AnimationManager;

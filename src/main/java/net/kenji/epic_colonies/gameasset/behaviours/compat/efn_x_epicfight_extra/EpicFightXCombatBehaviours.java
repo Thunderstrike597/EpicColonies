@@ -1,11 +1,12 @@
-package net.kenji.epic_colonies.compat.efn_x_epicfight_extra;
+package net.kenji.epic_colonies.gameasset.behaviours.compat.efn_x_epicfight_extra;
 
 
 
 import com.asanginxst.epicfightx.gameassets.animations.AnimationsX;
 import com.hm.efn.gameasset.animations.*;
-import net.kenji.epic_colonies.compat.CombatBehaviourBase;
-import net.kenji.epic_colonies.compat.CompatMobCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.EpicColoniesStyles;
+import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
+import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.EpicColoniesWeaponCategory;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.StaticAnimation;
@@ -21,6 +22,7 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
 
     static CombatBehaviors.Builder<HumanoidMobPatch<?>> daggerBehaviour;
     static CombatBehaviors.Builder<HumanoidMobPatch<?>> daggerDualBehaviour;
+    static CombatBehaviors.Builder<HumanoidMobPatch<?>> daggerBehaviourRanged;
 
     static CombatBehaviors.Builder<HumanoidMobPatch<?>> tachiBehaviour;
 
@@ -46,8 +48,10 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         );
         CompatMobCombatBehaviours.HUMANOID_S_DAGGER = register(
                 CapabilityItem.WeaponCategories.DAGGER,
-                CompatMobCombatBehaviours.motion(CapabilityItem.Styles.ONE_HAND, daggerBehaviour, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN)
-                );
+                CompatMobCombatBehaviours.motion(CapabilityItem.Styles.ONE_HAND, daggerBehaviour, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN),
+                CompatMobCombatBehaviours.motion(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE, daggerBehaviourRanged, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN)
+        );
+
         CompatMobCombatBehaviours.HUMANOID_S_DAGGER_DUAL = register(
                 EpicColoniesWeaponCategory.DUAL_DAGGER,
                 CompatMobCombatBehaviours.motion(CapabilityItem.Styles.TWO_HAND, daggerDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
@@ -133,6 +137,23 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(21, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(20, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(20, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO5).distanceMinMax(1, 3).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
+        );
+        daggerBehaviourRanged = CombatBehaviors.builder().newBehaviorSeries(
+                createBehaviourSeries(10, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 2).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(26, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(24, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(22, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(20, DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO5).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
