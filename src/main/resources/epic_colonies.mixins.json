@@ -17,7 +17,8 @@
     "AccessorLivingEntityRenderer",
     "AccessorWearableItemLayer",
     "MixinAbstractEntityAiStructure",
-    "AbstractEntityAIStructureMixin"
+    "AbstractEntityAIStructureMixin",
+    "ModEquipmentTypesMixin"
   ],
   "client": [
     "RenderBipedCitizenMixin"

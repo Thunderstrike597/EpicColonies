@@ -1,4 +1,4 @@
-package net.kenji.epic_colonies.compat;
+package net.kenji.epic_colonies.gameasset.behaviours;
 
 import com.mojang.datafixers.util.Pair;
 import yesman.epicfight.api.animation.AnimationManager;
@@ -95,6 +95,7 @@ public abstract class CombatBehaviourBase {
     public static CompatMobCombatBehaviours.WeaponMotionDetails register(
             WeaponCategory category,
             CompatMobCombatBehaviours.WeaponMotions... motions) {
+
         CompatMobCombatBehaviours.WeaponMotionDetails pair =
                 new CompatMobCombatBehaviours.WeaponMotionDetails(category, motions);
         behaviourList.add(pair);

@@ -3,10 +3,10 @@ package net.kenji.epic_colonies;
 import com.mojang.logging.LogUtils;
 
 import net.kenji.epic_colonies.client.events.EpicFightClientEvents;
-import net.kenji.epic_colonies.compat.CompatMobCombatBehaviours;
-import net.kenji.epic_colonies.compat.cd_moveset.CdMovesetCombatBehaviours;
-import net.kenji.epic_colonies.compat.efn_x_epicfight_extra.EpicFightXCombatBehaviours;
-import net.kenji.epic_colonies.compat.wom.WomCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.compat.cd_moveset.CdMovesetCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.compat.efn_x_epicfight_extra.EpicFightXCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.compat.wom.WomCombatBehaviours;
 import net.kenji.epic_colonies.events.ModEvents;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;

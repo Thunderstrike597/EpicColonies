@@ -2,11 +2,14 @@ package net.kenji.epic_colonies.gameasset.patch.base;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
+import com.minecolonies.api.inventory.InventoryCitizen;
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.api.CitizenPatchData;
-import net.kenji.epic_colonies.compat.CombatBehaviourBase;
+import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
+import net.kenji.epic_colonies.gameasset.patch.EpicColoniesStyles;
 import net.kenji.epic_colonies.network.ChangeLivingMotion;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
 import net.kenji.epic_colonies.network.ServerBowActionPacket;
@@ -30,6 +33,9 @@ import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.network.EpicFightNetworkManager;
+import yesman.epicfight.network.server.SPChangeLivingMotion;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Faction;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
@@ -67,6 +73,8 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     protected static float ANGLE_FADE_DEG = 15F;
     protected static float MAX_EYE_OFFSET = 0.075F;
     protected static float HEAD_TURN_SPEED_DEG = 8.0F;
+
+    private boolean closeRangeStance;
 
     public void debugLogNearestPlayer(String log){
         Player player = this.getOriginal().level().getNearestPlayer(getOriginal(), 2.0F);
@@ -156,8 +164,38 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     public void setCitizenPatchData(CitizenPatchData citizenPatchData) {
         this.citizenPatchData = citizenPatchData;
     }
+
+
+    public void setCloseRangeStance(boolean value) {
+        if (this.closeRangeStance == value) return;   // only refresh on transitions
+        this.closeRangeStance = value;
+
+        if (!this.original.level().isClientSide()) {
+            this.initAI();                               // rebuilds AnimatedAttackGoal from the new builder
+            this.modifyLivingMotionByCurrentItem(false); // re-applies + syncs living motions
+        }
+    }
+
+    private boolean useCloseRangeStyle() {
+        return this.closeRangeStance
+                && this.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.DAGGER;
+    }
+
+    @Override
+    protected CombatBehaviors.Builder<HumanoidMobPatch<?>> getHoldingItemWeaponMotionBuilder() {
+        if (this.useCloseRangeStyle()) {
+            var byStyle = this.weaponAttackMotions.get(CapabilityItem.WeaponCategories.DAGGER);
+            if (byStyle != null && byStyle.containsKey(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE)) {
+                return byStyle.get(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE);
+
+            }
+        }
+        return super.getHoldingItemWeaponMotionBuilder();
+    }
+
     @Override
     protected void setWeaponMotions() {
+        super.setWeaponMotions();
         super.setWeaponMotions();
 
         Map<WeaponCategory, Map<Style, Set<Pair<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>>>>> livingByCategory = new HashMap<>();
@@ -205,6 +243,39 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         }
     }
 
+
+    public int getCitizenItemSlotOfWeaponCategory(WeaponCategory category){
+        if(!(this.getOriginal() instanceof AbstractEntityCitizen citizen))return -1;
+        InventoryCitizen inventoryCitizen = citizen.getInventoryCitizen();
+        for(int i = 0; i < inventoryCitizen.getSlots(); i++){
+            if(i < inventoryCitizen.getSlots()){
+                ItemStack stack = inventoryCitizen.getStackInSlot(i);
+                if(stack.isEmpty())continue;
+                CapabilityItem cap = EpicFightCapabilities.getItemStackCapability(stack);
+                if(cap == null) continue;
+                if(cap.getWeaponCategory() == category){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+    public ItemStack getCitizenItemOfWeaponCategory(WeaponCategory category){
+        if(!(this.getOriginal() instanceof AbstractEntityCitizen citizen))return ItemStack.EMPTY;
+        InventoryCitizen inventoryCitizen = citizen.getInventoryCitizen();
+        for(int i = 0; i < inventoryCitizen.getSlots(); i++){
+            if(i < inventoryCitizen.getSlots()){
+                ItemStack stack = inventoryCitizen.getStackInSlot(i);
+                if(stack.isEmpty())continue;
+                CapabilityItem cap = EpicFightCapabilities.getItemStackCapability(stack);
+                if(cap == null) continue;
+                if(cap.getWeaponCategory() == category){
+                    return stack;
+                }
+            }
+        }
+        return ItemStack.EMPTY;
+    }
     @Override
     protected void serverTick(LivingEvent.LivingTickEvent event) {
         super.serverTick(event);
@@ -304,6 +375,21 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
                 ChangeLivingMotion msg = new ChangeLivingMotion(((PathfinderMob)this.original).getId());
                 msg.putEntries(newLivingAnimations.entrySet());
                 EpicColoniesPacketHandler.sendToAll(msg);
+            }
+        }
+        if (this.useCloseRangeStyle()) {
+            var byStyle = this.weaponLivingMotions.get(CapabilityItem.WeaponCategories.DAGGER);
+            var set = byStyle == null ? null : byStyle.get(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE);
+
+            if (set != null) {
+                Map<LivingMotion, AssetAccessor<? extends StaticAnimation>> overrides = new HashMap<>();
+                for (var pair : set) {
+                    this.getAnimator().addLivingAnimation(pair.getFirst(), pair.getSecond());
+                    overrides.put(pair.getFirst(), pair.getSecond());
+                }
+                SPChangeLivingMotion msg = new SPChangeLivingMotion(this.original.getId());
+                msg.putEntries(overrides.entrySet());
+                EpicFightNetworkManager.sendToAllPlayerTrackingThisEntity(msg, this.original);
             }
         }
     }

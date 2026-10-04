@@ -1,26 +1,26 @@
 package net.kenji.epic_colonies.gameasset.patch;
 
 import com.ldtteam.structurize.placement.StructurePlacer;
-import com.ldtteam.structurize.placement.handlers.placement.IPlacementHandler;
-import com.minecolonies.api.client.render.modeltype.ModModelTypes;
 import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.ICitizenDataView;
 import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
+import com.minecolonies.api.inventory.InventoryCitizen;
 import com.minecolonies.api.util.Tuple;
+import com.minecolonies.core.colony.jobs.JobRanger;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
 import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
-import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructureWithWorkOrder;
-import com.minecolonies.core.entity.ai.workers.builder.EntityAIStructureBuilder;
+import com.minecolonies.core.entity.ai.workers.guard.EntityAIRanger;
+import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
 import com.minecolonies.core.entity.ai.workers.util.BuildingProgressStage;
 import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.other.SittingEntity;
-import com.minecolonies.core.placementhandlers.GeneralBlockPlacementHandler;
 import com.mojang.datafixers.util.Pair;
+import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.FacialEmotionExpressions;
 import net.kenji.epic_colonies.api.data.CitizenMeshCache;
@@ -54,6 +54,7 @@ import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Factions;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends AbstractExpressiveHumanoidPatch<C> {
 
@@ -179,8 +180,24 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             if(iCitizenData.isChild()){
                 getAnimator().playAnimation(facialAnim, 0F);
             }
+
+            if (this.getTarget() != null && EpicColoniesConfigCommon.ARCHER_DAGGER_MELEE.get()) {
+                double dist = this.getTarget().position().distanceTo(this.getOriginal().position());
+                boolean canUseWeapon = dist < 2.8 && this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() instanceof JobRanger;
+
+
+
+                ItemStack slot = this.getCitizenItemOfWeaponCategory(CapabilityItem.WeaponCategories.DAGGER);
+                if (!slot.isEmpty() && canUseWeapon) {
+                    this.setCloseRangeStance(canUseWeapon);
+                    this.getOriginal().setItemInHand(InteractionHand.MAIN_HAND, slot);
+                }
+            }
         }
     }
+
+
+
 
     @Override
     public void onAddedToWorld() {

@@ -1,15 +1,12 @@
-package net.kenji.epic_colonies.compat.wom;
+package net.kenji.epic_colonies.gameasset.behaviours.compat.wom;
 
 
-import com.mojang.datafixers.util.Pair;
-import net.kenji.epic_colonies.compat.CombatBehaviourBase;
-import net.kenji.epic_colonies.compat.CompatMobCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
+import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
 import reascer.wom.gameasset.WOMAnimations;
 import reascer.wom.gameasset.animations.weapons.AnimsAgony;
 import reascer.wom.gameasset.animations.weapons.AnimsRuine;
 import reascer.wom.world.capabilities.item.WOMWeaponCategories;
-import yesman.epicfight.api.animation.AnimationManager;
-import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;

@@ -1,18 +1,11 @@
-package net.kenji.epic_colonies.compat;
+package net.kenji.epic_colonies.gameasset.behaviours;
 
 import net.kenji.epic_colonies.gameasset.EpicColoniesWeaponCategory;
-import yesman.epicfight.api.animation.AnimationManager;
-import yesman.epicfight.api.animation.types.StaticAnimation;
+import net.kenji.epic_colonies.gameasset.patch.EpicColoniesStyles;
 import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.gameasset.MobCombatBehaviors;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.Style;
-import yesman.epicfight.world.capabilities.item.WeaponCategory;
 import yesman.epicfight.world.entity.ai.goal.CombatBehaviors;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     public static CombatBehaviors.Builder<HumanoidMobPatch<?>> swordOneHandBehaviour;
@@ -20,6 +13,8 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
 
     public static CombatBehaviors.Builder<HumanoidMobPatch<?>> daggerBehaviour;
     public static CombatBehaviors.Builder<HumanoidMobPatch<?>> daggerDualBehaviour;
+    public static CombatBehaviors.Builder<HumanoidMobPatch<?>> daggerBehaviourRanged;
+
 
     public static CombatBehaviors.Builder<HumanoidMobPatch<?>> tachiBehaviour;
     public static CombatBehaviors.Builder<HumanoidMobPatch<?>> longswordOneHandBehaviour;
@@ -39,6 +34,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
 
     public static WeaponMotionDetails HUMANOID_DAGGER;
     public static WeaponMotionDetails HUMANOID_DAGGER_DUAL;
+    public static WeaponMotionDetails HUMANOID_DAGGER_RANGED;
 
     public static WeaponMotionDetails HUMANOID_LONGSWORD;
     public static WeaponMotionDetails HUMANOID_GREATSWORD;
@@ -57,6 +53,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     public static WeaponMotionDetails HUMANOID_S_SWORD_DUAL;
     public static WeaponMotionDetails HUMANOID_S_DAGGER;
     public static WeaponMotionDetails HUMANOID_S_DAGGER_DUAL;
+
     public static WeaponMotionDetails HUMANOID_S_TACHI;
     public static WeaponMotionDetails HUMANOID_S_LONGSWORD;
     public static WeaponMotionDetails HUMANOID_S_SPEAR;
@@ -79,8 +76,10 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
         HUMANOID_DAGGER = register(
                 CapabilityItem.WeaponCategories.DAGGER,
                 motion(CapabilityItem.Styles.ONE_HAND, daggerBehaviour, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN),
-                motion(CapabilityItem.Styles.TWO_HAND, daggerDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
+                motion(CapabilityItem.Styles.TWO_HAND, daggerDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL),
+                motion(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE, daggerBehaviourRanged, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN)
         );
+
         HUMANOID_DAGGER_DUAL = register(
                 EpicColoniesWeaponCategory.DUAL_DAGGER,
                 motion(CapabilityItem.Styles.TWO_HAND, daggerDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
@@ -155,6 +154,17 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO3).distanceMinMax(1, 3).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
+        );
+        daggerBehaviourRanged = CombatBehaviors.builder().newBehaviorSeries(
+                createBehaviourSeries(18, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build())
+        ).newBehaviorSeries(
+                createBehaviourSeries(16, CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(40, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(

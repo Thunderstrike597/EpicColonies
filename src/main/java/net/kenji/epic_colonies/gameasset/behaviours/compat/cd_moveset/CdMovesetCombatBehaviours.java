@@ -1,12 +1,11 @@
-package net.kenji.epic_colonies.compat.cd_moveset;
+package net.kenji.epic_colonies.gameasset.behaviours.compat.cd_moveset;
 
 
 import net.corruptdog.cdm.gameasset.CorruptAnimations;
-import net.kenji.epic_colonies.compat.CombatBehaviourBase;
-import net.kenji.epic_colonies.compat.CompatMobCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
+import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.EpicColoniesWeaponCategory;
 import yesman.epicfight.gameasset.Animations;
-import yesman.epicfight.gameasset.MobCombatBehaviors;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.entity.ai.goal.CombatBehaviors;

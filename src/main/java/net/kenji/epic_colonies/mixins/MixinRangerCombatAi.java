@@ -1,12 +1,15 @@
 package net.kenji.epic_colonies.mixins;
 
+import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
+import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.entity.citizen.Skill;
 import com.minecolonies.api.entity.citizen.VisibleCitizenStatus;
 import com.minecolonies.api.entity.other.AbstractFastMinecoloniesEntity;
 import com.minecolonies.api.research.util.ResearchConstants;
 import com.minecolonies.api.util.SoundUtils;
 import com.minecolonies.core.colony.buildings.AbstractBuildingGuards;
+import com.minecolonies.core.colony.jobs.JobRanger;
 import com.minecolonies.core.entity.ai.combat.CombatUtils;
 import com.minecolonies.core.entity.ai.workers.guard.AbstractEntityAIGuard;
 import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
@@ -31,7 +34,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.item.CapabilityItem;
 
 @Mixin(value = RangerCombatAI.class, remap = false)
 public abstract class MixinRangerCombatAi {
@@ -48,6 +53,9 @@ public abstract class MixinRangerCombatAi {
 
     @Shadow
     protected abstract double getCombatMovementSpeed();
+
+    @Shadow
+    protected abstract boolean isWithinPersecutionDistance(LivingEntity target);
 
     @Unique Mob mobSelf;
 
@@ -95,19 +103,14 @@ public abstract class MixinRangerCombatAi {
             double damage = this.calculateDamage(arrow);
             arrow.setBaseDamage(damage);
             float chance = 15.0F / (float) (((EntityCitizen) this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
-            mobSelf.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).ifPresent((cap) ->{
-                if(cap instanceof AbstractExpressiveHumanoidPatch<?> entityPatch) {
-
-                    if(entityPatch.isWasUsingBow()) {
-                        CombatUtils.shootArrow(arrow, target, chance);
-
-                        ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                        entityPatch.setWasUsingBow(false);
-
-                    }
+            AbstractExpressiveHumanoidPatch<?> entityPatch = EpicFightCapabilities.getEntityPatch(mobSelf, AbstractExpressiveHumanoidPatch.class);
+            if (entityPatch != null) {
+                if (entityPatch.isWasUsingBow()) {
+                    CombatUtils.shootArrow(arrow, target, chance);
+                    ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
+                    entityPatch.setWasUsingBow(false);
                 }
-            });
-
+            }
         }
     }
 }
