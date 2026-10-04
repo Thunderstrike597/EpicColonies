@@ -151,7 +151,7 @@ dependencies {
     // no curse.maven coordinate for it. Pull it from Modrinth's maven if you need it back.
     // implementation "curse.maven:samurai-dynasty-848381:XXXXXXX"
 
-    implementation "curse.maven:azurelib-817423:6747999"       // AzureLib - 3.0.21, 1.21.1 NeoForge
+    //implementation "curse.maven:azurelib-817423:6747999"       // AzureLib - 3.0.21, 1.21.1 NeoForge
     implementation "curse.maven:curios-309927:6529130"         // Curios API - 9.5.1, 1.21.1
 
     implementation "curse.maven:packet-fixer-689467:7221528"   // Packet Fixer - 3.3.1 (merged jar covers 1.21.1)

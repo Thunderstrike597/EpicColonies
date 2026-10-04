@@ -26,6 +26,7 @@ import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Factions;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 import yesman.epicfight.world.capabilities.item.Style;
@@ -110,6 +111,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         this.wasUsingBow = value;
         this.bowUseCounter = 0;
         if(this.getOriginal().level().isClientSide()) {
+
             EpicColoniesPacketHandler.sendToServer(new ServerBowActionPacket(this.getOriginal().getUUID(), this.wasUsingBow));
         }
     }

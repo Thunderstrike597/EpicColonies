@@ -66,6 +66,7 @@ public class EpicColonies {
 
 
         container.registerConfig(ModConfig.Type.CLIENT, EpicColoniesConfigClient.SPEC, "EpicColonies-Client.toml");
+        container.registerConfig(ModConfig.Type.COMMON, EpicColoniesConfigCommon.SPEC, "EpicColonies-Common.toml");
 
 
     }

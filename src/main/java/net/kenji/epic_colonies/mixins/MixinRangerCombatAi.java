@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
+import org.jline.utils.Log;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -61,6 +62,7 @@ public abstract class MixinRangerCombatAi {
     private void tryStopShoot(LivingEntity target, CallbackInfo ci) {
         if (mobSelf == null) return;
         ci.cancel();
+
         if (((EntityCitizen)this.mobSelf).distanceToSqr(target) < (double)7.0F) {
             if (((EntityCitizen)this.mobSelf).getRandom().nextInt(3) == 0 && !((AbstractBuildingGuards)((EntityCitizen)this.mobSelf).getCitizenData().getWorkBuilding()).getTask().equals("com.minecolonies.core.guard.setting.guard")) {
                 EntityNavigationUtils.walkAwayFrom((AbstractFastMinecoloniesEntity)this.mobSelf, target.blockPosition(), (int)(this.getAttackDistance() / (double)2.0F), this.getCombatMovementSpeed());
@@ -79,12 +81,12 @@ public abstract class MixinRangerCombatAi {
 
         for(int i = 0; i < amountOfArrows; ++i) {
             AbstractArrow arrow = CombatUtils.createArrowForShooter(this.mobSelf);
-            if (((EntityCitizen)this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.ARROW_PIERCE) > (double)0.0F) {
-                ((AccessorAbstractArrow)arrow).invokeSetPierceLevel((byte)2);
+            if (((EntityCitizen) this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.ARROW_PIERCE) > (double) 0.0F) {
+                ((AccessorAbstractArrow) arrow).invokeSetPierceLevel((byte) 2);
             }
 
-            ItemStack bow = ((EntityCitizen)this.mobSelf).getItemInHand(InteractionHand.MAIN_HAND);
-            if (bow.getEnchantmentLevel(Utils.getRegistryValue(Enchantments.FLAME, ((EntityCitizen)this.mobSelf).level())) > 0) {
+            ItemStack bow = ((EntityCitizen) this.mobSelf).getItemInHand(InteractionHand.MAIN_HAND);
+            if (bow.getEnchantmentLevel(Utils.getRegistryValue(Enchantments.FLAME, ((EntityCitizen) this.mobSelf).level())) > 0) {
                 arrow.setRemainingFireTicks(100);
             }
 
@@ -94,17 +96,15 @@ public abstract class MixinRangerCombatAi {
             }
 
             arrow.setBaseDamage(damage);
-            float chance = 15.0F / (float)(((EntityCitizen)this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
-            EntityPatch<?> entityPatch = EpicFightCapabilities.ENTITY_PATCH_PROVIDER.getCapability(mobSelf);
+            float chance = 15.0F / (float) (((EntityCitizen) this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
+            CitizenEntityPatch<?> citizenEntityPatch =
+                    EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
 
-            if(entityPatch != null){
-                if(entityPatch instanceof CitizenEntityPatch<?> citizenEntityPatch) {
-                    if(citizenEntityPatch.isWasUsingBow()) {
-                        CombatUtils.shootArrow(arrow, target, chance);
-                        ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                        citizenEntityPatch.setWasUsingBow(false);
-                    }
-                }
+
+            if (citizenEntityPatch.isWasUsingBow()) {
+                CombatUtils.shootArrow(arrow, target, chance);
+                ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
+                citizenEntityPatch.setWasUsingBow(false);
             }
         }
     }
