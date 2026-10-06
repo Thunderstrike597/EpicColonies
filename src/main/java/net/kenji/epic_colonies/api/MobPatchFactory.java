@@ -1,6 +1,7 @@
 package net.kenji.epic_colonies.api;
 
 import com.minecolonies.api.entity.ModEntities;
+import com.minecolonies.api.entity.mobs.AbstractEntityMinecoloniesMonster;
 import net.kenji.epic_colonies.client.render.patched_renderer.*;
 import net.kenji.epic_colonies.gameasset.EpicColoniesArmatures;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
@@ -116,12 +117,23 @@ public class MobPatchFactory {
                 (e) -> MinecoloniesMonsterPatch::new,
                 (context, type) -> new AmazonChiefPatchRenderer((EntityRendererProvider.Context) context, type)
         ));
-
         mobPatches.add(new MobPatchDefinitions(
                 ModEntities.CAMP_AMAZONCHIEF,
                 EpicColoniesArmatures.CITIZEN_REGULAR,
                 (e) -> MinecoloniesMonsterPatch::new,
                 (context, type) -> new AmazonChiefPatchRenderer((EntityRendererProvider.Context) context, type)
+        ));
+        mobPatches.add(new MobPatchDefinitions(
+                ModEntities.AMAZONSPEARMAN,
+                EpicColoniesArmatures.CITIZEN_REGULAR,
+                (e) -> MinecoloniesMonsterPatch::new,
+                (context, type) -> new AmazonSpearmanPatchRenderer((EntityRendererProvider.Context) context, type)
+        ));
+        mobPatches.add(new MobPatchDefinitions(
+                ModEntities.CAMP_AMAZONSPEARMAN,
+                EpicColoniesArmatures.CITIZEN_REGULAR,
+                (e) -> MinecoloniesMonsterPatch::new,
+                (context, type) -> new AmazonSpearmanPatchRenderer((EntityRendererProvider.Context) context, type)
         ));
 
         mobPatches.add(new MobPatchDefinitions(
