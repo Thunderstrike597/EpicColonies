@@ -72,18 +72,19 @@ public abstract class MixinRaiderRangedAi {
         MinecoloniesMonsterPatch<?> monsterPatch =
                 EpicFightCapabilities.getEntityPatch(mobSelf, MinecoloniesMonsterPatch.class);
 
-        if (monsterPatch.isWasUsingBow()) {
-            CombatUtils.shootArrow(arrowEntity, target, 10.0F);
-            ((AbstractEntityMinecoloniesMonster) this.mobSelf).swing(InteractionHand.MAIN_HAND);
-            ((AbstractEntityMinecoloniesMonster) this.mobSelf).stopUsingItem();
-            SoundEvent attackSound = SoundEvents.SKELETON_SHOOT;
-            if (arrowEntity instanceof ICustomAttackSound) {
-                attackSound = ((ICustomAttackSound) arrowEntity).getAttackSound();
+        if(monsterPatch != null) {
+            if (monsterPatch.isWasUsingBow()) {
+                CombatUtils.shootArrow(arrowEntity, target, 10.0F);
+                ((AbstractEntityMinecoloniesMonster) this.mobSelf).swing(InteractionHand.MAIN_HAND);
+                ((AbstractEntityMinecoloniesMonster) this.mobSelf).stopUsingItem();
+                SoundEvent attackSound = SoundEvents.SKELETON_SHOOT;
+                if (arrowEntity instanceof ICustomAttackSound) {
+                    attackSound = ((ICustomAttackSound) arrowEntity).getAttackSound();
+                }
+
+                ((AbstractEntityMinecoloniesMonster) this.mobSelf).playSound(attackSound, 1.0F, (float) this.getRandomPitch());
+                monsterPatch.setWasUsingBow(false);
             }
-
-            ((AbstractEntityMinecoloniesMonster) this.mobSelf).playSound(attackSound, 1.0F, (float) this.getRandomPitch());
-            monsterPatch.setWasUsingBow(false);
         }
-
     }
 }

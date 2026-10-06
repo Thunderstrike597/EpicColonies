@@ -177,7 +177,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
 
             if (this.getTarget() != null && EpicColoniesConfigCommon.ARCHER_DAGGER_MELEE.get()) {
                 double dist = this.getTarget().position().distanceTo(this.getOriginal().position());
-                boolean canUseWeapon = dist < 2.8 && this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() instanceof JobRanger;
+                boolean canUseWeapon = !isWasUsingBow() && dist < 2.8 && this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() instanceof JobRanger;
 
 
 

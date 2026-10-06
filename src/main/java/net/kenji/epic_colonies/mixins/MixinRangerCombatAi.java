@@ -100,11 +100,12 @@ public abstract class MixinRangerCombatAi {
             CitizenEntityPatch<?> citizenEntityPatch =
                     EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
 
-
-            if (citizenEntityPatch.isWasUsingBow()) {
-                CombatUtils.shootArrow(arrow, target, chance);
-                ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                citizenEntityPatch.setWasUsingBow(false);
+            if(citizenEntityPatch != null) {
+                if (citizenEntityPatch.isWasUsingBow()) {
+                    CombatUtils.shootArrow(arrow, target, chance);
+                    ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
+                    citizenEntityPatch.setWasUsingBow(false);
+                }
             }
         }
     }
