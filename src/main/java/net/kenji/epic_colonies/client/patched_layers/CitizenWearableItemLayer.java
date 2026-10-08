@@ -33,9 +33,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.ArmorTrim;
 
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.joml.Vector4f;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animatable.client.GeoRenderProvider;
+import software.bernie.geckolib.renderer.GeoArmorRenderer;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.asset.JsonAssetLoader;
 import yesman.epicfight.api.client.model.SkinnedMesh;
@@ -162,6 +167,13 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
 
                         HumanoidModel<?> defaultModel = ((AccessorHumanoidArmorLayer)vanillaLayer).invokeGetArmorModel(slot);
                         Model armorModel = ClientHooks.getArmorModel(entityliving, itemstack, slot, defaultModel);
+                        if (armorModel == defaultModel && ModList.get().isLoaded("geckolib")) {
+                            HumanoidModel<?> geo = GeoRenderProvider.of(itemstack)
+                                    .getGeoArmorRenderer(entityliving, itemstack, slot, (HumanoidModel) defaultModel);
+                            if (geo != null)
+                                armorModel = geo;
+                        }
+
                         SkinnedMesh armorMesh = this.getArmorModel(vanillaLayer, defaultModel, armorModel, entityliving, armorItem, itemstack, slot);
                         if (armorMesh == null) {
                             poseStack.popPose();
@@ -217,11 +229,18 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
                         boolean innerModel = ((AccessorWearableItemLayer)this).getInnerModel(slot);
 
                         for(int layerIdx = 0; layerIdx < armormaterial.layers().size(); ++layerIdx) {
-                            ArmorMaterial.Layer armormaterial$layer = (ArmorMaterial.Layer)armormaterial.layers().get(layerIdx);
-                            int packedColor = extensions.getArmorLayerTintColor(itemstack, entityliving, armormaterial$layer, layerIdx, fallbackColor);
+                            ArmorMaterial.Layer layer = (ArmorMaterial.Layer)armormaterial.layers().get(layerIdx);
+                            int packedColor = extensions.getArmorLayerTintColor(itemstack, entityliving, layer, layerIdx, fallbackColor);
                             if (packedColor != 0) {
                                 Vector4f color = ColorUtil.unpackToARGBF(packedColor);
-                                ResourceLocation texture = (ResourceLocation) ParseUtil.tryGetOr(() -> armorMesh.getRenderProperties().customTexturePath(), () -> ClientHooks.getArmorTexture(entityliving, itemstack, armormaterial$layer, innerModel, slot));
+
+
+                                ResourceLocation texture = (ResourceLocation) ParseUtil.tryGetOr(() -> armorMesh.getRenderProperties().customTexturePath(), () -> ClientHooks.getArmorTexture(entityliving, itemstack, layer, innerModel, slot));
+                                if(ModList.get().isLoaded("geckolib")){
+                                    texture = armorModel instanceof GeoArmorRenderer<?> geo
+                                            ? ((GeoArmorRenderer) geo).getTextureLocation((GeoAnimatable) armorItem)
+                                            : (ResourceLocation) ParseUtil.tryGetOr(() -> armorMesh.getRenderProperties().customTexturePath(), () -> ClientHooks.getArmorTexture(entityliving, itemstack, layer, innerModel, slot));
+                                }
                                 ((AccessorWearableItemLayer)this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), color.x, color.y, color.z, texture, poses);
                             }
                         }
@@ -307,7 +326,15 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
                     armorItemList.set(2, chest);
                     armorItemList.set(3, head);
                 }
+                if(ModList.get().isLoaded("geckolib")) {
+                    if (forgeHooksArmorModel instanceof GeoArmorRenderer<?> geo) {
+                        geo.prepForRender(entityliving, itemstack, slot, originalModel,
+                                Minecraft.getInstance().renderBuffers().bufferSource(),
+                                Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true),
+                                0f, 0f, 0f, 0f);
+                    }
 
+                }
                 skinnedMesh = HumanoidModelBaker.bakeArmor(entityliving, itemstack, armorItem, slot, originalModel, forgeHooksArmorModel, (HumanoidModel)originalRenderer.getParentModel(), (HumanoidMesh)this.mesh.get());
             }
 
