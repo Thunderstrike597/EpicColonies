@@ -11,6 +11,7 @@ import java.util.*;
 
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.EpicColoniesConfigClient;
+import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.kenji.epic_colonies.mixins.AccessorHumanoidArmorLayer;
 import net.kenji.epic_colonies.mixins.AccessorWearableItemLayer;
 import net.minecraft.client.Minecraft;
@@ -110,6 +111,7 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             if (slot.getType() == Type.ARMOR) {
 
+
                 if (EpicColoniesConfigClient.JOB_ONLY_ARMOR.get()) {
                     if (jobEntry == null)
                         return;
@@ -137,7 +139,9 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
 
                 ItemStack itemstack = entityliving.getItemBySlot(slot);
                 Item item = itemstack.getItem();
+
                 if (item instanceof ArmorItem) {
+
                     ArmorItem armorItem = (ArmorItem) item;
                     if (slot != armorItem.getEquipmentSlot()) {
                         return;
@@ -190,7 +194,7 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
 
                     armorMesh.initialize();
 
-                    if (armorItem instanceof DyeableLeatherItem) {
+                    if (armorItem instanceof DyeableLeatherItem dyeable && dyeable.hasCustomColor(itemstack)) {
                         DyeableLeatherItem dyeableItem = (DyeableLeatherItem) armorItem;
                         int i = dyeableItem.getColor(itemstack);
                         float r = (float) (i >> 16 & 255) / 255.0F;

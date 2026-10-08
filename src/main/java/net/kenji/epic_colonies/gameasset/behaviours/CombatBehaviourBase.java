@@ -14,6 +14,20 @@ import java.util.List;
 public abstract class CombatBehaviourBase {
     public static final List<CompatMobCombatBehaviours.WeaponMotionDetails> behaviourList = new ArrayList<>();
 
+    public static int SINGLE_ATTACK_WEIGHT_X4 = 4;
+    public static int SINGLE_ATTACK_WEIGHT_X3 = 6;
+    public static int SINGLE_ATTACK_WEIGHT_X2 = 10;
+    public static int SINGLE_ATTACK_WEIGHT_X1 = 12;
+
+    public static int DOUBLE_ATTACK_WEIGHT = 22;
+    public static int TRIPLE_ATTACK_WEIGHT = 20;
+    public static int QUAD_ATTACK_WEIGHT = 16;
+    public static int X5_ATTACK_WEIGHT = 14;
+
+    public static int DODGE_LEFT = 40;
+    public static int DODGE_RIGHT = 40;
+    public static int DODGE_BACK = 40;
+
 
     public record WeaponMotions(Style style, CombatBehaviors.Builder<HumanoidMobPatch<?>> behaviour , AnimationManager.AnimationAccessor<? extends StaticAnimation> idleMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> walkMotion,

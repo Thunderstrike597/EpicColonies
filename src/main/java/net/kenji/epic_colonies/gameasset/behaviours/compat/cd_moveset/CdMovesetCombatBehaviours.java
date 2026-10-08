@@ -72,17 +72,17 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
     @SuppressWarnings("unchecked")
     private static void buildMotions(){
         swordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(19, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(19, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(19, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(21, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(20, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(QUAD_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SWORD_ONEHAND_AUTO4).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -91,17 +91,17 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
         );
         daggerDualSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(19, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(19, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 2).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(19, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 2).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(21, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(20, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(QUAD_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO4).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -110,17 +110,17 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
         );
         tachiSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(21, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(20, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(QUAD_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.TACHI_TWOHAND_AUTO_4).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -130,17 +130,17 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
         );
 
         longswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(21, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(20, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(QUAD_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO4).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -150,7 +150,7 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
         );
 
         spearOneHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.SSPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X1, DynamicBehaviour.of(CorruptAnimations.SSPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -159,11 +159,11 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
         );
         spearTwoHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X2, DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X2, DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -172,15 +172,15 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
         );
         greatswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(21, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -189,15 +189,15 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
         );
         katanaSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(30, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X3, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(25, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(21, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO2).distanceMinMax(1, 3).build(), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(

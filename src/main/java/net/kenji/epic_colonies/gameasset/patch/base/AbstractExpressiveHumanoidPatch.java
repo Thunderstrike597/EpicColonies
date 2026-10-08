@@ -9,6 +9,7 @@ import net.kenji.epic_colonies.api.CitizenPatchData;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
+import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.kenji.epic_colonies.gameasset.patch.EpicColoniesStyles;
 import net.kenji.epic_colonies.network.ChangeLivingMotion;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
@@ -17,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +27,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import org.checkerframework.checker.units.qual.C;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.Animator;
@@ -38,6 +41,7 @@ import yesman.epicfight.network.server.SPChangeLivingMotion;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Faction;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
+import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
@@ -83,7 +87,14 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             Log.info(log);
         }
     }
+    public static void debugLogNearestPlayer(LivingEntityPatch<?> patch, String log){
+        if(!(patch instanceof CitizenEntityPatch<?> citizenEntityPatch))return;
+        Player player = citizenEntityPatch.getOriginal().level().getNearestPlayer(citizenEntityPatch.getOriginal(), 2.0F);
 
+        if(player != null){
+            Log.info(log);
+        }
+    }
 
     protected Player getNearestPlayer(Entity entity){
         Player nearest = entity.level().getNearestPlayer(entity, LOOK_RANGE);

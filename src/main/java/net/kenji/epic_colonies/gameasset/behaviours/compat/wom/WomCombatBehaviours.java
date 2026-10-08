@@ -44,56 +44,56 @@ public class WomCombatBehaviours extends CombatBehaviourBase {
     @SuppressWarnings("unchecked")
     private static void buildMotions(){
         agonyBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X1, DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
+                createBehaviourSeries(DODGE_BACK, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_LEFT, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_RIGHT, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         ruineBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X1, DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
+                createBehaviourSeries(DODGE_BACK, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_LEFT, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_RIGHT, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         tormentBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X1, DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
+                createBehaviourSeries(DODGE_BACK, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_LEFT, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_RIGHT, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         staffBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(30, DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(SINGLE_ATTACK_WEIGHT_X1, DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(DOUBLE_ATTACK_WEIGHT, DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(22, DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(TRIPLE_ATTACK_WEIGHT, DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_3).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(14, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
+                createBehaviourSeries(DODGE_BACK, DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_LEFT, DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(40, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
+                createBehaviourSeries(DODGE_RIGHT, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
         );
         
     }
