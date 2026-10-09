@@ -4,6 +4,8 @@ import com.ldtteam.structurize.placement.AbstractBlueprintIterator;
 import com.ldtteam.structurize.placement.BlockPlacementResult;
 import com.ldtteam.structurize.placement.StructurePhasePlacementResult;
 import com.ldtteam.structurize.placement.StructurePlacer;
+import com.ldtteam.structurize.placement.structure.IStructureHandler;
+import com.ldtteam.structurize.util.BlueprintPositionInfo;
 import com.ldtteam.structurize.util.ChangeStorage;
 import com.minecolonies.api.entity.ai.statemachine.states.AIWorkerState;
 import com.minecolonies.api.entity.ai.statemachine.states.IAIState;
@@ -17,6 +19,7 @@ import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.TriPredicate;
 import org.jline.utils.Log;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 
 import java.util.function.Supplier;
@@ -38,6 +42,9 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
 
     @Shadow
     public abstract AbstractEntityCitizen getWorker();
+
+    @Shadow
+    protected abstract boolean isThereAStructureToBuild();
 
     @Unique
     private int epicColonies$stuckMiningTicks = 0;
@@ -64,7 +71,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
             if (r == BlockPlacementResult.Result.SUCCESS || r == BlockPlacementResult.Result.FINISHED) {
                 CitizenEntityPatch<?> patch = EpicFightCapabilities.getEntityPatch(this.getWorker(), CitizenEntityPatch.class);
                 if (patch != null) {
-                    Log.info("Logginge FINAL PLACE");
                     patch.playAnimationSynchronized(EpicColoniesAnimations.CITIZEN_USE, 0.1F);
                 }
             }
@@ -74,16 +80,22 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
 
     @Inject(method = "doMining", at = @At("HEAD"), cancellable = true)
     private void epicColonies$detectStuckMining(CallbackInfoReturnable<IAIState> cir) {
+        Log.info("[epicColonies] doMining() WAS CALLED, blockToMine=" + this.blockToMine);
+
         if (this.blockToMine == null) {
             epicColonies$stuckMiningTicks = 0;
+            if(cir.getReturnValue() != null && cir.getReturnValue() == AIWorkerState.MINE_BLOCK){
+
+
+            }
             return;
         }
 
         epicColonies$stuckMiningTicks++;
-       // Log.info("[epicColonies] doMining stuck-check, tick=" + epicColonies$stuckMiningTicks + " blockToMine=" + this.blockToMine);
 
-        if (epicColonies$stuckMiningTicks > EpicColoniesConfigCommon.MINE_COUNTER.get()) { // lowered for testing
+        if (epicColonies$stuckMiningTicks > EpicColoniesConfigCommon.MINE_COUNTER.get()) {
             epicColonies$stuckMiningTicks = 0;
+
             this.blockToMine = null;
             cir.setReturnValue(AIWorkerState.BUILDING_STEP);
         }

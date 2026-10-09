@@ -4,6 +4,7 @@ import com.ldtteam.structurize.placement.StructurePlacer;
 import com.minecolonies.api.util.Tuple;
 import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
 import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -12,5 +13,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface AbstractEntityAiStructureAccessor {
     @Accessor("structurePlacer")
     Tuple<StructurePlacer, BuildingStructureHandler<?, ?>> getStructurePlacer();
-
+    @Accessor("blockToMine")
+    BlockPos getBlockToMine();
 }

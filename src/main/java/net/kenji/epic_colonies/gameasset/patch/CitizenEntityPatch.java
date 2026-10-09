@@ -1,28 +1,22 @@
 package net.kenji.epic_colonies.gameasset.patch;
 
-import com.ldtteam.structurize.placement.StructurePlacer;
 import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.ICitizenDataView;
 import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.jobs.IJob;
+import com.minecolonies.api.entity.ai.statemachine.states.AIWorkerState;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
-import com.minecolonies.api.inventory.InventoryCitizen;
-import com.minecolonies.api.util.Tuple;
 import com.minecolonies.core.colony.jobs.JobRanger;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
-import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
-import com.minecolonies.core.entity.ai.workers.guard.EntityAIRanger;
-import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
-import com.minecolonies.core.entity.ai.workers.util.BuildingProgressStage;
-import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.other.SittingEntity;
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.FacialEmotionExpressions;
+import net.kenji.epic_colonies.api.IDoMiningHeartbeat;
 import net.kenji.epic_colonies.api.data.CitizenMeshCache;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
@@ -30,7 +24,6 @@ import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesArmatures;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
 import net.kenji.epic_colonies.gameasset.patch.base.AbstractExpressiveHumanoidPatch;
-import net.kenji.epic_colonies.mixins.AbstractEntityAiStructureAccessor;
 import net.kenji.epic_colonies.mixins.LivingEntityAccessor;
 import net.kenji.epic_colonies.network.ClientCitizenSyncPacket;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
@@ -42,7 +35,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import org.jline.utils.Log;
 import yesman.epicfight.api.animation.*;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
 import yesman.epicfight.api.animation.types.StaticAnimation;
@@ -54,7 +46,9 @@ import yesman.epicfight.model.armature.HumanoidArmature;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Factions;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
-import yesman.epicfight.world.capabilities.item.WeaponCategory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends AbstractExpressiveHumanoidPatch<C> {
 
@@ -62,10 +56,9 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         super(Factions.VILLAGER);
     }
 
-    public LivingMotion resetMotion = null;
-
     private HumanoidArmature currentCitizenArmature = EpicColoniesArmatures.CITIZEN_REGULAR.get();
 
+    public Map<IState, Integer> taskCounterMap = new HashMap<>();
 
 
     public static AssetAccessor<EpicColoniesMesh> getMeshFromTexture(AbstractEntityCitizen citizen, boolean isChild){
@@ -392,31 +385,19 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             compositeMotion = EpicColoniesLivingMotions.USE;
         }
 
-        if(iJob != null) {
-            if (iJob instanceof AbstractEntityAIStructure<?, ?> structure) {
-                Tuple<StructurePlacer, BuildingStructureHandler<?, ?>> structurePlacer = ((AbstractEntityAiStructureAccessor) structure).getStructurePlacer();
-                if (structurePlacer.getB() != null) {
-                    if (structurePlacer.getB().getStage() == BuildingProgressStage.BUILD_SOLID) {
-                        compositeMotion = EpicColoniesLivingMotions.PLACE;
-                    }
-                }
-            }
-        }
 
         if(workerState != null) {
-            Pair<LivingMotion, Boolean> statePair = EpicColoniesLivingMotions.getLivingMotionFromAiState(workerState);
-            if(statePair != null){
-                if(statePair.getSecond())
-                    compositeMotion = statePair.getFirst();
-                else motion = statePair.getFirst();
+            tickStuckTaskCounter(iJob, workerState);
+            Pair<LivingMotion, Boolean> motionPair = isStuckOn(iJob, workerState)
+                    ? null
+                    : EpicColoniesLivingMotions.getLivingMotionFromAiState(workerState);
+            if(motionPair != null){
+                if(motionPair.getSecond())
+                    compositeMotion = motionPair.getFirst();
+                else motion = motionPair.getFirst();
             }
         }
 
-        
-        if(citizenPatchData.currentOptionalCompositeMotion == resetMotion){
-            citizenPatchData.currentOptionalCompositeMotion = null;
-            resetMotion = null;
-        }
 
 
         citizenPatchData.isAsleep = citizen.getCitizenSleepHandler().isAsleep();
@@ -425,10 +406,36 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         citizenPatchData.currentOptionalCompositeMotion = compositeMotion;
 
         EpicColoniesPacketHandler.sendToAll(new ClientCitizenSyncPacket(citizen.getId(), this.getOriginal().getUUID(), citizenPatchData));
+
         if(didJump && citizen.onGround()){
             didJump = false;
         }
     }
+
+    public void tickStuckTaskCounter(IJob<?> iJob, IState state) {
+        IState workerState = iJob != null ? iJob.getWorkerAI().getState() : null;
+        if (workerState instanceof AIWorkerState currentState && currentState == state) {
+            int counter = taskCounterMap.getOrDefault(currentState, 0);
+            taskCounterMap.put(currentState, counter + 1); // let it keep climbing, don't cap/remove
+        } else {
+            taskCounterMap.remove(state); // only clear when state actually changes
+        }
+    }
+
+    public boolean isStuckOn(IJob<?> iJob, IState state) {
+        if (state != AIWorkerState.MINE_BLOCK) {
+            return false;
+        }
+        if (!(iJob.getWorkerAI() instanceof IDoMiningHeartbeat heartbeat)) {
+            return false;
+        }
+        long lastHeartbeat = heartbeat.epicColonies$getLastDoMiningTick();
+        if (lastHeartbeat == Long.MIN_VALUE) return false; // never run yet, don't false-positive
+
+        long now = getOriginal().level().getGameTime();
+        return (now - lastHeartbeat) >= EpicColoniesConfigCommon.MINE_COUNTER.get() || heartbeat.epicColonies_Versions$getMiningBlock() == null;
+    }
+
     protected boolean isMoving() {
         return Math.abs(this.getOriginal().xxa) > (double)0.01F || Math.abs(this.getOriginal().zza) > (double)0.01F;
     }
@@ -506,7 +513,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         tryStopAnim(LivingMotions.DIGGING);
 
         tryStopAnim(LivingMotions.SIT);
-
 
        // debugLogNearestPlayer("Logging prevOptionalCompositeMotion: " + citizenPatchData.prevOptionalCompositeMotion);
        // debugLogNearestPlayer("Logging currentOptionalCompositeMotion: " + citizenPatchData.currentOptionalCompositeMotion);
