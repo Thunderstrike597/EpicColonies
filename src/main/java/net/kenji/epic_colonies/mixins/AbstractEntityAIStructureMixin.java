@@ -30,16 +30,18 @@ import java.util.function.Supplier;
 
 @Mixin(value = AbstractEntityAIStructure.class, remap = false)
 public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>, B extends AbstractBuilding> {
-
     @Shadow
     protected BlockPos blockToMine;
+
 
     @Shadow
     public abstract AbstractEntityCitizen getWorker();
 
+    @Shadow
+    protected abstract boolean isThereAStructureToBuild();
+
     @Unique
     private int epicColonies$stuckMiningTicks = 0;
-    @Unique private static final int epicColonies$MAX_STUCK_MINING_TICKS = 2; // tune to taste
 
 
 
@@ -63,7 +65,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
             if (r == BlockPlacementResult.Result.SUCCESS || r == BlockPlacementResult.Result.FINISHED) {
                 CitizenEntityPatch<?> patch = EpicFightCapabilities.getEntityPatch(this.getWorker(), CitizenEntityPatch.class);
                 if (patch != null) {
-                    Log.info("Logginge FINAL PLACE");
                     patch.playAnimationSynchronized(EpicColoniesAnimations.CITIZEN_USE, 0.1F);
                 }
             }
@@ -73,16 +74,22 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
 
     @Inject(method = "doMining", at = @At("HEAD"), cancellable = true)
     private void epicColonies$detectStuckMining(CallbackInfoReturnable<IAIState> cir) {
+        Log.info("[epicColonies] doMining() WAS CALLED, blockToMine=" + this.blockToMine);
+
         if (this.blockToMine == null) {
             epicColonies$stuckMiningTicks = 0;
+            if(cir.getReturnValue() != null && cir.getReturnValue() == AIWorkerState.MINE_BLOCK){
+
+
+            }
             return;
         }
 
         epicColonies$stuckMiningTicks++;
-       // Log.info("[epicColonies] doMining stuck-check, tick=" + epicColonies$stuckMiningTicks + " blockToMine=" + this.blockToMine);
 
-        if (epicColonies$stuckMiningTicks > EpicColoniesConfigCommon.MINE_COUNTER.get()) { // lowered for testing
+        if (epicColonies$stuckMiningTicks > EpicColoniesConfigCommon.MINE_COUNTER.get()) {
             epicColonies$stuckMiningTicks = 0;
+
             this.blockToMine = null;
             cir.setReturnValue(AIWorkerState.BUILDING_STEP);
         }

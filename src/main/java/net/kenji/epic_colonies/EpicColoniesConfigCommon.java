@@ -17,7 +17,7 @@ public class EpicColoniesConfigCommon {
 
         MINE_COUNTER = BUILDER
                 .comment("The counter which dictates how long after a citizen stops breaking a block, for the mining animation to stop (This only applies as a fallback if the animation state happens to get stuck)")
-                .define("Builder Mining Counter", 1);
+                .define("Builder Mining Counter", 24);
 
         BUILDER.pop();
 
