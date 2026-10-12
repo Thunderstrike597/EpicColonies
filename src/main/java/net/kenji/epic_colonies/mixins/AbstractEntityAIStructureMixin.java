@@ -80,7 +80,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
 
     @Inject(method = "doMining", at = @At("HEAD"), cancellable = true)
     private void epicColonies$detectStuckMining(CallbackInfoReturnable<IAIState> cir) {
-        Log.info("[epicColonies] doMining() WAS CALLED, blockToMine=" + this.blockToMine);
 
         if (this.blockToMine == null) {
             epicColonies$stuckMiningTicks = 0;
