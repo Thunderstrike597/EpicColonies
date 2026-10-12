@@ -404,11 +404,14 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             }
         }
         if(workerState != null) {
-            Pair<LivingMotion, Boolean> statePair = EpicColoniesLivingMotions.getLivingMotionFromAiState(workerState);
-            if(statePair != null){
-                if(statePair.getSecond())
-                    compositeMotion = statePair.getFirst();
-                else motion = statePair.getFirst();
+            tickStuckTaskCounter(iJob, workerState);
+            Pair<LivingMotion, Boolean> motionPair = isStuckOn(iJob, workerState)
+                    ? null
+                    : EpicColoniesLivingMotions.getLivingMotionFromAiState(workerState);
+            if(motionPair != null){
+                if(motionPair.getSecond())
+                    compositeMotion = motionPair.getFirst();
+                else motion = motionPair.getFirst();
             }
         }
 
