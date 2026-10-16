@@ -37,6 +37,14 @@ public class EpicColonies {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static boolean isLoaded(String name){
+        return ModList.get().isLoaded(name);
+    }
+
+    public static boolean isMinecoloniesMagesLoaded(){
+        return isLoaded("minecoloniesmages");
+    }
+
     public static @NotNull ResourceLocation identifier(@NotNull String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
@@ -73,6 +81,7 @@ public class EpicColonies {
         event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(MODID, "dual_daggers"), EpicColoniesWeaponCapabilityPresets.DUAL_DAGGERS);
     }
     public static void initWeaponMotions(){
+        CompatMobCombatBehaviours.behaviourList.clear();
         CompatMobCombatBehaviours.initEpicFightWeaponMotions();
 
         if(ModList.get().isLoaded("wom")){

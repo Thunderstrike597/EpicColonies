@@ -4,10 +4,12 @@
   "package": "net.kenji.epic_colonies.mixins",
   "compatibilityLevel": "JAVA_8",
   "refmap": "epic_colonies.refmap.json",
+  "plugin": "net.kenji.epic_colonies.CompatMixinPlugin",
   "mixins": [
     "MixinAttackMoveAi",
     "MobPatchMixin",
     "AccessorTargetAi",
+    "MixinRangeCombatAi",
     "MixinRangerCombatAi",
     "MixinRaiderRangedAi",
     "EntityAiVisitorMixin",

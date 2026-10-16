@@ -1,5 +1,6 @@
 package net.kenji.epic_colonies.client.meshes;
 
+import com.example.minecoloniesmages.registration.MageModelTypes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -88,6 +89,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> UNDERTAKER_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_MALE;
 
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> MAGE_MALE;
 
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE;
@@ -146,6 +148,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> UNDERTAKER_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_FEMALE;
 
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> MAGE_FEMALE;
 
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> NORSEMAN_ARCHER;
@@ -216,6 +219,10 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
         meshMap.put(new Pair<>(false, ModModelTypes.UNDERTAKER_ID),  UNDERTAKER_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/undertaker_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
         meshMap.put(new Pair<>(false, ModModelTypes.ARISTOCRAT_ID),  ARISTOCRAT_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/aristocrat_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
 
+        if(EpicColonies.isMinecoloniesMagesLoaded()){
+            meshMap.put(new Pair<>(false, MageModelTypes.MAGE_ID),  MAGE_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/druid_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
+        }
+        else MAGE_MALE = null;
 
         DEFAULT_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         DEFAULT_FEMALE_LOWER_EYES = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_female_lower_eyes", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
@@ -272,6 +279,10 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
         meshMap.put(new Pair<>(true, ModModelTypes.UNDERTAKER_ID),  UNDERTAKER_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/undertaker_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
         meshMap.put(new Pair<>(true, ModModelTypes.ARISTOCRAT_ID),  ARISTOCRAT_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/aristocrat_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
 
+        if(EpicColonies.isMinecoloniesMagesLoaded()){
+            meshMap.put(new Pair<>(true, MageModelTypes.MAGE_ID),  MAGE_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/druid_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
+        }
+        else MAGE_FEMALE = null;
 
         NORSEMAN_ARCHER = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/raider/norseman_archer", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         NORSEMAN_CHIEF = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/raider/norseman_chief", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));

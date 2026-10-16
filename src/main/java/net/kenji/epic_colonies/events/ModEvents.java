@@ -17,6 +17,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import yesman.epicfight.api.event.types.registry.EntityPatchRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
 
@@ -43,7 +44,6 @@ public class ModEvents {
     public static void loadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(EpicColoniesMeshes::buildJobMeshMaps);
         event.enqueueWork(EpicColonies::initWeaponMotions);
-
     }
     @SubscribeEvent
     public static void existingEntityAttributes(EntityAttributeModificationEvent event){
@@ -53,5 +53,4 @@ public class ModEvents {
         }
 
     }
-
 }

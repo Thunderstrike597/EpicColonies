@@ -87,7 +87,9 @@ repositories {
         dir 'libs'
     }
 }
-
+configurations {
+    minecoloniesNew
+}
 // -------------------- Dependencies --------------------
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
@@ -124,8 +126,13 @@ dependencies {
     implementation "curse.maven:structurize-298744:8398574"
     // TownTalk - 1.2.0, 1.21.1 NeoForge (only NeoForge release, still current)
     implementation "curse.maven:towntalk-900364:5653504"
-    // MineColonies - 1.1.1300, 1.21.1 NeoForge
-    implementation "curse.maven:minecolonies-245506:8480342"
+    // Older MineColonies (runtime + compile)
+    compileOnly "curse.maven:minecolonies-245506:7550841"
+
+    // Newer MineColonies (compile only, resolved separately)
+    minecoloniesNew "curse.maven:minecolonies-new-245506:8480342"
+    implementation files(configurations.minecoloniesNew)
+
 
     // ---------------- Epic Fight stack ----------------
     // Epic Fight - 21.16.4, mc1.21.1-neoforge
@@ -152,7 +159,17 @@ dependencies {
     // implementation "curse.maven:samurai-dynasty-848381:XXXXXXX"
 
     //implementation "curse.maven:azurelib-817423:6747999"       // AzureLib - 3.0.21, 1.21.1 NeoForge
-    compileOnly "curse.maven:geckolib-388172:8893490"
+
+
+    implementation "curse.maven:geckolib-388172:8893490"
+    implementation "curse.maven:curios-309927:6529130"
+    implementation "curse.maven:playeranimator-658587:7389814"
+    implementation "curse.maven:irons-lib-1492763:8973642"
+    implementation "curse.maven:irons-spells-n-spellbooks-855414:8680204"
+
+    implementation "curse.maven:minecolonies-mages-ironspells-integration-1506482:8441293"
+
+
     compileOnly "curse.maven:fantasy-armor-1083998:7850813"
 
     implementation "curse.maven:curios-309927:6529130"         // Curios API - 9.5.1, 1.21.1
