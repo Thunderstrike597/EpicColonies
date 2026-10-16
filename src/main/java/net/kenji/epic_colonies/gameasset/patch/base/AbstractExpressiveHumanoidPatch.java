@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.inventory.InventoryCitizen;
 import com.mojang.datafixers.util.Pair;
+import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.CitizenPatchData;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -191,6 +193,20 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     private boolean useCloseRangeStyle() {
         return this.closeRangeStance
                 && this.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.DAGGER;
+    }
+    public boolean shouldCancelVanillaTargeting(){
+        if(this.getOriginal().getMainHandItem().getItem() instanceof PotionItem)
+            return true;
+
+        if(this.getOriginal().getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
+            return true;
+        }
+        if(EpicColonies.isMinecoloniesMagesLoaded()){
+            if(this.getOriginal().getMainHandItem().getItem() instanceof SpellBook)
+                return true;
+        }
+
+        return false;
     }
 
     @Override

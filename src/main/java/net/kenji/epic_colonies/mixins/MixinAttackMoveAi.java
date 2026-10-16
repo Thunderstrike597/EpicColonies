@@ -3,9 +3,11 @@ package net.kenji.epic_colonies.mixins;
 import com.minecolonies.api.entity.ai.combat.CombatAIStates;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
+import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.core.entity.ai.combat.AttackMoveAI;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
+import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -48,13 +50,12 @@ public abstract class MixinAttackMoveAi {
     public void stopVanillaAttack(CallbackInfoReturnable<IState> cir){
         AttackMoveAI self = (AttackMoveAI) (Object)this;
         AccessorTargetAi selfMob = (AccessorTargetAi) self;
-        if(selfMob.getUser().getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
-            return;
-        }
-        if(EpicColonies.isMinecoloniesMagesLoaded()){
-            if(selfMob.getUser().getMainHandItem().getItem() instanceof SpellBook)
+        if(selfMob.getUser() instanceof AbstractEntityCitizen citizen){
+            CitizenEntityPatch<?> patch = EpicFightCapabilities.getEntityPatch(citizen, CitizenEntityPatch.class);
+            if(patch != null && patch.shouldCancelVanillaTargeting())
                 return;
         }
+
 
         cir.cancel();
         if (selfMob.invokeCheckForTarget() && this.canAttack()) {

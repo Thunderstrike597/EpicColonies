@@ -7,6 +7,7 @@ import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.states.AIWorkerState;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
+import com.minecolonies.core.colony.jobs.JobDruid;
 import com.minecolonies.core.colony.jobs.JobRanger;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
@@ -76,6 +77,15 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         return null;
     }
 
+    @Override
+    public boolean shouldCancelVanillaTargeting() {
+        IJob<?> iJob = this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() != null ? this.getOriginal().getCitizenJobHandler().getColonyJob() : null;
+        if(iJob instanceof JobDruid)
+            return true;
+
+        return super.shouldCancelVanillaTargeting();
+    }
+
     public HumanoidArmature getCurrentCitizenArmature() {
         return currentCitizenArmature;
     }
@@ -86,6 +96,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         }
         this.currentCitizenArmature = currentCitizenArmature.getArmature();
     }
+
+
     @Override
     public void poseTick(DynamicAnimation animation,
                          yesman.epicfight.api.animation.Pose pose,
