@@ -9,6 +9,7 @@ import com.minecolonies.api.entity.ai.statemachine.states.AIWorkerState;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.util.Tuple;
+import com.minecolonies.core.colony.jobs.JobDruid;
 import com.minecolonies.core.colony.jobs.guard.JobRanger;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
@@ -475,7 +476,14 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             animator.stopPlaying(anim);
         }
     }
+    @Override
+    public boolean shouldCancelVanillaTargeting() {
+        IJob<?> iJob = this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() != null ? this.getOriginal().getCitizenJobHandler().getColonyJob() : null;
+        if(iJob instanceof JobDruid)
+            return true;
 
+        return super.shouldCancelVanillaTargeting();
+    }
 
     public void playCompositeOptionalAnimation(){
         if (citizenPatchData.currentOptionalCompositeMotion != null) {
