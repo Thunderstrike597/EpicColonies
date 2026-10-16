@@ -172,7 +172,9 @@ repositories {
         dir 'libs'
     }
 }
-
+configurations {
+    minecoloniesNew
+}
 dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.4.20"
 
@@ -193,8 +195,11 @@ dependencies {
     implementation fg.deobf("curse.maven:multi-piston-303278:7097889")
     implementation fg.deobf("curse.maven:structurize-298744:7427219")
     implementation fg.deobf("curse.maven:towntalk-900364:5355511")
-
+    //older MineColonies Version
     implementation fg.deobf("curse.maven:minecolonies-245506:7425051")
+
+//newer MineColonies Version (different slug so ForgeGradle sees a separate module)
+    compileOnly fg.deobf("curse.maven:minecolonies-new-245506:9058213")
 
     implementation fg.deobf("curse.maven:epic-fight-mod-405076:8049910")
     implementation fg.deobf("curse.maven:epicfight-resurrection-1151542:6931390")
@@ -205,6 +210,15 @@ dependencies {
 
     implementation fg.deobf("curse.maven:epicfight-extra-1434276:8681446")
 
+
+    implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
+    implementation fg.deobf("curse.maven:irons-lib-1492763:9003169")
+    implementation fg.deobf("curse.maven:geckolib-388172:8285794")
+    implementation fg.deobf("curse.maven:curios-309927:6418456")
+
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:8680180")
+
+    implementation fg.deobf("curse.maven:minecolonies-mages-ironspells-integration-1506482:8441298")
 
     implementation fg.deobf("curse.maven:epicfight-nightfall-1307848:8693642")
     implementation fg.deobf("curse.maven:epic-fight-avalon-1268823:8849430")

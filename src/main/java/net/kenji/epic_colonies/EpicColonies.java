@@ -1,8 +1,11 @@
 package net.kenji.epic_colonies;
 
+import com.example.minecoloniesmages.combat.MageCastingController;
+import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
 import com.mojang.logging.LogUtils;
 
 import net.kenji.epic_colonies.client.events.EpicFightClientEvents;
+import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.behaviours.compat.cd_moveset.CdMovesetCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.behaviours.compat.efn_x_epicfight_extra.EpicFightXCombatBehaviours;
@@ -42,6 +45,15 @@ public class EpicColonies {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static boolean isLoaded(String name){
+        return ModList.get().isLoaded(name);
+    }
+
+    public static boolean isMinecoloniesMagesLoaded(){
+        return isLoaded("minecoloniesmages");
+    }
+
+
     public static @NotNull ResourceLocation identifier(@NotNull String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
@@ -76,6 +88,7 @@ public class EpicColonies {
         event.getTypeEntry().put(new ResourceLocation(MODID, "dual_daggers"), EpicColoniesWeaponCapabilityPresets.DUAL_DAGGERS);
     }
     public static void initWeaponMotions(){
+        CombatBehaviourBase.behaviourList.clear();
         CompatMobCombatBehaviours.initEpicFightWeaponMotions();
 
         if(ModList.get().isLoaded("wom")){

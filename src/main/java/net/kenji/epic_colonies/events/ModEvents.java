@@ -45,7 +45,6 @@ public class ModEvents {
     public static void loadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(EpicColoniesMeshes::buildJobMeshMaps);
         event.enqueueWork(EpicColonies::initWeaponMotions);
-
     }
     @SubscribeEvent
     public static void existingEntityAttributes(EntityAttributeModificationEvent event){
@@ -53,7 +52,5 @@ public class ModEvents {
         for(MobPatchFactory.MobPatchDefinitions patchDefinitions : MobPatchFactory.mobPatches) {
             event.add(patchDefinitions.entityType, Attributes.ATTACK_KNOCKBACK, 1);
         }
-
     }
-
 }

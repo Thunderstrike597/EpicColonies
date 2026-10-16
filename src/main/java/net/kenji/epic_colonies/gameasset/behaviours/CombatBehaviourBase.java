@@ -1,6 +1,7 @@
 package net.kenji.epic_colonies.gameasset.behaviours;
 
 import com.mojang.datafixers.util.Pair;
+import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
@@ -14,28 +15,53 @@ import java.util.List;
 public abstract class CombatBehaviourBase {
     public static final List<CompatMobCombatBehaviours.WeaponMotionDetails> behaviourList = new ArrayList<>();
 
-    public static int SINGLE_ATTACK_WEIGHT_X4 = 4;
-    public static int SINGLE_ATTACK_WEIGHT_X3 = 6;
-    public static int SINGLE_ATTACK_WEIGHT_X2 = 10;
-    public static int SINGLE_ATTACK_WEIGHT_X1 = 12;
-
-    public static int DOUBLE_ATTACK_WEIGHT = 22;
-    public static int TRIPLE_ATTACK_WEIGHT = 20;
-    public static int QUAD_ATTACK_WEIGHT = 16;
-    public static int X5_ATTACK_WEIGHT = 14;
 
     public static int DODGE_LEFT = 40;
     public static int DODGE_RIGHT = 40;
     public static int DODGE_BACK = 40;
 
+    public enum AttackWeightType{
+        SINGLE_X4,
+        SINGLE_X3,
+        SINGLE_X2,
+        SINGLE_X1,
+        DOUBLE,
+        TRIPLE,
+        QUAD,
+        X5,
+    }
+    public enum DodgeWeightType{
+     RIGHT,
+     LEFT,
+     BACK
+    }
 
-    public record WeaponMotions(Style style, CombatBehaviors.Builder<HumanoidMobPatch<?>> behaviour , AnimationManager.AnimationAccessor<? extends StaticAnimation> idleMotion,
+    public static int getAttackWeight(AttackWeightType type){
+        return switch (type){
+            case SINGLE_X4 -> EpicColoniesConfigCommon.SINGLE_ATTACK_WEIGHT_X4.get();
+            case SINGLE_X3 -> EpicColoniesConfigCommon.SINGLE_ATTACK_WEIGHT_X3.get();
+            case SINGLE_X2 -> EpicColoniesConfigCommon.SINGLE_ATTACK_WEIGHT_X2.get();
+            case SINGLE_X1 -> EpicColoniesConfigCommon.SINGLE_ATTACK_WEIGHT_X1.get();
+            case DOUBLE -> EpicColoniesConfigCommon.DOUBLE_ATTACK_WEIGHT.get();
+            case TRIPLE -> EpicColoniesConfigCommon.TRIPLE_ATTACK_WEIGHT.get();
+            case QUAD -> EpicColoniesConfigCommon.QUAD_ATTACK_WEIGHT.get();
+            case X5 -> EpicColoniesConfigCommon.X5_ATTACK_WEIGHT.get();
+        };
+    }
+    public static int getDodgeWeight(DodgeWeightType type) {
+        return switch (type){
+            case LEFT -> EpicColoniesConfigCommon.LEFT_DODGE_WEIGHT.get();
+            case RIGHT -> EpicColoniesConfigCommon.RIGHT_DODGE_WEIGHT.get();
+            case BACK -> EpicColoniesConfigCommon.BACK_DODGE_WEIGHT.get();
+        };
+    }
+        public record WeaponMotions(Style style, CombatBehaviors.Builder<HumanoidMobPatch<?>> behaviour , AnimationManager.AnimationAccessor<? extends StaticAnimation> idleMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> walkMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> jogMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> runMotion) {
 
     }
-    public record WeaponMotionDetails(WeaponCategory category, WeaponMotions[] motions){
+    public record WeaponMotionDetails(WeaponCategory category, WeaponMotions[] motions) {
 
     }
 

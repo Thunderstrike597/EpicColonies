@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.inventory.InventoryCitizen;
 import com.mojang.datafixers.util.Pair;
+import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.CitizenPatchData;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
@@ -190,6 +191,11 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     private boolean useCloseRangeStyle() {
         return this.closeRangeStance
                 && this.getHoldingItemCapability(InteractionHand.MAIN_HAND).getWeaponCategory() == CapabilityItem.WeaponCategories.DAGGER;
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
     }
 
     @Override

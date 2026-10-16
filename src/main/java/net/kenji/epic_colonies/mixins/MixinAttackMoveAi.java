@@ -4,6 +4,8 @@ import com.minecolonies.api.entity.ai.combat.CombatAIStates;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
 import com.minecolonies.core.entity.ai.combat.AttackMoveAI;
+import io.redspace.ironsspellbooks.item.SpellBook;
+import net.kenji.epic_colonies.EpicColonies;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -49,6 +51,11 @@ public abstract class MixinAttackMoveAi {
         if(selfMob.getUser().getMainHandItem().getItem() instanceof ProjectileWeaponItem) {
             return;
         }
+        if(EpicColonies.isMinecoloniesMagesLoaded()){
+            if(selfMob.getUser().getMainHandItem().getItem() instanceof SpellBook)
+                return;
+        }
+
         cir.cancel();
         if (selfMob.invokeCheckForTarget() && this.canAttack()) {
             if (this.nextAttackTime < selfMob.getUser().level().getGameTime() && this.isInDistanceForAttack(selfMob.getUser().getTarget())) {

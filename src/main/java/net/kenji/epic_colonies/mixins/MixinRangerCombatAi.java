@@ -1,5 +1,6 @@
 package net.kenji.epic_colonies.mixins;
 
+import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
 import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
@@ -9,12 +10,12 @@ import com.minecolonies.api.entity.other.AbstractFastMinecoloniesEntity;
 import com.minecolonies.api.research.util.ResearchConstants;
 import com.minecolonies.api.util.SoundUtils;
 import com.minecolonies.core.colony.buildings.AbstractBuildingGuards;
-import com.minecolonies.core.colony.jobs.JobRanger;
 import com.minecolonies.core.entity.ai.combat.CombatUtils;
 import com.minecolonies.core.entity.ai.workers.guard.AbstractEntityAIGuard;
 import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.pathfinding.navigation.EntityNavigationUtils;
+import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.kenji.epic_colonies.gameasset.patch.MinecoloniesMonsterPatch;
 import net.kenji.epic_colonies.gameasset.patch.base.AbstractExpressiveHumanoidPatch;
@@ -67,6 +68,11 @@ public abstract class MixinRangerCombatAi {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void tryStopShoot(LivingEntity target, CallbackInfo ci) {
         if (mobSelf == null) return;
+        RangerCombatAI self = (RangerCombatAI)(Object)this;
+        if(EpicColonies.isMinecoloniesMagesLoaded()){
+            if(self instanceof MageCombatAI)
+                return;
+        }
         ci.cancel();
         if (((EntityCitizen) this.mobSelf).distanceToSqr(target) < (double) 7.0F) {
             if (((EntityCitizen) this.mobSelf).getRandom().nextInt(3) == 0 && !((AbstractBuildingGuards) ((EntityCitizen) this.mobSelf).getCitizenData().getWorkBuilding()).getTask().equals("com.minecolonies.core.guard.setting.guard")) {
