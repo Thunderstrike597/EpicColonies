@@ -103,6 +103,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
                          float elapsedTime, float partialTick) {
         super.poseTick(animation, pose, elapsedTime, partialTick);
 
+        if(EpicColoniesConfigCommon.DISABLE_EYES_FOLLOW.get())return;
+
         if (!pose.hasTransform("Eye_L") && !pose.hasTransform("Eye_R")) {
             return;
         }
@@ -144,6 +146,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     }
 
     public void manageHeadRotWithEyes(){
+        if(EpicColoniesConfigCommon.DISABLE_EYES_FOLLOW.get())return;
+
         AbstractEntityCitizen citizen = this.getOriginal();
         Player nearest = citizen.level().getNearestPlayer(citizen, LOOK_RANGE);
 
@@ -204,10 +208,10 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     @Override
     public void onAddedToLevel() {
         super.onAddedToLevel();
-        DEFAULT_BROW_ANIM = EpicColoniesAnimations.CITIZEN_BLINK;
+        DEFAULT_BROW_ANIM = EpicColoniesConfigCommon.DISABLE_BLINKING.get() ? EpicColoniesAnimations.CITIZEN_FACIAL_DEFAULT : EpicColoniesAnimations.CITIZEN_BLINK;
         DEFAULT_EYES_ANIM = EpicColoniesAnimations.CITIZEN_EYES_MOVE;
 
-        facialAnim = EpicColoniesAnimations.CITIZEN_BLINK;
+        facialAnim = EpicColoniesConfigCommon.DISABLE_BLINKING.get() ? EpicColoniesAnimations.CITIZEN_FACIAL_DEFAULT : EpicColoniesAnimations.CITIZEN_BLINK;
         eyeMoveAnim = EpicColoniesAnimations.CITIZEN_EYES_MOVE;
 
         animator.playAnimation(facialAnim, 0F);
@@ -298,6 +302,9 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         ICitizenDataView citizenDataView = citizen.level().isClientSide() ? citizen.getCitizenDataView() : null;
         ICitizenData citizenData = !citizen.level().isClientSide() ? citizen.getCitizenData() : null;
         double happiness = 5.0;
+
+        if(EpicColoniesConfigCommon.DISABLE_HAPPINESS_FACIAL_FEATURES.get())return FacialEmotionExpressions.getAnimationFromHappiness(happiness);
+
         if(citizenDataView != null && citizen.level().isClientSide()){
             if(citizenDataView.isChild()) return DEFAULT_BROW_ANIM;
            happiness = citizenDataView.getHappiness();

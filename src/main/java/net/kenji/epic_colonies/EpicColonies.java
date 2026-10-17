@@ -21,6 +21,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -38,7 +39,7 @@ public class EpicColonies {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static boolean isLoaded(String name){
-        return ModList.get().isLoaded(name);
+        return FMLLoader.getLoadingModList().getModFileById(name) != null;
     }
 
     public static boolean isMinecoloniesMagesLoaded(){
