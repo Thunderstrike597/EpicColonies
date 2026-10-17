@@ -31,6 +31,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import yesman.epicfight.api.animation.LivingMotions;
@@ -46,7 +47,7 @@ public class EpicColonies {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static boolean isLoaded(String name){
-        return ModList.get().isLoaded(name);
+        return FMLLoader.getLoadingModList().getModFileById(name) != null;
     }
 
     public static boolean isMinecoloniesMagesLoaded(){

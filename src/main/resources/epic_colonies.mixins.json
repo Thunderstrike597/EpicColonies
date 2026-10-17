@@ -21,7 +21,8 @@
     "AccessorWearableItemLayer",
     "MixinAbstractEntityAiStructure",
     "AbstractEntityAIStructureMixin",
-    "ModEquipmentTypesMixin"
+    "ModEquipmentTypesMixin",
+    "MixinMageCastingController"
   ],
   "client": [
     "RenderBipedCitizenMixin"

@@ -1,5 +1,6 @@
 package net.kenji.epic_colonies.mixins;
 
+import com.example.minecoloniesmages.combat.MageCastingController;
 import com.minecolonies.api.entity.ai.combat.CombatAIStates;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
@@ -55,6 +56,7 @@ public abstract class MixinAttackMoveAi {
             if(patch != null && patch.shouldCancelVanillaTargeting())
                 return;
         }
+
 
 
         cir.cancel();

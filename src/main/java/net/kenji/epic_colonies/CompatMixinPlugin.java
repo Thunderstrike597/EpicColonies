@@ -34,6 +34,11 @@ public class CompatMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if(!EpicColonies.isMinecoloniesMagesLoaded()){
+            if(mixinClassName.endsWith("MixinMageCastingController"))
+                return false;
+        }
+
         if (!isClassPresent("com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI")) {
             if(mixinClassName.endsWith("MixinRangerCombatAi")){
                 return false;

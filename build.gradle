@@ -210,6 +210,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:epicfight-extra-1434276:8681446")
 
+    implementation fg.deobf("curse.maven:epic-fight-x-irons-spells-enhanced-animations-1109064:7424091")
 
     implementation fg.deobf("curse.maven:playeranimator-658587:4587214")
     implementation fg.deobf("curse.maven:irons-lib-1492763:9003169")
