@@ -1,5 +1,6 @@
 package net.kenji.epic_colonies.gameasset.patch;
 
+import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
 import com.ldtteam.structurize.placement.StructurePlacer;
 import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.ICitizenDataView;
@@ -10,9 +11,11 @@ import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.util.Tuple;
 import com.minecolonies.core.colony.jobs.guard.JobRanger;
+import com.minecolonies.core.entity.ai.combat.AttackMoveAI;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
 import com.minecolonies.core.entity.ai.workers.AbstractEntityAIStructure;
+import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
 import com.minecolonies.core.entity.ai.workers.util.BuildingProgressStage;
 import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
@@ -204,6 +207,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         }
 
     }
+
+
 
     @Override
     public void onAddedToLevel() {

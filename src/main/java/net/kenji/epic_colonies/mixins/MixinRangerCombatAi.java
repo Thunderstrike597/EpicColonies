@@ -1,6 +1,5 @@
 package net.kenji.epic_colonies.mixins;
 
-import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
 import com.minecolonies.api.colony.jobs.ModJobs;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
 import com.minecolonies.api.entity.citizen.Skill;
@@ -15,7 +14,6 @@ import com.minecolonies.core.entity.ai.workers.guard.AbstractEntityAIGuard;
 import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.pathfinding.navigation.EntityNavigationUtils;
-import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -53,13 +51,6 @@ public abstract class MixinRangerCombatAi {
     @Final
     private AbstractEntityAIGuard parentAI;
 
-    @Unique
-    public boolean isMarksman() {
-
-
-        return this.parentAI.getJob().getJobRegistryEntry() == ModJobs.marksman.get();
-    }
-
     @Unique Mob mobSelf;
 
     @Inject(method = "<init>", at = @At("RETURN"))
@@ -70,29 +61,33 @@ public abstract class MixinRangerCombatAi {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void tryStopShoot(LivingEntity target, CallbackInfo ci) {
         if (mobSelf == null) return;
-        RangerCombatAI self = (RangerCombatAI)(Object)this;
-        if(EpicColonies.isMinecoloniesMagesLoaded()){
-            if(self instanceof MageCombatAI)
-                return;
-        }
-        ci.cancel();
-        if (((EntityCitizen)this.mobSelf).distanceToSqr(target) < (double)7.0F) {
-            if (((EntityCitizen)this.mobSelf).getRandom().nextInt(3) == 0 && !((AbstractBuildingGuards)((EntityCitizen)this.mobSelf).getCitizenData().getWorkBuilding()).getTask().equals("com.minecolonies.core.guard.setting.guard")) {
-                EntityNavigationUtils.walkAwayFrom((AbstractFastMinecoloniesEntity)this.mobSelf, target.blockPosition(), (int)(this.getAttackDistance() / (double)2.0F), this.getCombatMovementSpeed());
-            }
-        } else {
-            ((EntityCitizen)this.mobSelf).getNavigation().stop();
+        RangerCombatAI self = (RangerCombatAI) (Object) this;
+        CitizenEntityPatch<?> citizenEntityPatch =
+                EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
+        if (citizenEntityPatch == null) return;
+
+        if (citizenEntityPatch.isRangerMage(self)) {
+            return;
         }
 
-        ((EntityCitizen)this.mobSelf).getCitizenData().setVisibleStatus(ARCHER_COMBAT);
-        ((EntityCitizen)this.mobSelf).swing(InteractionHand.MAIN_HAND);
-        ((EntityCitizen)this.mobSelf).stopUsingItem();
+        ci.cancel();
+        if (((EntityCitizen) this.mobSelf).distanceToSqr(target) < (double) 7.0F) {
+            if (((EntityCitizen) this.mobSelf).getRandom().nextInt(3) == 0 && !((AbstractBuildingGuards) ((EntityCitizen) this.mobSelf).getCitizenData().getWorkBuilding()).getTask().equals("com.minecolonies.core.guard.setting.guard")) {
+                EntityNavigationUtils.walkAwayFrom((AbstractFastMinecoloniesEntity) this.mobSelf, target.blockPosition(), (int) (this.getAttackDistance() / (double) 2.0F), this.getCombatMovementSpeed());
+            }
+        } else {
+            ((EntityCitizen) this.mobSelf).getNavigation().stop();
+        }
+
+        ((EntityCitizen) this.mobSelf).getCitizenData().setVisibleStatus(ARCHER_COMBAT);
+        ((EntityCitizen) this.mobSelf).swing(InteractionHand.MAIN_HAND);
+        ((EntityCitizen) this.mobSelf).stopUsingItem();
         int amountOfArrows = 1;
-        if (((EntityCitizen)this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.DOUBLE_ARROWS) > (double)0.0F && ((EntityCitizen)this.mobSelf).getRandom().nextDouble() < ((EntityCitizen)this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.DOUBLE_ARROWS)) {
+        if (((EntityCitizen) this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.DOUBLE_ARROWS) > (double) 0.0F && ((EntityCitizen) this.mobSelf).getRandom().nextDouble() < ((EntityCitizen) this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.DOUBLE_ARROWS)) {
             ++amountOfArrows;
         }
 
-        for(int i = 0; i < amountOfArrows; ++i) {
+        for (int i = 0; i < amountOfArrows; ++i) {
             AbstractArrow arrow = CombatUtils.createArrowForShooter(this.mobSelf);
             if (((EntityCitizen) this.mobSelf).getCitizenColonyHandler().getColonyOrRegister().getResearchManager().getResearchEffects().getEffectStrength(ResearchConstants.ARROW_PIERCE) > (double) 0.0F) {
                 ((AccessorAbstractArrow) arrow).invokeSetPierceLevel((byte) 2);
@@ -104,21 +99,13 @@ public abstract class MixinRangerCombatAi {
             }
 
             double damage = this.calculateDamage(arrow);
-            if (this.isMarksman()) {
-                arrow.shotFromCrossbow();
-            }
-
             arrow.setBaseDamage(damage);
             float chance = 15.0F / (float) (((EntityCitizen) this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
-            CitizenEntityPatch<?> citizenEntityPatch =
-                    EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
 
-            if(citizenEntityPatch != null) {
-                if (citizenEntityPatch.isWasUsingBow()) {
-                    CombatUtils.shootArrow(arrow, target, chance);
-                    ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                    citizenEntityPatch.setWasUsingBow(false);
-                }
+            if (citizenEntityPatch.isWasUsingBow()) {
+                CombatUtils.shootArrow(arrow, target, chance);
+                ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
+                citizenEntityPatch.setWasUsingBow(false);
             }
         }
     }
