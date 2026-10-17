@@ -18,19 +18,6 @@ public class CompatMixinPlugin implements IMixinConfigPlugin {
 
         return mixins;
     }
-    private static boolean isClassPresent(String className) {
-        String path = className.replace('.', '/') + ".class";
-        ClassLoader[] loaders = {
-                CompatMixinPlugin.class.getClassLoader(),
-                Thread.currentThread().getContextClassLoader()
-        };
-        for (ClassLoader cl : loaders) {
-            if (cl != null && cl.getResource(path) != null) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
@@ -39,12 +26,12 @@ public class CompatMixinPlugin implements IMixinConfigPlugin {
                 return false;
         }
 
-        if (!isClassPresent("com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI")) {
+        if (!EpicColonies.isClassPresent("com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI")) {
             if(mixinClassName.endsWith("MixinRangerCombatAi")){
                 return false;
             }
         }
-        if (!isClassPresent("com.minecolonies.core.entity.ai.workers.guard.RangeCombatAI")) {
+        if (!EpicColonies.isClassPresent("com.minecolonies.core.entity.ai.workers.guard.RangeCombatAI")) {
             if(mixinClassName.endsWith("MixinRangeCombatAi")){
                 return false;
             }

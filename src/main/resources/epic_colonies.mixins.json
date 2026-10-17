@@ -22,7 +22,7 @@
     "MixinAbstractEntityAiStructure",
     "AbstractEntityAIStructureMixin",
     "ModEquipmentTypesMixin",
-    "MixinMageCastingController"
+    "MixinMageGuardCombatHandler"
   ],
   "client": [
     "RenderBipedCitizenMixin"
