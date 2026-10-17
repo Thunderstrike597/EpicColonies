@@ -42,6 +42,20 @@ public class EpicColonies {
         return FMLLoader.getLoadingModList().getModFileById(name) != null;
     }
 
+    public static boolean isClassPresent(String className) {
+        String path = className.replace('.', '/') + ".class";
+        ClassLoader[] loaders = {
+                CompatMixinPlugin.class.getClassLoader(),
+                Thread.currentThread().getContextClassLoader()
+        };
+        for (ClassLoader cl : loaders) {
+            if (cl != null && cl.getResource(path) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean isMinecoloniesMagesLoaded(){
         return isLoaded("minecoloniesmages");
     }

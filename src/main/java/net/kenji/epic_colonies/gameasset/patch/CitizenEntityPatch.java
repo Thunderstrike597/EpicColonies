@@ -9,7 +9,6 @@ import com.minecolonies.api.entity.ai.statemachine.states.AIWorkerState;
 import com.minecolonies.api.entity.ai.statemachine.states.IState;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.util.Tuple;
-import com.minecolonies.core.colony.jobs.JobDruid;
 import com.minecolonies.core.colony.jobs.guard.JobRanger;
 import com.minecolonies.core.entity.ai.minimal.EntityAICitizenAvoidEntity;
 import com.minecolonies.core.entity.ai.minimal.EntityAIEatTask;
@@ -19,6 +18,7 @@ import com.minecolonies.core.entity.ai.workers.util.BuildingStructureHandler;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.other.SittingEntity;
 import com.mojang.datafixers.util.Pair;
+import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.FacialEmotionExpressions;
@@ -486,8 +486,12 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     @Override
     public boolean shouldCancelVanillaTargeting() {
         IJob<?> iJob = this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() != null ? this.getOriginal().getCitizenJobHandler().getColonyJob() : null;
-        if(iJob instanceof JobDruid)
-            return true;
+        if(EpicColonies.isClassPresent("com.minecolonies.core.colony.jobs.JobDruid"))
+            if(iJob instanceof com.minecolonies.core.colony.jobs.JobDruid)
+                return true;
+        if(EpicColonies.isClassPresent("com.minecolonies.core.colony.jobs.guard.JobDruid"))
+            if(iJob instanceof com.minecolonies.core.colony.jobs.guard.JobDruid)
+                return true;
 
         return super.shouldCancelVanillaTargeting();
     }
