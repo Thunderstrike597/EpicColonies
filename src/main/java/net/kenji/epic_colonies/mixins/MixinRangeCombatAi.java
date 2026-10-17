@@ -1,6 +1,5 @@
 package net.kenji.epic_colonies.mixins;
 
-import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
 import com.minecolonies.api.entity.citizen.Skill;
 import com.minecolonies.api.entity.citizen.VisibleCitizenStatus;
@@ -11,7 +10,6 @@ import com.minecolonies.core.colony.buildings.AbstractBuildingGuards;
 import com.minecolonies.core.entity.ai.combat.CombatUtils;
 import com.minecolonies.core.entity.ai.workers.guard.AbstractEntityAIGuard;
 import com.minecolonies.core.entity.ai.workers.guard.RangeCombatAI;
-import com.minecolonies.core.entity.ai.workers.guard.RangerCombatAI;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.minecolonies.core.entity.pathfinding.navigation.EntityNavigationUtils;
 import net.kenji.epic_colonies.EpicColonies;

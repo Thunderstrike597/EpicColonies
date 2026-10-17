@@ -1,9 +1,12 @@
 package net.kenji.epic_colonies.gameasset.patch.base;
 
+import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.inventory.InventoryCitizen;
+import com.minecolonies.core.entity.ai.combat.AttackMoveAI;
+import com.minecolonies.core.entity.citizen.EntityCitizen;
 import com.mojang.datafixers.util.Pair;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
@@ -209,9 +212,11 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         return false;
     }
 
-    @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
+    public boolean isRangerMage(AttackMoveAI<EntityCitizen> combatAI){
+        if(EpicColonies.isMinecoloniesMagesLoaded()){
+            return combatAI instanceof MageCombatAI;
+        }
+        return false;
     }
 
     @Override

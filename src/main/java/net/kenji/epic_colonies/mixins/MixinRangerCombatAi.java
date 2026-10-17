@@ -1,9 +1,6 @@
 package net.kenji.epic_colonies.mixins;
 
-import com.example.minecoloniesmages.entity.ai.guard.MageCombatAI;
-import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.entity.ai.statemachine.tickratestatemachine.ITickRateStateMachine;
-import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.entity.citizen.Skill;
 import com.minecolonies.api.entity.citizen.VisibleCitizenStatus;
 import com.minecolonies.api.entity.other.AbstractFastMinecoloniesEntity;
@@ -69,9 +66,12 @@ public abstract class MixinRangerCombatAi {
     private void tryStopShoot(LivingEntity target, CallbackInfo ci) {
         if (mobSelf == null) return;
         RangerCombatAI self = (RangerCombatAI)(Object)this;
-        if(EpicColonies.isMinecoloniesMagesLoaded()){
-            if(self instanceof MageCombatAI)
-                return;
+        CitizenEntityPatch<?> citizenEntityPatch =
+                EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
+        if(citizenEntityPatch == null) return;
+
+        if(citizenEntityPatch.isRangerMage(self)){
+            return;
         }
         ci.cancel();
         if (((EntityCitizen) this.mobSelf).distanceToSqr(target) < (double) 7.0F) {
@@ -109,12 +109,11 @@ public abstract class MixinRangerCombatAi {
             double damage = this.calculateDamage(arrow);
             arrow.setBaseDamage(damage);
             float chance = 15.0F / (float) (((EntityCitizen) this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
-            AbstractExpressiveHumanoidPatch<?> entityPatch = EpicFightCapabilities.getEntityPatch(mobSelf, AbstractExpressiveHumanoidPatch.class);
-            if (entityPatch != null) {
-                if (entityPatch.isWasUsingBow()) {
+            if (citizenEntityPatch != null) {
+                if (citizenEntityPatch.isWasUsingBow()) {
                     CombatUtils.shootArrow(arrow, target, chance);
                     ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                    entityPatch.setWasUsingBow(false);
+                    citizenEntityPatch.setWasUsingBow(false);
                 }
             }
         }
