@@ -26,8 +26,6 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
 
     public static CombatBehaviors.Builder<HumanoidMobPatch<?>> katanaBehaviour;
 
-
-    /// ===MAIN MOTIONS=== ///
     public static WeaponMotionDetails HUMANOID_SWORD;
     public static WeaponMotionDetails HUMANOID_SWORD_DUAL;
 
@@ -40,13 +38,11 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     public static WeaponMotionDetails HUMANOID_SPEAR;
     public static WeaponMotionDetails HUMANOID_UCHIGATANA;
 
-    /// ===WOM-COMPAT-MOTIONS=== ///
     public static WeaponMotionDetails HUMANOID_AGONY;
     public static WeaponMotionDetails HUMANOID_RUINE;
     public static WeaponMotionDetails HUMANOID_TORMENT;
     public static WeaponMotionDetails HUMANOID_STAFF;
 
-    /// ===CDMOVESET-COMPAT-MOTIONS=== ///
     public static WeaponMotionDetails HUMANOID_S_SWORD;
     public static WeaponMotionDetails HUMANOID_S_SWORD_DUAL;
     public static WeaponMotionDetails HUMANOID_S_DAGGER;
@@ -55,8 +51,6 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     public static WeaponMotionDetails HUMANOID_S_LONGSWORD;
     public static WeaponMotionDetails HUMANOID_S_SPEAR;
     public static WeaponMotionDetails HUMANOID_S_GREATSWORD;
-
-
 
     public static void initEpicFightWeaponMotions() {
         buildMotions();

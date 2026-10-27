@@ -60,13 +60,9 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
            return mesh;
         } catch (Throwable t) {
             EpicColonies.LOGGER.error("Mesh resolution failed for citizen {}", entitypatch.getOriginal().getUUID(), t);
-            return EpicColoniesMeshes.CITIZEN_MALE; // safe fallback so at least *something* renders
+            return EpicColoniesMeshes.CITIZEN_MALE;
         }
     }
-
-
-
-
 
     public AssetAccessor<EpicColoniesMesh> getCitizenMesh(CitizenEntityPatch<?> patch, AbstractEntityCitizen citizen, boolean isMale) {
         Meshes.MeshAccessor<EpicColoniesMesh> defaultMesh = isMale ? EpicColoniesMeshes.DEFAULT_MALE : EpicColoniesMeshes.DEFAULT_FEMALE;
@@ -103,20 +99,17 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
             if (citizen.level().isClientSide) {
                 String textureStr = citizen.getTexture().toString();
 
-                // Only cache the texture once it's actually resolved to something
-                // real - MineColonies syncs this field independently/later than
-                // isChild/job, so `view != null` alone doesn't guarantee it's ready.
                 if (CitizenMeshCache.isValidTexture(textureStr)) {
                     CitizenMeshCache.put(citizen.getUUID(), isChild, jobEntry, textureStr);
                 } else {
-                    // still cache isChild/job now, keep whatever texture we had before
+
                     CitizenMeshCache.Entry existing = CitizenMeshCache.get(citizen.getUUID());
                     String keepTexture = existing != null ? existing.skinTextureId() : null;
                     CitizenMeshCache.put(citizen.getUUID(), isChild, jobEntry, keepTexture);
                 }
             }
         } else if (citizen.level().isClientSide) {
-            // no data yet - fall back to what we saved last session
+
             CitizenMeshCache.Entry cached = CitizenMeshCache.get(citizen.getUUID());
             if (cached != null) {
                 isChild = cached.isChild();
@@ -159,10 +152,9 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
         return defaultMesh;
     }
 
-
     @Override
     protected void prepareModel(EpicColoniesMesh mesh, AbstractEntityCitizen entity, CitizenEntityPatch<AbstractEntityCitizen> entitypatch, RenderBipedCitizen renderer) {
-        super.prepareModel(mesh, entity, entitypatch, renderer); // runs mesh.initialize() (resets all parts to visible)
+        super.prepareModel(mesh, entity, entitypatch, renderer);
         this.originalRenderer = renderer;
 
         if (mesh.hat != null) {
@@ -203,7 +195,5 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
     public AssetAccessor<EpicColoniesMesh> getDefaultMesh() {
         return EpicColoniesMeshes.DEFAULT_MALE;
     }
-
-
 
 }

@@ -3,14 +3,14 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "minecraft:diamond_sword"
+      "item": "epicfight:diamond_dagger"
     },
     {
-      "item": "minecraft:diamond_sword"
+      "item": "epicfight:diamond_dagger"
     }
   ],
   "result": {
-    "item": "epic_colonies:diamond_dual_swords",
+    "id": "epic_colonies:diamond_dual_daggers",
     "count": 1
   }
 }

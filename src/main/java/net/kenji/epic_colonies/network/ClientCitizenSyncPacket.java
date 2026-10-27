@@ -32,7 +32,6 @@ public record ClientCitizenSyncPacket(int entityId, UUID uuid, CitizenPatchData 
     public static final StreamCodec<FriendlyByteBuf, ClientCitizenSyncPacket> STREAM_CODEC =
             StreamCodec.of(ClientCitizenSyncPacket::encode, ClientCitizenSyncPacket::decode);
 
-
     private static int fillNullMotion(LivingMotion motion){
         if(motion == null){
             return LivingMotions.NONE.universalOrdinal();
@@ -45,7 +44,7 @@ public record ClientCitizenSyncPacket(int entityId, UUID uuid, CitizenPatchData 
         }
         return LivingMotion.ENUM_MANAGER.get(motionId);
     }
-    // Encode: Write data to buffer
+
     public static void encode(FriendlyByteBuf buf, ClientCitizenSyncPacket packet) {
         buf.writeInt(packet.entityId);
         buf.writeUUID(packet.uuid)    ;
@@ -75,7 +74,6 @@ public record ClientCitizenSyncPacket(int entityId, UUID uuid, CitizenPatchData 
         return new ClientCitizenSyncPacket(entityId, entityUuid, data);
     }
 
-    // Handle: Process the packet on the receiving side
     public static void handle(ClientCitizenSyncPacket packet, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (FMLEnvironment.dist == Dist.CLIENT) {
@@ -91,7 +89,7 @@ public record ClientCitizenSyncPacket(int entityId, UUID uuid, CitizenPatchData 
         if (player == null) return;
 
         Entity entity = player.level().getEntity(packet.entityId);
-        if (entity == null) return;
+        if (entity == null || !entity.getUUID().equals(packet.uuid)) return;
         CitizenEntityPatch<?> entityPatch = EpicFightCapabilities.getEntityPatch(entity, CitizenEntityPatch.class);
 
         if(entityPatch != null){

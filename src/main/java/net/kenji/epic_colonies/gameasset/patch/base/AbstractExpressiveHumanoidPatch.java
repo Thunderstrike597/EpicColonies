@@ -67,8 +67,8 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
 
     protected static float LOOK_RANGE = 8.0F;
     protected static float FADE_DISTANCE = 2.0F;
-    protected static float EYE_ANGLE_SENSITIVITY_DEG = 88F;        // how far off-center = full eye deflection (unchanged)
-    protected static float MAX_TRACKING_ANGLE_DEG = 60;  // beyond this angle, citizen can't plausibly "see" the player - eyes go centered
+    protected static float EYE_ANGLE_SENSITIVITY_DEG = 88F;
+    protected static float MAX_TRACKING_ANGLE_DEG = 60;
     protected static float ANGLE_FADE_DEG = 15F;
     protected static float MAX_EYE_OFFSET = 0.075F;
     protected static float HEAD_TURN_SPEED_DEG = 8.0F;
@@ -119,7 +119,8 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         return state.isSolidRender(this.getOriginal().level(), blockPos) && !state.canBeReplaced();
     }
     public void setWasUsingBow(boolean value){
-        if(this.getCurrentLivingMotion() == EpicColoniesLivingMotions.JOG) return;
+        if(value && this.getCurrentLivingMotion() == EpicColoniesLivingMotions.JOG) return;
+        if(this.wasUsingBow == value) return;
         this.wasUsingBow = value;
         this.bowUseCounter = 0;
         if(this.getOriginal().level().isClientSide()) {
@@ -146,13 +147,10 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
 
         double forwardSpeed = getCurrentForwardSpeed();
 
-        // Get the horse's actual max walk speed attribute
         double maxWalkSpeed = this.getOriginal().getAttributeValue(Attributes.MOVEMENT_SPEED);
 
-        // Normalize: 0.0 when still, 1.0 at full walk speed
         double normalized = Math.min(forwardSpeed / maxWalkSpeed, 1.0);
 
-        // Scale between your known good minimum and maximum playback speed
         return (float)(minSpeed + normalized * (maxSpeed - minSpeed));
     }
 
@@ -165,12 +163,12 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     }
 
     public void setCloseRangeStance(boolean value) {
-        if (this.closeRangeStance == value) return;   // only refresh on transitions
+        if (this.closeRangeStance == value) return;
         this.closeRangeStance = value;
 
         if (!this.original.level().isClientSide()) {
-            this.initAI();                               // rebuilds AnimatedAttackGoal from the new builder
-            this.modifyLivingMotionByCurrentItem(false); // re-applies + syncs living motions
+            this.initAI();
+            this.modifyLivingMotionByCurrentItem(false);
         }
     }
 
@@ -230,7 +228,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
 
                 livingByCategory
                         .computeIfAbsent(details.category(), c -> new HashMap<>())
-                        .put(motions.style(), livingMotionSet); // later registration for the same (category, style) wins
+                        .put(motions.style(), livingMotionSet);
 
                 attackByCategory
                         .computeIfAbsent(details.category(), c -> new HashMap<>())
@@ -314,7 +312,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     }
     @Override
     public void initAnimator(Animator animator) {
-        // All available living motions are listed in this enum: https://github.com/Epic-Fight/epicfight/blob/1.21.1/src/main/java/yesman/epicfight/api/animation/LivingMotions.java#L4-L6
+
         super.initAnimator(animator);
         animator.addLivingAnimation(LivingMotions.EAT, EpicColoniesAnimations.CITIZEN_EAT);
         animator.addLivingAnimation(LivingMotions.CLIMB, EpicColoniesAnimations.CITIZEN_CLIMB);
@@ -338,6 +336,5 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         animator.addLivingAnimation(LivingMotions.SHOT, Animations.BIPED_BOW_SHOT);
         animator.addLivingAnimation(LivingMotions.DRINK, Animations.BIPED_DRINK);
     }
-
 
 }

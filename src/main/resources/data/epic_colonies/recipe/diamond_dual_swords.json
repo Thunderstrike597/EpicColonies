@@ -3,14 +3,14 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "minecraft:stone_sword"
+      "item": "minecraft:diamond_sword"
     },
     {
-      "item": "minecraft:stone_sword"
+      "item": "minecraft:diamond_sword"
     }
   ],
   "result": {
-    "item": "epic_colonies:stone_dual_swords",
+    "id": "epic_colonies:diamond_dual_swords",
     "count": 1
   }
 }
