@@ -8,6 +8,7 @@ import com.minecolonies.core.entity.ai.combat.AttackMoveAI;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
+import net.kenji.epic_colonies.gameasset.patch.base.AbstractExpressiveHumanoidPatch;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.EntityPatch;
+import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
 
 @Mixin(value = AttackMoveAI.class, remap = false)
 public abstract class MixinAttackMoveAi {
@@ -51,11 +53,15 @@ public abstract class MixinAttackMoveAi {
     public void stopVanillaAttack(CallbackInfoReturnable<IState> cir){
         AttackMoveAI self = (AttackMoveAI) (Object)this;
         AccessorTargetAi selfMob = (AccessorTargetAi) self;
-        if(selfMob.getUser() instanceof AbstractEntityCitizen citizen){
-            CitizenEntityPatch<?> patch = EpicFightCapabilities.getEntityPatch(citizen, CitizenEntityPatch.class);
-            if(patch != null && patch.shouldCancelVanillaTargeting())
+        if(selfMob.getUser() == null)return;
+
+        HumanoidMobPatch<?> patch = EpicFightCapabilities.getEntityPatch(selfMob.getUser(), HumanoidMobPatch.class);
+
+        if(patch instanceof AbstractExpressiveHumanoidPatch<?> expressivePatch){
+            if(patch != null && expressivePatch.shouldCancelVanillaTargeting())
                 return;
         }
+
         cir.cancel();
         if (selfMob.invokeCheckForTarget() && this.canAttack()) {
             if (this.nextAttackTime < selfMob.getUser().level().getGameTime() && this.isInDistanceForAttack(selfMob.getUser().getTarget())) {
