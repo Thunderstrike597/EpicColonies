@@ -9,6 +9,7 @@ public class EpicColoniesConfigCommon {
     public static ForgeConfigSpec.ConfigValue<Integer> MINE_COUNTER;
     public static ForgeConfigSpec.ConfigValue<Boolean> UNBREAKABLE_TOOLS_FIX;
     public static ForgeConfigSpec.ConfigValue<Boolean> ARCHER_DAGGER_MELEE;
+    public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_3D_FACES;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_BLINKING;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_HAPPINESS_FACIAL_FEATURES;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_EYES_FOLLOW;
@@ -43,22 +44,26 @@ public class EpicColoniesConfigCommon {
 
         BUILDER.pop();
         BUILDER.push("Features");
-            BUILDER.push("Experimental Features");
-            ARCHER_DAGGER_MELEE = BUILDER
-                        .comment("A feature which allows archers to user daggers in close range to aggressors")
-                        .define("Archer Dagger Melee", false);
+        BUILDER.push("Experimental Features");
+        ARCHER_DAGGER_MELEE = BUILDER
+                .comment("A feature which allows archers to user daggers in close range to aggressors")
+                .define("Archer Dagger Melee", false);
 
-            BUILDER.pop();
-            BUILDER.push("Facial Features");
-            DISABLE_BLINKING = BUILDER
-                    .comment("If true, citizens will no longer blink")
-                    .define("Disable Citizen Blinking", false);
-            DISABLE_HAPPINESS_FACIAL_FEATURES = BUILDER
-                    .comment("If true, citizens will no longer smile/frown/look-angry when happiness is above/below a certain point (The will remain neutral in expression)")
-                    .define("Disable Citizen Facial Expressions", false);
-            DISABLE_EYES_FOLLOW = BUILDER
-                    .comment("If true, citizens eyes will no longer follow you when in looking range/angle")
-                    .define("Disable Citizen Eyes Follow", false);
+        BUILDER.pop();
+        BUILDER.push("Facial Features");
+        DISABLE_3D_FACES = BUILDER
+                .comment("If true, citizens will no longer have 3D faces")
+                .define("Disable Citizen 3D Faces", false);
+
+        DISABLE_BLINKING = BUILDER
+                .comment("If true, citizens will no longer blink")
+                .define("Disable Citizen Blinking", false);
+        DISABLE_HAPPINESS_FACIAL_FEATURES = BUILDER
+                .comment("If true, citizens will no longer smile/frown/look-angry when happiness is above/below a certain point (The will remain neutral in expression)")
+                .define("Disable Citizen Facial Expressions", false);
+        DISABLE_EYES_FOLLOW = BUILDER
+                .comment("If true, citizens eyes will no longer follow you when in looking range/angle")
+                .define("Disable Citizen Eyes Follow", false);
 
 
         BUILDER.pop();
