@@ -13,6 +13,8 @@ public class EpicColoniesConfigCommon {
     public static ModConfigSpec.ConfigValue<Boolean> DISABLE_BLINKING;
     public static ModConfigSpec.ConfigValue<Boolean> DISABLE_HAPPINESS_FACIAL_FEATURES;
     public static ModConfigSpec.ConfigValue<Boolean> DISABLE_EYES_FOLLOW;
+    public static ModConfigSpec.ConfigValue<Boolean> DISABLE_3D_FACES;
+
 
     public static ModConfigSpec.ConfigValue<Integer> SINGLE_ATTACK_WEIGHT_X4;
     public static ModConfigSpec.ConfigValue<Integer> SINGLE_ATTACK_WEIGHT_X3;
@@ -45,25 +47,28 @@ public class EpicColoniesConfigCommon {
         BUILDER.pop();
 
         BUILDER.push("Features");
-            BUILDER.push("Experimental Features");
-            ARCHER_DAGGER_MELEE = BUILDER
-                    .comment("A feature which allows archers to user daggers in close range to aggressors")
-                    .define("Archer Dagger Melee", false);
+        BUILDER.push("Experimental Features");
+        ARCHER_DAGGER_MELEE = BUILDER
+                .comment("A feature which allows archers to user daggers in close range to aggressors")
+                .define("Archer Dagger Melee", false);
 
-            BUILDER.pop();
-            BUILDER.push("Facial Features");
-            DISABLE_BLINKING = BUILDER
-                    .comment("If true, citizens will no longer blink")
-                    .define("Disable Citizen Blinking", false);
-            DISABLE_HAPPINESS_FACIAL_FEATURES = BUILDER
-                    .comment("If true, citizens will no longer smile/frown/look-angry when happiness is above/below a certain point (The will remain neutral in expression)")
-                    .define("Disable Citizen Facial Expressions", false);
-            DISABLE_EYES_FOLLOW = BUILDER
-                    .comment("If true, citizens eyes will no longer follow you when in looking range/angle")
-                    .define("Disable Citizen Eyes Follow", false);
+        BUILDER.pop();
+        BUILDER.push("Facial Features");
+        DISABLE_3D_FACES = BUILDER
+                .comment("If true, citizens will no longer have 3D faces")
+                .define("Disable Citizen 3D Faces", false);
+        DISABLE_BLINKING = BUILDER
+                .comment("If true, citizens will no longer blink")
+                .define("Disable Citizen Blinking", false);
+        DISABLE_HAPPINESS_FACIAL_FEATURES = BUILDER
+                .comment("If true, citizens will no longer smile/frown/look-angry when happiness is above/below a certain point (The will remain neutral in expression)")
+                .define("Disable Citizen Facial Expressions", false);
+        DISABLE_EYES_FOLLOW = BUILDER
+                .comment("If true, citizens eyes will no longer follow you when in looking range/angle")
+                .define("Disable Citizen Eyes Follow", false);
 
 
-            BUILDER.pop();
+        BUILDER.pop();
         BUILDER.pop();
         BUILDER.comment("Attack weights decide how often a mob picks each attack. They are relative, not percentages: " +
                         "chance = weight / total weight of all moves available at that moment (dodges included). " +
@@ -108,7 +113,7 @@ public class EpicColoniesConfigCommon {
                 .define("Dodge Weight Back", 40);
 
         BUILDER.pop();
-        
+
         SPEC = BUILDER.build();
     }
 }

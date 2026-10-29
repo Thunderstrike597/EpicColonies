@@ -38,10 +38,14 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static List<ResourceLocation> lowerEyeTextures = new ArrayList<>();
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_MALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_MALE_FACELESS;
+
     public static final Meshes.MeshAccessor<EpicColoniesMesh> SETTLER_MALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> SETTLER_MALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CITIZEN_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_MALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_MALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> COURIER_MALE;
 
@@ -49,6 +53,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> KNIGHT_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARCHER_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> NOBLE_MALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> NOBLE_MALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> COOK_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> BAKER_MALE;
@@ -88,19 +93,23 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> STUDENT_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> UNDERTAKER_MALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_MALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_MALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> MAGE_MALE;
 
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE_LOWER_EYES;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CITIZEN_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> SETTLER_FEMALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> SETTLER_FEMALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE_BIG_EYES;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE_LOWER_EYES;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> CHILD_FEMALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> COURIER_FEMALE;
 
@@ -108,6 +117,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> KNIGHT_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARCHER_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> NOBLE_FEMALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> NOBLE_FEMALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> COOK_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> BAKER_FEMALE;
@@ -147,6 +157,7 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> STUDENT_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> UNDERTAKER_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_FEMALE;
+    public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_FEMALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> MAGE_FEMALE;
 
@@ -170,6 +181,12 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
 
     static {
         DEFAULT_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        DEFAULT_MALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_male_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        SETTLER_MALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/settler_male_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        NOBLE_MALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/noble_male_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        ARISTOCRAT_MALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/aristocrat_male_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        CHILD_MALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_male_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+
         CITIZEN_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/citizen_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         meshMap.put(new Pair<>(false, ModModelTypes.SETTLER_ID), SETTLER_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/settler_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new)));
 
@@ -226,6 +243,12 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
 
         DEFAULT_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         DEFAULT_FEMALE_LOWER_EYES = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_female_lower_eyes", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+
+        DEFAULT_FEMALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_female_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        SETTLER_FEMALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/settler_female_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        NOBLE_FEMALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/noble_female_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        ARISTOCRAT_FEMALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/aristocrat_female_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
+        CHILD_FEMALE_FACELESS = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_female_faceless", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
 
         CITIZEN_FEMALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/citizen_female", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
         CHILD_FEMALE_BIG_EYES = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/child_female_big_eyes", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
