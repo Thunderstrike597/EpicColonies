@@ -42,7 +42,6 @@ public class EpicColoniesAnimations {
 
     public static AnimationManager.AnimationAccessor<MovementAnimation> CITIZEN_CLIMB;
 
-
     private static void build(AnimationManager.AnimationBuilder builder){
         CITIZEN_BLINK = builder.nextAccessor("citizen/living/citizen_blink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
         CHILD_BLINK = builder.nextAccessor("citizen/living/child_blink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
@@ -79,9 +78,9 @@ public class EpicColoniesAnimations {
                 return 1.0F;
             } else {
                 if(entitypatch instanceof CitizenEntityPatch<?> patch){
-                    double netY = patch.getOriginal().position().y - patch.getLastY(); // e.g. N = 4
+                    double netY = patch.getOriginal().position().y - patch.getLastY();
                     if (Math.abs(netY) < 0.03) {
-                        return 0.0F; // net-stationary over the window — blocked/idle
+                        return 0.0F;
                     }
 
                     return netY < 0.0 ? -1.0F : 1.0F;

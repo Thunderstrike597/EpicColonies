@@ -33,7 +33,7 @@ public class CommandCitizenModify {
         return dispatcher.register(build());
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> build() {
+    static LiteralArgumentBuilder<CommandSourceStack> build() {
         return Commands.literal("modifyAllFood")
                 .then(Commands.argument("colonyID", ColonyIdArgument.id())
                         .then(Commands.literal("saturation")
@@ -66,7 +66,7 @@ public class CommandCitizenModify {
             String value = valueProvider.apply(citizen);
             context.getSource().sendSuccess(() ->
                     Component.translatable("com.minecolonies.command.citizenmodify.success", type, citizen.getName(), value), true);
-            return 0;
+            return 1;
         });
     }
     static boolean checkPreCondition(CommandContext<CommandSourceStack> context) {
@@ -99,10 +99,9 @@ public class CommandCitizenModify {
 
             IColony colony = ColonyIdArgument.getColony(context, "colonyID");
             int result = 0;
-            for (int i = 0; i < colony.getCitizenManager().getMaxCitizens(); i++) {
-                ICitizenData citizenData = colony.getCitizenManager().getCivilian(i);
+            for (ICitizenData citizenData : colony.getCitizenManager().getCitizens()) {
                 if (citizenData != null) {
-                    result = action.applyAsInt(citizenData);
+                    result += action.applyAsInt(citizenData);
                 }
             }
             return result;

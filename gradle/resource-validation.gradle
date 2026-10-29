@@ -1,0 +1,94 @@
+import groovy.json.JsonSlurper
+
+tasks.register('verifyModResources') {
+    group = 'verification'
+    description = 'Checks JSON, item resources, recipes, animations and mesh references for Minecraft 1.21.1.'
+    inputs.files(sourceSets.main.resources)
+    inputs.dir('src/main/java')
+
+    doLast {
+        def json = new JsonSlurper()
+        def roots = sourceSets.main.resources.srcDirs
+        def findResource = { String path -> roots.collect { new File(it, path) }.find { it.isFile() } }
+        def requireResource = { String path ->
+            if (!findResource(path)) throw new GradleException("Missing resource: ${path}")
+        }
+        def parsed = [:]
+        roots.findAll { it.isDirectory() }.each { root ->
+            fileTree(root).matching { include '**/*.json', '**/pack.mcmeta', 'pack.mcmeta' }.each { resource ->
+                def path = root.toPath().relativize(resource.toPath()).toString().replace('\\', '/')
+                if (parsed.containsKey(path)) throw new GradleException("Duplicate resource: ${path}")
+                try {
+                    parsed[path] = json.parse(resource)
+                } catch (Exception e) {
+                    throw new GradleException("Invalid JSON in ${path}", e)
+                }
+                if (path.startsWith('data/') && path.contains('/recipes/')) {
+                    throw new GradleException("Minecraft 1.21.1 requires recipe/, not recipes/: ${path}")
+                }
+            }
+        }
+
+        if (parsed['pack.mcmeta']?.pack?.pack_format != 34) {
+            throw new GradleException('Minecraft 1.21.1 resource packs use pack_format 34')
+        }
+        def samuraiPack = 'resourcepacks/samurai_dynasty'
+        if (parsed["${samuraiPack}/pack.mcmeta"]?.pack?.pack_format != 48) {
+            throw new GradleException('Minecraft 1.21.1 compatibility data packs use pack_format 48')
+        }
+        ['odachi', 'odachi_netherite'].each { weapon ->
+            requireResource("${samuraiPack}/data/samurai_dynasty/capabilities/weapons/${weapon}.json")
+            if (findResource("data/samurai_dynasty/capabilities/weapons/${weapon}.json")) {
+                throw new GradleException('Optional Samurai Dynasty overrides must stay inside the conditional pack')
+            }
+        }
+        def itemsSource = file('src/main/java/net/kenji/epic_colonies/item/EpicColoniesItems.java').getText('UTF-8')
+        def items = (itemsSource =~ /ITEMS\.register\("([^"]+)"/).collect { it[1] }.toSet()
+        if (items.empty) throw new GradleException('No item registrations found for resource validation')
+        def lang = parsed["assets/${mod_id}/lang/en_us.json"]
+        items.each { item ->
+            def modelPath = "assets/${mod_id}/models/item/${item}.json"
+            requireResource(modelPath)
+            def model = parsed[modelPath]
+            if (model.loader != 'neoforge:separate_transforms' || !model.base || !model.perspectives) {
+                throw new GradleException("Invalid NeoForge separate transforms model: ${modelPath}")
+            }
+            model.perspectives.each { perspective, part ->
+                def texture = part.textures?.layer0
+                if (texture?.startsWith("${mod_id}:")) {
+                    requireResource("assets/${mod_id}/textures/${texture.split(':', 2)[1]}.png")
+                }
+            }
+            requireResource("assets/${mod_id}/item_skins/${item}.json")
+            requireResource("data/${mod_id}/capabilities/weapons/${item}.json")
+            def recipePath = "data/${mod_id}/recipe/${item}.json"
+            requireResource(recipePath)
+            def recipe = parsed[recipePath]
+            if (recipe.type != 'minecraft:crafting_shapeless' || recipe.result?.id != "${mod_id}:${item}"
+                    || recipe.result.containsKey('item') || recipe.result.count != 1
+                    || recipe.ingredients?.size() != 2) {
+                throw new GradleException("Invalid 1.21.1 dual weapon recipe: ${recipePath}")
+            }
+            if (!lang?.containsKey("item.${mod_id}.${item}".toString())) {
+                throw new GradleException("Missing English item name: ${item}")
+            }
+        }
+        def animationsSource = file('src/main/java/net/kenji/epic_colonies/gameasset/EpicColoniesAnimations.java').getText('UTF-8')
+        def animations = (animationsSource =~ /nextAccessor\("([^"]+)"/).collect { it[1] }
+        animations.each { requireResource("assets/${mod_id}/animmodels/animations/${it}.json") }
+        def meshesSource = file('src/main/java/net/kenji/epic_colonies/client/meshes/EpicColoniesMeshes.java').getText('UTF-8')
+        def meshes = (meshesSource =~ /MeshAccessor\.create\(EpicColonies\.MODID, "([^"]+)"/).collect { it[1] }
+        meshes.each { requireResource("assets/${mod_id}/animmodels/${it}.json") }
+        def mixins = parsed["${mod_id}.mixins.json"]
+        (mixins.mixins + mixins.client).each { name ->
+            def source = file("src/main/java/${mixins.package.replace('.', '/')}/${name}.java")
+            if (!source.isFile()) throw new GradleException("Missing mixin source: ${name}")
+            if (mixins.mixins.contains(name) && source.getText('UTF-8').contains('import net.minecraft.client.')) {
+                throw new GradleException("Client-only mixin declared for dedicated servers: ${name}")
+            }
+        }
+        logger.lifecycle("Validated ${parsed.size()} JSON resources, ${items.size()} items/recipes, ${animations.size()} animations and ${meshes.size()} mesh references.")
+    }
+}
+
+tasks.named('check').configure { dependsOn 'verifyModResources' }

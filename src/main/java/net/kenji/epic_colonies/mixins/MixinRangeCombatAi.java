@@ -59,7 +59,11 @@ public abstract class MixinRangeCombatAi {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void tryStopShoot(LivingEntity target, CallbackInfo ci) {
         if (mobSelf == null) return;
+        CitizenEntityPatch<?> citizenEntityPatch =
+                EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
+        if (citizenEntityPatch == null) return;
         ci.cancel();
+        if (!citizenEntityPatch.isWasUsingBow()) return;
 
         if (((EntityCitizen)this.mobSelf).distanceToSqr(target) < (double)7.0F) {
             if (((EntityCitizen)this.mobSelf).getRandom().nextInt(3) == 0 && !((AbstractBuildingGuards)((EntityCitizen)this.mobSelf).getCitizenData().getWorkBuilding()).getTask().equals("com.minecolonies.core.guard.setting.guard")) {
@@ -95,16 +99,9 @@ public abstract class MixinRangeCombatAi {
 
             arrow.setBaseDamage(damage);
             float chance = 15.0F / (float) (((EntityCitizen) this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
-            CitizenEntityPatch<?> citizenEntityPatch =
-                    EpicFightCapabilities.getEntityPatch(mobSelf, CitizenEntityPatch.class);
-
-            if(citizenEntityPatch != null) {
-                if (citizenEntityPatch.isWasUsingBow()) {
-                    CombatUtils.shootArrow(arrow, target, chance);
-                    ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                    citizenEntityPatch.setWasUsingBow(false);
-                }
-            }
+            CombatUtils.shootArrow(arrow, target, chance);
+            ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
         }
+        citizenEntityPatch.setWasUsingBow(false);
     }
 }

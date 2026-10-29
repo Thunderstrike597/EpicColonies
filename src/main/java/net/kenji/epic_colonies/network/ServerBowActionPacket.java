@@ -32,7 +32,6 @@ public record ServerBowActionPacket(UUID entityUuid, boolean wasUsingBow) implem
     public static final StreamCodec<RegistryFriendlyByteBuf, ServerBowActionPacket> STREAM_CODEC =
             StreamCodec.of(ServerBowActionPacket::encode, ServerBowActionPacket::decode);
 
-
     public static void encode(FriendlyByteBuf buf, ServerBowActionPacket packet) {
         buf.writeUUID(packet.entityUuid);
         buf.writeBoolean(packet.wasUsingBow);
@@ -41,7 +40,7 @@ public record ServerBowActionPacket(UUID entityUuid, boolean wasUsingBow) implem
     public static ServerBowActionPacket decode(FriendlyByteBuf buf) {
         UUID entityUuid = buf.readUUID();
         boolean wasUsingBow = buf.readBoolean();
-        return new ServerBowActionPacket(entityUuid, wasUsingBow); // Fixed - matches constructor
+        return new ServerBowActionPacket(entityUuid, wasUsingBow);
     }
 
     public static void handle(ServerBowActionPacket packet, IPayloadContext ctx) {

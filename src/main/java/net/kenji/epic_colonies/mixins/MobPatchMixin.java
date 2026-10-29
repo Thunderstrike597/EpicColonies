@@ -50,7 +50,7 @@ public class MobPatchMixin {
                     && patch.getCitizenPatchData().currentOptionalCompositeMotion != LivingMotions.NONE) {
                 patch.currentCompositeMotion = patch.getCitizenPatchData().currentOptionalCompositeMotion;
             } else {
-                patch.currentCompositeMotion = patch.currentLivingMotion; // always a safe, harmless composite key
+                patch.currentCompositeMotion = patch.currentLivingMotion;
             }
         }
     }

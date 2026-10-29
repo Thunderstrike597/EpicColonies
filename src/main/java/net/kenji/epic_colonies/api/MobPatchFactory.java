@@ -31,7 +31,6 @@ public class MobPatchFactory {
         public final RendererFactory rendererFactory;
         public final Function<? super Entity, ? extends EntityPatch<?>> mobPatch;
 
-        // And the constructor parameter:
         public MobPatchDefinitions(
                 EntityType<? extends LivingEntity> entityType,
                 Armatures.ArmatureAccessor<?> accessor,
@@ -94,7 +93,6 @@ public class MobPatchFactory {
                 (e) -> new MinecoloniesMonsterPatch<>((AbstractEntityMinecoloniesMonster) e),
                 (context, type) -> new NorsemanArcherPatchRenderer((EntityRendererProvider.Context) context, type)
         ));
-
 
         mobPatches.add(new MobPatchDefinitions(
                 ModEntities.NORSEMEN_CHIEF,
@@ -206,7 +204,6 @@ public class MobPatchFactory {
                 (e) -> new MinecoloniesMonsterPatch<>((AbstractEntityMinecoloniesMonster) e),
                 (context, type) -> new BarbarianPatchRenderer((EntityRendererProvider.Context) context, type)
         ));
-
 
         mobPatches.add(new MobPatchDefinitions(
                 ModEntities.ARCHERBARBARIAN,
