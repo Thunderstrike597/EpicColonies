@@ -15,11 +15,6 @@ import java.util.List;
 public abstract class CombatBehaviourBase {
     public static final List<CompatMobCombatBehaviours.WeaponMotionDetails> behaviourList = new ArrayList<>();
 
-
-    public static int DODGE_LEFT = 40;
-    public static int DODGE_RIGHT = 40;
-    public static int DODGE_BACK = 40;
-
     public enum AttackWeightType{
         SINGLE_X4,
         SINGLE_X3,

@@ -6,6 +6,7 @@ import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.api.inventory.InventoryCitizen;
 import com.minecolonies.core.entity.ai.combat.AttackMoveAI;
 import com.minecolonies.core.entity.citizen.EntityCitizen;
+import com.minecolonies.core.items.ItemChiefSword;
 import com.mojang.datafixers.util.Pair;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
@@ -214,6 +215,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
 
     @Override
     protected void setWeaponMotions() {
+        super.setWeaponMotions();
         super.setWeaponMotions();
 
         Map<WeaponCategory, Map<Style, Set<Pair<LivingMotion, AnimationManager.AnimationAccessor<? extends StaticAnimation>>>>> livingByCategory = new HashMap<>();

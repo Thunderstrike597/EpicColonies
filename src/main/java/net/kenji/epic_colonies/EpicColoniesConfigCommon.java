@@ -55,7 +55,7 @@ public class EpicColoniesConfigCommon {
         BUILDER.pop();
         BUILDER.push("Facial Features");
         DISABLE_3D_FACES = BUILDER
-                .comment("If true, citizens will no longer have 3D faces")
+                .comment("If true, citizens will no longer have 3D faces (This will help with custom texture packs where the faces are misaligned on the citizen 3D Faces)")
                 .define("Disable Citizen 3D Faces", false);
         DISABLE_BLINKING = BUILDER
                 .comment("If true, citizens will no longer blink")
