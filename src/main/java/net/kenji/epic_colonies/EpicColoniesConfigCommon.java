@@ -9,7 +9,6 @@ public class EpicColoniesConfigCommon {
     public static ForgeConfigSpec.ConfigValue<Integer> MINE_COUNTER;
     public static ForgeConfigSpec.ConfigValue<Boolean> UNBREAKABLE_TOOLS_FIX;
     public static ForgeConfigSpec.ConfigValue<Boolean> ARCHER_DAGGER_MELEE;
-    public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_3D_FACES;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_BLINKING;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_HAPPINESS_FACIAL_FEATURES;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_EYES_FOLLOW;
@@ -50,10 +49,7 @@ public class EpicColoniesConfigCommon {
                 .define("Archer Dagger Melee", false);
 
         BUILDER.pop();
-        BUILDER.push("Facial Features");
-        DISABLE_3D_FACES = BUILDER
-                .comment("If true, citizens will no longer have 3D faces (This will help with custom texture packs where the faces are misaligned on the citizen 3D Faces)")
-                .define("Disable Citizen 3D Faces", false);
+        BUILDER.push("Animated Facial Features");
 
         DISABLE_BLINKING = BUILDER
                 .comment("If true, citizens will no longer blink")
