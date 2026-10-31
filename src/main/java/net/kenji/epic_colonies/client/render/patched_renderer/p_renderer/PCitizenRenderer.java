@@ -70,11 +70,11 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
 
 
     public AssetAccessor<EpicColoniesMesh> getCitizenMesh(CitizenEntityPatch<?> patch, AbstractEntityCitizen citizen, boolean isMale) {
-        Meshes.MeshAccessor<EpicColoniesMesh> defaultMesh = isMale ? EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.DEFAULT_MALE_FACELESS : EpicColoniesMeshes.DEFAULT_MALE : EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.DEFAULT_FEMALE_FACELESS : EpicColoniesMeshes.DEFAULT_FEMALE;
-        Meshes.MeshAccessor<EpicColoniesMesh> childMesh = isMale ? EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.CHILD_MALE_FACELESS : EpicColoniesMeshes.CHILD_MALE : EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.CHILD_FEMALE_FACELESS : EpicColoniesMeshes.CHILD_FEMALE;
-        Meshes.MeshAccessor<EpicColoniesMesh> settlerMesh = isMale ? EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.SETTLER_MALE_FACELESS : EpicColoniesMeshes.SETTLER_MALE : EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.SETTLER_FEMALE_FACELESS : EpicColoniesMeshes.SETTLER_FEMALE;
-        Meshes.MeshAccessor<EpicColoniesMesh> nobleMesh = isMale ? EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.NOBLE_MALE_FACELESS : EpicColoniesMeshes.NOBLE_MALE : EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.NOBLE_FEMALE_FACELESS : EpicColoniesMeshes.NOBLE_FEMALE;
-        Meshes.MeshAccessor<EpicColoniesMesh> aristocratMesh = isMale ? EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.ARISTOCRAT_MALE_FACELESS : EpicColoniesMeshes.ARISTOCRAT_MALE : EpicColoniesConfigCommon.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.ARISTOCRAT_FEMALE_FACELESS : EpicColoniesMeshes.ARISTOCRAT_FEMALE;
+        Meshes.MeshAccessor<EpicColoniesMesh> defaultMesh = isMale ? EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.DEFAULT_MALE_FACELESS : EpicColoniesMeshes.DEFAULT_MALE : EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.DEFAULT_FEMALE_FACELESS : EpicColoniesMeshes.DEFAULT_FEMALE;
+        Meshes.MeshAccessor<EpicColoniesMesh> childMesh = isMale ? EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.CHILD_MALE_FACELESS : EpicColoniesMeshes.CHILD_MALE : EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.CHILD_FEMALE_FACELESS : EpicColoniesMeshes.CHILD_FEMALE;
+        Meshes.MeshAccessor<EpicColoniesMesh> settlerMesh = isMale ? EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.SETTLER_MALE_FACELESS : EpicColoniesMeshes.SETTLER_MALE : EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.SETTLER_FEMALE_FACELESS : EpicColoniesMeshes.SETTLER_FEMALE;
+        Meshes.MeshAccessor<EpicColoniesMesh> nobleMesh = isMale ? EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.NOBLE_MALE_FACELESS : EpicColoniesMeshes.NOBLE_MALE : EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.NOBLE_FEMALE_FACELESS : EpicColoniesMeshes.NOBLE_FEMALE;
+        Meshes.MeshAccessor<EpicColoniesMesh> aristocratMesh = isMale ? EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.ARISTOCRAT_MALE_FACELESS : EpicColoniesMeshes.ARISTOCRAT_MALE : EpicColoniesConfigClient.DISABLE_3D_FACES.get() ? EpicColoniesMeshes.ARISTOCRAT_FEMALE_FACELESS : EpicColoniesMeshes.ARISTOCRAT_FEMALE;
 
         Boolean isChild = null;
         JobEntry jobEntry = null;
@@ -129,7 +129,7 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
             }
         }
         if(dataAvailable) {
-            if (CitizenEntityPatch.getMeshFromTexture(citizen, isChild) != null && !EpicColoniesConfigCommon.DISABLE_3D_FACES.get()) {
+            if (CitizenEntityPatch.getMeshFromTexture(citizen, isChild) != null && !EpicColoniesConfigClient.DISABLE_3D_FACES.get()) {
                 return CitizenEntityPatch.getMeshFromTexture(citizen, isChild);
             }
             if (isChild) {
@@ -149,7 +149,7 @@ public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntity
                     ResourceLocation loc = originalRenderer == null ? citizen.getTexture() : originalRenderer.getTextureLocation(citizen);
                     int getFaceOffset = FaceOffsetDetector.getFaceOffset(loc);
 
-                    if (getFaceOffset == 0 || !citizen.isFemale() || !EpicColoniesConfigClient.USE_CITIZEN_SKIN_DETECTION.get() || EpicColoniesConfigCommon.DISABLE_3D_FACES.get()) {
+                    if (getFaceOffset == 0 || !citizen.isFemale() || !EpicColoniesConfigClient.USE_CITIZEN_SKIN_DETECTION.get() || EpicColoniesConfigClient.DISABLE_3D_FACES.get()) {
                         patch.setCurrentCitizenArmatureFromArmatureType(CitizenArmatureTypes.REGULAR);
                         return defaultMesh;
                     } else {

@@ -19,6 +19,7 @@ public class EpicColoniesConfigClient {
     public static ModConfigSpec.ConfigValue<List<? extends String>> VISIBLE_ARMOR_JOBS;
     public static ModConfigSpec.ConfigValue<Double> JOG_PLAYBACK_SPEED_MIN;
     public static ModConfigSpec.ConfigValue<Double> JOG_PLAYBACK_SPEED_MAX;
+    public static ModConfigSpec.ConfigValue<Boolean> DISABLE_3D_FACES;
 
 
    private static List<ResourceLocation> defaultArmorJobsLoc = new ArrayList<>();
@@ -37,6 +38,9 @@ public class EpicColoniesConfigClient {
 
     static {
         BUILDER.push("Cosmetic");
+        DISABLE_3D_FACES = BUILDER
+                .comment("If true, citizens will no longer have 3D faces (This will help with custom texture packs where the faces are misaligned on the citizen 3D Faces)")
+                .define("Disable Citizen 3D Faces", false);
 
         USE_CITIZEN_SKIN_DETECTION = BUILDER
                 .comment("Should Citizens Use The Skin Detection For Citizens With Lower Eye Textures (Such as some which are part of MineColonies 'Patreon Exclusive' Packs)")

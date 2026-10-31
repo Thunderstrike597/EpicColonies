@@ -13,7 +13,6 @@ public class EpicColoniesConfigCommon {
     public static ModConfigSpec.ConfigValue<Boolean> DISABLE_BLINKING;
     public static ModConfigSpec.ConfigValue<Boolean> DISABLE_HAPPINESS_FACIAL_FEATURES;
     public static ModConfigSpec.ConfigValue<Boolean> DISABLE_EYES_FOLLOW;
-    public static ModConfigSpec.ConfigValue<Boolean> DISABLE_3D_FACES;
 
 
     public static ModConfigSpec.ConfigValue<Integer> SINGLE_ATTACK_WEIGHT_X4;
@@ -53,10 +52,7 @@ public class EpicColoniesConfigCommon {
                 .define("Archer Dagger Melee", false);
 
         BUILDER.pop();
-        BUILDER.push("Facial Features");
-        DISABLE_3D_FACES = BUILDER
-                .comment("If true, citizens will no longer have 3D faces (This will help with custom texture packs where the faces are misaligned on the citizen 3D Faces)")
-                .define("Disable Citizen 3D Faces", false);
+        BUILDER.push("Animated Facial Features");
         DISABLE_BLINKING = BUILDER
                 .comment("If true, citizens will no longer blink")
                 .define("Disable Citizen Blinking", false);
