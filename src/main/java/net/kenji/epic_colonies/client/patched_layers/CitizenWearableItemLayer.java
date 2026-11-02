@@ -90,9 +90,8 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
                 .getOrDefault(slot, true);
     }
 
-
     public CitizenWearableItemLayer(AssetAccessor<AM> meshProvider, boolean firstPersonModel, ModelManager modelManager) {
-        super(meshProvider, false, modelManager); // always false — we handle full body
+        super(meshProvider, false, modelManager);
         this.firstPersonModel = firstPersonModel;
         this.armorTrimAtlas = modelManager.getAtlas(Sheets.ARMOR_TRIMS_SHEET);
         validRenderEntries.add(ModJobs.knight.get());
@@ -139,7 +138,6 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
                 shouldRenderArmorMap
                         .computeIfAbsent(entityliving.getUUID(), id -> new EnumMap<>(EquipmentSlot.class))
                         .put(slot, true);
-
 
                 boolean firstPersonChest = false;
                 if (entitypatch.isFirstPerson() && this.firstPersonModel) {
@@ -233,7 +231,6 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
                             int packedColor = extensions.getArmorLayerTintColor(itemstack, entityliving, layer, layerIdx, fallbackColor);
                             if (packedColor != 0) {
                                 Vector4f color = ColorUtil.unpackToARGBF(packedColor);
-
 
                                 ResourceLocation texture = (ResourceLocation) ParseUtil.tryGetOr(() -> armorMesh.getRenderProperties().customTexturePath(), () -> ClientHooks.getArmorTexture(entityliving, itemstack, layer, innerModel, slot));
                                 if(ModList.get().isLoaded("geckolib")){
@@ -342,6 +339,5 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
             return skinnedMesh;
         }
     }
-
 
 }

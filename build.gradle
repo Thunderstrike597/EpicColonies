@@ -16,7 +16,6 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
-// -------------------- Runs --------------------
 runs {
     configureEach {
         workingDirectory project.file("run")
@@ -25,11 +24,9 @@ runs {
         systemProperties 'forge.logging.markers': 'REGISTRIES',
                 'forge.logging.console.level': 'debug'
 
-        // Tell Mixin where the config is
         systemProperty 'mixin.config', "${mod_id}.mixins.json"
     }
 
-    // Name matches the run type — NeoGradle auto-configures it
     client {
         systemProperty 'forge.enabledGameTestNamespaces', mod_id
     }
@@ -52,13 +49,8 @@ runs {
     }
 }
 
-// -------------------- Mixin --------------------
-
-
-// -------------------- Sources --------------------
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-// -------------------- Repositories --------------------
 repositories {
     mavenLocal()
     maven {
@@ -90,76 +82,43 @@ repositories {
 configurations {
     minecoloniesNew
 }
-// -------------------- Dependencies --------------------
+
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-    // ---------------- Performance ----------------
-    // Embeddium (NeoForge-native Sodium/Rubidium fork) - 1.0.15, 1.21.1
-    implementation "curse.maven:embeddium-908741:6118392"
 
-    // Oculus never got a NeoForge port and has no 1.21.1 build at all.
-    // If you want shaders back, the community fork "NeOculus" targets NeoForge 1.21+:
-    // implementation "curse.maven:neoculus-XXXXXX:XXXXXXX" // look up its project id if you want it
+    implementation "curse.maven:embeddium-908741:6118392"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    // ---------------- JEI / JER ----------------
-    // JEI on NeoForge does not need fg.deobf() - it ships with official (Mojang) mappings directly.
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
-    // Just Enough Resources (JER) - 1.6.0.13, 1.21.1 NeoForge
     implementation "curse.maven:just-enough-resources-jer-240630:6190140"
 
-    // Patchouli - 92, 1.21.1 NeoForge
     implementation "curse.maven:patchouli-306770:6842247"
 
-    // ---------------- MineColonies stack ----------------
-    // BlockUI - 1.0.211-1.21.1-snapshot
     implementation "curse.maven:blockui-522992:7790469"
-    // Domum Ornamentum - 1.0.228 release, 1.21.1
+
     implementation "curse.maven:domum-ornamentum-527361:7585527"
-    // Multi Piston - 1.2.58, 1.21.1
+
     implementation "curse.maven:multi-piston-303278:7097877"
-    // Structurize - 1.0.805, 1.21.1
+
     implementation "curse.maven:structurize-298744:8398574"
-    // TownTalk - 1.2.0, 1.21.1 NeoForge (only NeoForge release, still current)
+
     implementation "curse.maven:towntalk-900364:5653504"
-    // Older MineColonies (runtime + compile)
+
     compileOnly "curse.maven:minecolonies-245506:7550841"
 
-    // Newer MineColonies (compile only, resolved separately)
     minecoloniesNew "curse.maven:minecolonies-new-245506:8480342"
     implementation files(configurations.minecoloniesNew)
 
-
-    // ---------------- Epic Fight stack ----------------
-    // Epic Fight - 21.16.4, mc1.21.1-neoforge
     implementation "curse.maven:epic-fight-mod-405076:8175609"
-
-
-
 
     implementation "curse.maven:epicfight-extra-1434276:8681592"
     compileOnly "curse.maven:epicfight-nightfall-1307848:8573921"
     compileOnly "curse.maven:epic-fight-avalon-1268823:7420442"
     implementation "curse.maven:epic-fight-invincible-1184379:8390375"
-    // EpicFight: Resurrection is Forge-only (capped at 1.20.1 / 1.18.2) - no NeoForge build exists.
-    // implementation "curse.maven:epicfight-resurrection-1151542:XXXXXXX"
-    // Its crash-fix companion mod is likewise Forge-only for the same reason.
-    // implementation "curse.maven:epicfight-resurrection-crash-fix-1520550:XXXXXXX"
-
-    // Weapons of Miracles - Epic Fight is still Forge/1.20.1-only as of its latest release; no NeoForge port.
-    // implementation "curse.maven:weapons-of-miracles-epicfight-918614:XXXXXXX"
-
-    // Samurai Dynasty: CurseForge only has a 1.20.1 NeoForge beta. A 1.21.1 NeoForge build exists
-    // on Modrinth (epic-samurais 0.1.1-1.21.1) but was never published to CurseForge, so there's
-    // no curse.maven coordinate for it. Pull it from Modrinth's maven if you need it back.
-    // implementation "curse.maven:samurai-dynasty-848381:XXXXXXX"
-
-    //implementation "curse.maven:azurelib-817423:6747999"       // AzureLib - 3.0.21, 1.21.1 NeoForge
-
 
     implementation "curse.maven:geckolib-388172:8893490"
     implementation "curse.maven:curios-309927:6529130"
@@ -169,35 +128,27 @@ dependencies {
 
     implementation "curse.maven:minecolonies-mages-ironspells-integration-1506482:8441293"
 
-
     compileOnly "curse.maven:fantasy-armor-1083998:7850813"
 
-    implementation "curse.maven:curios-309927:6529130"         // Curios API - 9.5.1, 1.21.1
+    implementation "curse.maven:curios-309927:6529130"
 
-    implementation "curse.maven:packet-fixer-689467:7221528"   // Packet Fixer - 3.3.1 (merged jar covers 1.21.1)
+    implementation "curse.maven:packet-fixer-689467:7221528"
 
-    // ---------------- Client-only extras ----------------
     if (!gradle.startParameter.taskNames.any { it.toLowerCase().contains('runserver') }) {
-        // Smooth Camera Movement has no NeoForge build at all (Forge 1.20.1 / Fabric only).
-        // implementation "curse.maven:smooth-camera-movement-1241658:XXXXXXX"
 
-        // Architectury API - v13.0.8, NeoForge 1.21(.1)
         implementation "curse.maven:architectury-api-419699:5786327"
 
-        // AmbientSounds 6 - v6.2.1, mc1.21.1 NeoForge
         implementation "curse.maven:ambientsounds-254284:6978999"
-        // CreativeCore - v2.13.41, mc1.21.1 NeoForge
+
         implementation "curse.maven:creativecore-257814:8190065"
 
-        // Particle Rain - v4-beta.6, 1.21.1-neoforge
         implementation "curse.maven:particle-rain-421897:7725886"
     }
 
-    implementation "curse.maven:betterdays-895618:7294209"     // Better Days - 1.21.1-3.3.6.2, NeoForge
-    implementation "curse.maven:configured-457570:7276577"     // Configured - 2.6.3, 1.21.1 NeoForge
+    implementation "curse.maven:betterdays-895618:7294209"
+    implementation "curse.maven:configured-457570:7276577"
 }
 
-// -------------------- Resources --------------------
 tasks.named('processResources', ProcessResources).configure {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
@@ -222,12 +173,10 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
-// -------------------- Java --------------------
 java {
     withSourcesJar()
 }
 
-// -------------------- Jar --------------------
 tasks.named('jar', Jar).configure {
     archiveBaseName = "${mod_jar_display_name}-${epic_fight_version}"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -244,7 +193,6 @@ tasks.named('jar', Jar).configure {
     }
 }
 
-// -------------------- Publishing --------------------
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -267,7 +215,8 @@ tasks.withType(GenerateModuleMetadata).configureEach {
     enabled = false
 }
 
-// -------------------- Compiler --------------------
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+apply from: 'gradle/resource-validation.gradle'

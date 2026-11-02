@@ -3,14 +3,14 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "epicfight:netherite_dagger"
+      "item": "minecraft:netherite_sword"
     },
     {
-      "item": "epicfight:netherite_dagger"
+      "item": "minecraft:netherite_sword"
     }
   ],
   "result": {
-    "item": "epic_colonies:netherite_dual_daggers",
+    "id": "epic_colonies:netherite_dual_swords",
     "count": 1
   }
 }

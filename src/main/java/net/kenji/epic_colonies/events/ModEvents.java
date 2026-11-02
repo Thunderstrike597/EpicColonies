@@ -9,20 +9,36 @@ import net.kenji.epic_colonies.gameasset.EpicColoniesArmatures;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import yesman.epicfight.api.event.types.registry.EntityPatchRegistryEvent;
 import yesman.epicfight.gameasset.Armatures;
 
 @EventBusSubscriber(modid = EpicColonies.MODID)
 public class ModEvents {
+
+    @SubscribeEvent
+    public static void addCompatibilityPacks(AddPackFindersEvent event) {
+        if (EpicColonies.isLoaded("samurai_dynasty")) {
+            event.addPackFinders(EpicColonies.identifier("resourcepacks/samurai_dynasty"),
+                    PackType.SERVER_DATA, Component.literal("Epic Colonies: Samurai Dynasty compatibility"),
+                    PackSource.BUILT_IN, true, Pack.Position.TOP);
+        }
+    }
 
     public static void registerPatchedEntities(EntityPatchRegistryEvent event) {
         MobPatchFactory.registerPatchedEntities(event);
@@ -42,7 +58,9 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void loadComplete(FMLLoadCompleteEvent event) {
-        event.enqueueWork(EpicColoniesMeshes::buildJobMeshMaps);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            event.enqueueWork(EpicColoniesMeshes::buildJobMeshMaps);
+        }
         event.enqueueWork(EpicColonies::initWeaponMotions);
     }
     @SubscribeEvent

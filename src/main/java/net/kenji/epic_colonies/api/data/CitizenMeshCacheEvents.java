@@ -23,9 +23,9 @@ public class CitizenMeshCacheEvents {
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        if (++saveTimer >= 600) { // every 30s at 20 tps
+        if (++saveTimer >= 600) {
             saveTimer = 0;
-            CitizenMeshCache.save(); // no-op if not dirty
+            CitizenMeshCache.save();
         }
     }
 }

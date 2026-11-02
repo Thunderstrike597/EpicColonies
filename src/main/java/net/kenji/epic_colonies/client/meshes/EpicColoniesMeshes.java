@@ -33,7 +33,6 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static Map<Pair<Boolean, ResourceLocation>, Meshes.MeshAccessor<EpicColoniesMesh>> meshMap = new HashMap<>();
     public static Map<Pair<Boolean, ResourceLocation>, Meshes.MeshAccessor<EpicColoniesMesh>> defaultMeshMap = new HashMap<>();
 
-
     public static List<ResourceLocation> bigEyeTextures = new ArrayList<>();
     public static List<ResourceLocation> lowerEyeTextures = new ArrayList<>();
 
@@ -96,7 +95,6 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> ARISTOCRAT_MALE_FACELESS;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> MAGE_MALE;
-
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> DEFAULT_FEMALE_LOWER_EYES;
@@ -161,7 +159,6 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> MAGE_FEMALE;
 
-
     public static final Meshes.MeshAccessor<EpicColoniesMesh> NORSEMAN_ARCHER;
     public static final Meshes.MeshAccessor<EpicColoniesMesh> NORSEMAN_CHIEF;
 
@@ -177,7 +174,6 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
     public static final Meshes.MeshAccessor<EpicColoniesMesh> HUMANOID_RAIDER;
 
     public static final Meshes.MeshAccessor<EpicColoniesMesh> MERCENARY;
-
 
     static {
         DEFAULT_MALE = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/citizen/default_male", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
@@ -321,52 +317,22 @@ public class EpicColoniesMeshes implements PreparableReloadListener {
 
         HUMANOID_RAIDER = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/raider/barbarian", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
 
-
         MERCENARY = Meshes.MeshAccessor.create(EpicColonies.MODID, "entity/other/mercenary", (jsonModelLoader) -> (EpicColoniesMesh) jsonModelLoader.loadSkinnedMesh(EpicColoniesMesh::new));
 
     }
 
-
-    /**
-     * Must be called AFTER RegisterEvent<JobEntry> has fired (e.g. in FMLClientSetupEvent),
-     * not from the static initializer — RegistryObjects aren't bound yet at class-load time.
-     */
     public static void buildJobMeshMaps() {
 
-
-
-        /// ARISTOCRAT MISSING FOR NOW
         bigEyeTextures = getTexturesFromJson("child_bigeyes");
         lowerEyeTextures = getTexturesFromJson("child_lowereyes");
     }
     public static List<ResourceLocation> getTexturesFromJson(String fileName) {
-        List<ResourceLocation> locations = new ArrayList<>();
-        String path = "data/" + EpicColonies.MODID + "/texture_data/" + fileName + ".json";
-
-        try (InputStream is = EpicColonies.class.getClassLoader().getResourceAsStream(path)) {
-            if (is == null) {
-                throw new RuntimeException("Could not find texture data file: " + path);
-            }
-
-            try (InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
-                JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
-                JsonArray textures = json.getAsJsonArray("valid_textures");
-
-                for (JsonElement element : textures) {
-                    String texturePath = element.getAsJsonObject().get("texture").getAsString();
-                    locations.add(ResourceLocation.fromNamespaceAndPath(
-                            "minecolonies", "textures/entity/citizen/" + texturePath
-                    ));
-                }
-            }
-        } catch (IOException e) {
-            EpicColonies.LOGGER.error("Failed to load texture data: {}", path, e);
-        }
-
-        return locations;
+        return net.kenji.epic_colonies.api.data.CitizenTextureData.load(fileName);
     }
     @Override
     public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller profilerFiller, ProfilerFiller profilerFiller1, Executor executor, Executor executor1) {
-        return null;
+        return CompletableFuture.completedFuture(null)
+                .thenCompose(preparationBarrier::wait)
+                .thenRunAsync(EpicColoniesMeshes::buildJobMeshMaps, executor1);
     }
 }

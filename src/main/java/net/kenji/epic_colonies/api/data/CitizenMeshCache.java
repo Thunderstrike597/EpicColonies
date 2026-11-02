@@ -2,6 +2,7 @@ package net.kenji.epic_colonies.api.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.minecolonies.api.colony.jobs.registry.IJobRegistry;
 import com.minecolonies.api.colony.jobs.registry.JobEntry;
@@ -30,21 +31,24 @@ public final class CitizenMeshCache {
 
     public record Entry(boolean isChild, @Nullable String jobId, @Nullable String skinTextureId) {}
 
-    /** Call on world/server join, before any citizens render. */
     public static void load() {
         CACHE.clear();
+        dirty = false;
         if (!Files.exists(CACHE_FILE)) return;
 
         try (Reader reader = Files.newBufferedReader(CACHE_FILE)) {
             Type type = new TypeToken<Map<UUID, Entry>>() {}.getType();
             Map<UUID, Entry> loaded = GSON.fromJson(reader, type);
-            if (loaded != null) CACHE.putAll(loaded);
-        } catch (IOException e) {
+            if (loaded != null) {
+                loaded.forEach((id, entry) -> {
+                    if (id != null && entry != null) CACHE.put(id, entry);
+                });
+            }
+        } catch (IOException | JsonParseException e) {
             EpicColonies.LOGGER.warn("Failed to load citizen mesh cache", e);
         }
     }
 
-    /** Call on disconnect and periodically (e.g. every 30s) - never every frame. */
     public static void save() {
         if (!dirty) return;
 
@@ -64,7 +68,6 @@ public final class CitizenMeshCache {
         Entry entry = new Entry(isChild, jobId, textureId);
         Entry old = CACHE.put(citizenId, entry);
 
-
         if (!entry.equals(old)) {
             dirty = true;
         }
@@ -78,23 +81,21 @@ public final class CitizenMeshCache {
     @Nullable
     public static JobEntry resolveJob(@Nullable String jobId) {
         if (jobId == null) return null;
-        // Swap this for whatever MineColonies actually exposes, e.g.
-        // MinecoloniesAPIProxy.getInstance().getJobRegistry().getValue(new ResourceLocation(jobId));
-        return IJobRegistry.getInstance().get(ResourceLocation.fromNamespaceAndPath("minecolonies", jobId));
+        ResourceLocation id = ResourceLocation.tryParse(jobId.contains(":") ? jobId : "minecolonies:" + jobId);
+        return id == null ? null : IJobRegistry.getInstance().get(id);
     }
     @Nullable
     public static ResourceLocation resolveTextLocation(@Nullable String jobId) {
         if (!isValidTexture(jobId)) return null;
-        // Swap this for whatever MineColonies actually exposes, e.g.
-        // MinecoloniesAPIProxy.getInstance().getJobRegistry().getValue(new ResourceLocation(jobId));
-        return ResourceLocation.parse(jobId);
+        return ResourceLocation.tryParse(jobId);
     }
 
     public static boolean isValidTexture(@Nullable String textureStr) {
         return textureStr != null
-                && textureStr.contains(":")           // rules out bare "0" (no namespace separator)
-                && !textureStr.endsWith(":0")          // rules out "minecraft:0" specifically
+                && textureStr.contains(":")
+                && !textureStr.endsWith(":0")
                 && !textureStr.equals("minecraft:0")
+                && ResourceLocation.tryParse(textureStr) != null
                 && !textureStr.contains("minecraft")  ;
     }
 }

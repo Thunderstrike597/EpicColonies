@@ -29,13 +29,11 @@ import yesman.epicfight.api.client.event.EpicFightClientEventHooks;
 import yesman.epicfight.api.event.EpicFightEventHooks;
 import yesman.epicfight.api.event.types.registry.WeaponCapabilityPresetRegistryEvent;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(EpicColonies.MODID)
 public class EpicColonies {
 
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "epic_colonies";
-    // Directly reference a slf4j logger
+
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static boolean isLoaded(String name){
@@ -66,7 +64,6 @@ public class EpicColonies {
 
     public EpicColonies(ModContainer container) {
         IEventBus modEventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
-        // Register the commonSetup method for modloading
 
         EpicColoniesItems.register(modEventBus);
         EpicColoniesTab.register(modEventBus);
@@ -76,19 +73,17 @@ public class EpicColonies {
         modEventBus.addListener(ModEvents::commonSetup);
         modEventBus.addListener(this::commonSetup);
 
-        // Register ourselves for server and other game events we are interested in
         LivingMotions.ENUM_MANAGER.registerEnumCls(MODID, EpicColoniesLivingMotions.class);
         if (FMLEnvironment.dist == Dist.CLIENT) {
             EpicFightClientEventHooks.Registry.ADD_PATCHED_ENTITY.registerEvent(EpicFightClientEvents::registerPatchedEntityRenderers);
 
-            EpicFightEventHooks.Registry.WEAPON_CAPABILITY_PRESET.registerEvent(EpicColonies::registerWeaponType);
             EpicFightClientEventHooks.Registry.PATCHED_ITEM.registerEvent(EpicFightClientEvents::registerItemRenderer);
-        }        EpicFightEventHooks.Registry.ENTITY_PATCH.registerEvent(ModEvents::registerPatchedEntities);
-
+        }
+        EpicFightEventHooks.Registry.WEAPON_CAPABILITY_PRESET.registerEvent(EpicColonies::registerWeaponType);
+        EpicFightEventHooks.Registry.ENTITY_PATCH.registerEvent(ModEvents::registerPatchedEntities);
 
         container.registerConfig(ModConfig.Type.CLIENT, EpicColoniesConfigClient.SPEC, "EpicColonies-Client.toml");
         container.registerConfig(ModConfig.Type.COMMON, EpicColoniesConfigCommon.SPEC, "EpicColonies-Common.toml");
-
 
     }
     public static void registerWeaponType(WeaponCapabilityPresetRegistryEvent event) {
@@ -100,10 +95,10 @@ public class EpicColonies {
         CompatMobCombatBehaviours.initEpicFightWeaponMotions();
 
         if(ModList.get().isLoaded("wom")){
-            //WomCombatBehaviours.init();
+
         }
         if(ModList.get().isLoaded("cdmoveset")){
-            //CdMovesetCombatBehaviours.init();
+
         }
         if(ModList.get().isLoaded("epicfightx") && ModList.get().isLoaded("efn")){
             EpicFightXCombatBehaviours.init();

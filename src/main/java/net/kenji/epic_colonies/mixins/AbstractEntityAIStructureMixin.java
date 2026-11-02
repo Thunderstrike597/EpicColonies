@@ -33,7 +33,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
     @Shadow
     protected BlockPos blockToMine;
 
-
     @Shadow
     public abstract AbstractEntityCitizen getWorker();
 
@@ -42,8 +41,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
 
     @Unique
     private int epicColonies$stuckMiningTicks = 0;
-
-
 
     @Redirect(
             method = "structureStep",
@@ -57,7 +54,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
             StructurePlacer.Operation operation, Supplier<AbstractBlueprintIterator.Result> iterate,
             boolean includeEntities) {
 
-        // run the original call
         StructurePhasePlacementResult result = instance.executeStructureStep(world, storage, pos, operation, iterate, includeEntities);
 
         if (result != null && result.getBlockResult() != null) {
@@ -69,7 +65,7 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
                 }
             }
         }
-        return result; // must return it so the original code keeps working
+        return result;
     }
 
     @Inject(method = "doMining", at = @At("HEAD"), cancellable = true)
@@ -78,7 +74,6 @@ public abstract class AbstractEntityAIStructureMixin<J extends AbstractJob<?, J>
         if (this.blockToMine == null) {
             epicColonies$stuckMiningTicks = 0;
             if(cir.getReturnValue() != null && cir.getReturnValue() == AIWorkerState.MINE_BLOCK){
-
 
             }
             return;

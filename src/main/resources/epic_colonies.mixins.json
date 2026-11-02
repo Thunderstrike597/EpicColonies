@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.kenji.epic_colonies.mixins",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_21",
   "refmap": "epic_colonies.refmap.json",
   "plugin": "net.kenji.epic_colonies.CompatMixinPlugin",
   "mixins": [
@@ -15,15 +15,15 @@
     "EntityAiVisitorMixin",
     "LivingEntityAccessor",
     "AbstractEntityAiStructureAccessor",
-    "AccessorHumanoidArmorLayer",
-    "AccessorLivingEntityRenderer",
-    "AccessorWearableItemLayer",
     "AccessorAbstractArrow",
     "AbstractEntityAIStructureMixin",
     "MixinAbstractEntityAiStructure",
     "ModEquipmentTypesMixin"
   ],
   "client": [
+    "AccessorHumanoidArmorLayer",
+    "AccessorLivingEntityRenderer",
+    "AccessorWearableItemLayer",
     "RenderBipedCitizenMixin"
   ],
   "injectors": {

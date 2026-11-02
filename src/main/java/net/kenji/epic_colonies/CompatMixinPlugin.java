@@ -10,15 +10,12 @@ import java.util.Set;
 
 public class CompatMixinPlugin implements IMixinConfigPlugin {
 
-
-
     @Override
     public List<String> getMixins() {
         List<String> mixins = new ArrayList<>();
 
         return mixins;
     }
-
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
@@ -35,7 +32,6 @@ public class CompatMixinPlugin implements IMixinConfigPlugin {
         return true;
     }
 
-    // unused methods:
     @Override public void onLoad(String mixinPackage) {}
     @Override public String getRefMapperConfig() { return null; }
     @Override public void acceptTargets(Set<String> a, Set<String> b) {}

@@ -71,6 +71,7 @@ public abstract class MixinRangerCombatAi {
         }
 
         ci.cancel();
+        if (!citizenEntityPatch.isWasUsingBow()) return;
         if (((EntityCitizen) this.mobSelf).distanceToSqr(target) < (double) 7.0F) {
             if (((EntityCitizen) this.mobSelf).getRandom().nextInt(3) == 0 && !((AbstractBuildingGuards) ((EntityCitizen) this.mobSelf).getCitizenData().getWorkBuilding()).getTask().equals("com.minecolonies.core.guard.setting.guard")) {
                 EntityNavigationUtils.walkAwayFrom((AbstractFastMinecoloniesEntity) this.mobSelf, target.blockPosition(), (int) (this.getAttackDistance() / (double) 2.0F), this.getCombatMovementSpeed());
@@ -102,11 +103,9 @@ public abstract class MixinRangerCombatAi {
             arrow.setBaseDamage(damage);
             float chance = 15.0F / (float) (((EntityCitizen) this.mobSelf).getCitizenData().getCitizenSkillHandler().getLevel(Skill.Adaptability) + 1);
 
-            if (citizenEntityPatch.isWasUsingBow()) {
-                CombatUtils.shootArrow(arrow, target, chance);
-                ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
-                citizenEntityPatch.setWasUsingBow(false);
-            }
+            CombatUtils.shootArrow(arrow, target, chance);
+            ((EntityCitizen) this.mobSelf).playSound(SoundEvents.SKELETON_SHOOT, 1.0F, (float) SoundUtils.getRandomPitch(((EntityCitizen) this.mobSelf).getRandom()));
         }
+        citizenEntityPatch.setWasUsingBow(false);
     }
 }

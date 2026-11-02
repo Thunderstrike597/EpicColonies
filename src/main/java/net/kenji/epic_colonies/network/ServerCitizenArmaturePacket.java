@@ -34,7 +34,7 @@ public record ServerCitizenArmaturePacket(UUID entityUuid, CitizenArmatureTypes 
     public static ServerCitizenArmaturePacket decode(FriendlyByteBuf buf) {
         UUID entityUuid = buf.readUUID();
         CitizenArmatureTypes type = buf.readEnum(CitizenArmatureTypes.class);
-        return new ServerCitizenArmaturePacket(entityUuid, type); // Fixed - matches constructor
+        return new ServerCitizenArmaturePacket(entityUuid, type);
     }
 
     public static void handle(ServerCitizenArmaturePacket packet, IPayloadContext ctx) {
@@ -43,7 +43,6 @@ public record ServerCitizenArmaturePacket(UUID entityUuid, CitizenArmatureTypes 
             Player player = ctx.player();
 
             if(!(player instanceof ServerPlayer serverPlayer))return;
-
 
             if (serverPlayer.level() instanceof ServerLevel serverLevel) {
                 Entity entity = serverLevel.getEntity(packet.entityUuid);

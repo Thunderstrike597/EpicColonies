@@ -3,14 +3,14 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "epicfight:stone_dagger"
+      "item": "minecraft:wooden_sword"
     },
     {
-      "item": "epicfight:stone_dagger"
+      "item": "minecraft:wooden_sword"
     }
   ],
   "result": {
-    "item": "epic_colonies:stone_dual_daggers",
+    "id": "epic_colonies:wooden_dual_swords",
     "count": 1
   }
 }

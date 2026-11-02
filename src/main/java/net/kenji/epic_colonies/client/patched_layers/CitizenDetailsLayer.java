@@ -44,9 +44,7 @@ public class CitizenDetailsLayer<E extends AbstractEntityCitizen, T extends Livi
 
     @Override
     protected void initMesh() {
-        // no-op — base ModelRenderLayer#initMesh() only knows the single
-        // fallback accessor passed to super(). We resolve + initialize the
-        // correct per-job mesh ourselves in renderLayer() below.
+
     }
 
     @Override
@@ -58,7 +56,7 @@ public class CitizenDetailsLayer<E extends AbstractEntityCitizen, T extends Livi
         }
 
         this.currentMesh = accessor.get();
-        this.currentMesh.initialize(); // cheap state reset on the cached mesh, no rebuild
+        this.currentMesh.initialize();
 
         this.renderLayer(entitypatch, entityliving, this.castLayer(vanillaLayer), poseStack, buffer, packedLight, poses, bob, yRot, xRot, partialTicks);
     }

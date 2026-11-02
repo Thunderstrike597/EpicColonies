@@ -27,6 +27,7 @@ import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.FacialEmotionExpressions;
 import net.kenji.epic_colonies.api.IDoMiningHeartbeat;
 import net.kenji.epic_colonies.api.data.CitizenMeshCache;
+import net.kenji.epic_colonies.api.data.CitizenTextureData;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
@@ -72,8 +73,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
 
     public Map<IState, Integer> taskCounterMap = new HashMap<>();
 
-
-
     public static AssetAccessor<EpicColoniesMesh> getMeshFromTexture(AbstractEntityCitizen citizen, boolean isChild){
 
         if(isChild) {
@@ -89,14 +88,14 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         return null;
     }
 
-
     public HumanoidArmature getCurrentCitizenArmature() {
         return currentCitizenArmature;
     }
 
     public void setCurrentCitizenArmatureFromArmatureType(CitizenArmatureTypes currentCitizenArmature) {
+        if (this.currentCitizenArmature == currentCitizenArmature.getArmature()) return;
         if(this.getOriginal().level().isClientSide()){
-            EpicColoniesPacketHandler.sendToServer(new ServerCitizenArmaturePacket(this.getOriginal().getUUID(), CitizenArmatureTypes.REGULAR));
+            EpicColoniesPacketHandler.sendToServer(new ServerCitizenArmaturePacket(this.getOriginal().getUUID(), currentCitizenArmature));
         }
         this.currentCitizenArmature = currentCitizenArmature.getArmature();
     }
@@ -125,8 +124,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             float relativeYaw = Mth.wrapDegrees(wantedYRot - headYaw);
             float absRelativeYaw = Math.abs(relativeYaw);
 
-            // field-of-view gate: fades to 0 as the player approaches MAX_TRACKING_ANGLE_DEG,
-            // independent of how the eyes are clamped/normalized below
             float angleFade = Mth.clamp((MAX_TRACKING_ANGLE_DEG - absRelativeYaw) / ANGLE_FADE_DEG, 0.0F, 1.0F);
 
             float clamped = Mth.clamp(relativeYaw, -EYE_ANGLE_SENSITIVITY_DEG, EYE_ANGLE_SENSITIVITY_DEG);
@@ -162,7 +159,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             float relativeToHead = Mth.wrapDegrees(wantedYRot - citizen.yHeadRot);
 
             if (Math.abs(relativeToHead) > EYE_ANGLE_SENSITIVITY_DEG / 1.15F) {
-                // eyes alone can't cover this angle - close the remaining gap with the head, gradually
+
                 float overshoot = relativeToHead - Math.signum(relativeToHead) * EYE_ANGLE_SENSITIVITY_DEG;
                 float step = Mth.clamp(overshoot, - HEAD_TURN_SPEED_DEG, HEAD_TURN_SPEED_DEG);
                 citizen.yHeadRot = Mth.wrapDegrees(citizen.yHeadRot + step);
@@ -196,8 +193,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
                 double dist = this.getTarget().position().distanceTo(this.getOriginal().position());
                 boolean canUseWeapon = !isWasUsingBow() && dist < 2.8 && this.getOriginal().getCitizenJobHandler() != null && this.getOriginal().getCitizenJobHandler().getColonyJob() instanceof JobRanger;
 
-
-
                 ItemStack slot = this.getCitizenItemOfWeaponCategory(CapabilityItem.WeaponCategories.DAGGER);
                 if (!slot.isEmpty() && canUseWeapon) {
                     this.setCloseRangeStance(canUseWeapon);
@@ -207,8 +202,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         }
 
     }
-
-
 
     @Override
     public void onAddedToLevel() {
@@ -222,9 +215,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         animator.playAnimation(facialAnim, 0F);
         animator.playAnimation(eyeMoveAnim, 0F);
 
-
         AbstractEntityCitizen citizen = this.getOriginal();
-
 
         if (this.getOriginal().level().isClientSide() && citizen.getCitizenDataView() == null) {
                 CitizenMeshCache.Entry cached = CitizenMeshCache.get(citizen.getUUID());
@@ -240,7 +231,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         }
     }
 
-
     @Override
     public HumanoidArmature getArmature() {
         ICitizenData data = this.getOriginal().getCitizenData();
@@ -250,24 +240,17 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
 
         HumanoidArmature childArmature = !this.getOriginal().isFemale() ? EpicColoniesArmatures.CHILD_MALE.get() : EpicColoniesArmatures.CHILD_FEMALE.get();
 
-
-        if(data != null) {
-            AssetAccessor<EpicColoniesMesh> finalChildMesh = getMeshFromTexture(this.getOriginal(), data.isChild());
-            if(finalChildMesh != null){
-                if(finalChildMesh == EpicColoniesMeshes.CHILD_FEMALE_BIG_EYES){
-                    childArmature = EpicColoniesArmatures.CHILD_FEMALE_BIG_EYES.get();
-                }
-                else if(finalChildMesh == EpicColoniesMeshes.CHILD_FEMALE_LOWER_EYES){
-                    childArmature = EpicColoniesArmatures.CHILD_FEMALE_LOWER_EYES.get();
-                }
+        boolean isChild = data != null ? data.isChild() : dataView != null && dataView.isChild();
+        if (!isChild) return getCurrentCitizenArmature();
+        if (this.getOriginal().isFemale()) {
+            if (CitizenTextureData.BIG_EYE_TEXTURES.contains(this.getOriginal().getTexture())) {
+                return EpicColoniesArmatures.CHILD_FEMALE_BIG_EYES.get();
             }
-
-            return !data.isChild() ? getCurrentCitizenArmature() : childArmature;
+            if (CitizenTextureData.LOWER_EYE_TEXTURES.contains(this.getOriginal().getTexture())) {
+                return EpicColoniesArmatures.CHILD_FEMALE_LOWER_EYES.get();
+            }
         }
-        if(dataView != null){
-            return !dataView.isChild() ? getCurrentCitizenArmature() : childArmature;
-        }
-        return getCurrentCitizenArmature();
+        return childArmature;
     }
     public boolean isCitizenAsleep(){
         return this.getOriginal().isSleeping() || this.original.getCitizenSleepHandler().isAsleep() || citizenPatchData.isAsleep || this.citizenPatchData.currentOptionalMotion == EpicColoniesLivingMotions.SIT_SLEEP;
@@ -288,7 +271,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     private void onCitizenTick(){
         tickFacialAnim();
         setSleepDir();
-
 
         if(!this.isLogicalClient()) {
             handleHeldItem();
@@ -321,7 +303,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             happiness = citizenData.getCitizenHappinessHandler().getHappiness(colony, citizenData);
         }
 
-
         return FacialEmotionExpressions.getAnimationFromHappiness(happiness);
     }
 
@@ -335,7 +316,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         }
 
     }
-
 
     @Override
     public void preTickServer() {
@@ -356,8 +336,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             c.yHeadRotO = bedRot;
         }
     }
-
-
 
     public void tickCurrentOptionalMotion() {
         AbstractEntityCitizen citizen = this.getOriginal();
@@ -409,7 +387,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         if(iJob != null) {
             if (iJob instanceof AbstractEntityAIStructure<?, ?> structure) {
                 Tuple<StructurePlacer, BuildingStructureHandler<?, ?>> structurePlacer = ((AbstractEntityAiStructureAccessor) structure).getStructurePlacer();
-                if (structurePlacer.getB() != null) {
+                if (structurePlacer != null && structurePlacer.getB() != null) {
                     if (structurePlacer.getB().getStage() == BuildingProgressStage.BUILD_SOLID) {
                         compositeMotion = EpicColoniesLivingMotions.PLACE;
                     }
@@ -439,20 +417,19 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         citizenPatchData.currentOptionalCompositeMotion = compositeMotion;
 
         EpicColoniesPacketHandler.sendToAll(new ClientCitizenSyncPacket(citizen.getId(), this.getOriginal().getUUID(), citizenPatchData));
-        //debugLogNearestPlayer("Logging Optional Motion Set: " + citizenPatchData.currentOptionalMotion);
+
         if(didJump && citizen.onGround()){
             didJump = false;
         }
     }
 
-
     public void tickStuckTaskCounter(IJob<?> iJob, IState state) {
         IState workerState = iJob != null ? iJob.getWorkerAI().getState() : null;
         if (workerState instanceof AIWorkerState currentState && currentState == state) {
             int counter = taskCounterMap.getOrDefault(currentState, 0);
-            taskCounterMap.put(currentState, counter + 1); // let it keep climbing, don't cap/remove
+            taskCounterMap.put(currentState, counter + 1);
         } else {
-            taskCounterMap.remove(state); // only clear when state actually changes
+            taskCounterMap.remove(state);
         }
     }
 
@@ -464,7 +441,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             return false;
         }
         long lastHeartbeat = heartbeat.epicColonies$getLastDoMiningTick();
-        if (lastHeartbeat == Long.MIN_VALUE) return false; // never run yet, don't false-positive
+        if (lastHeartbeat == Long.MIN_VALUE) return false;
 
         long now = getOriginal().level().getGameTime();
         return (now - lastHeartbeat) >= EpicColoniesConfigCommon.MINE_COUNTER.get() || heartbeat.epicColonies_Versions$getMiningBlock() == null;
@@ -484,7 +461,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     public void stopCompositeOnLayer(AnimationManager.AnimationAccessor<? extends StaticAnimation> anim, Layer.Priority layerPriority){
         AnimationPlayer animPlayer = this.getClientAnimator().getCompositeLayer(layerPriority).animationPlayer;
 
-        if(animPlayer.getAnimation() != null || animPlayer.getAnimation().get() == anim.get()){
+        if(animPlayer.getAnimation() != null && animPlayer.getAnimation().get() == anim.get()){
             animator.stopPlaying(anim);
         }
     }
@@ -514,7 +491,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
                 AnimationPlayer animPlayer = compositeLayer.animationPlayer;
                 StaticAnimation playingAnim = animPlayer.getAnimation().get().getRealAnimation().get();
                 StaticAnimation checkingAnim = anim.get().getRealAnimation().get();
-
 
                 if(animPlayer.getAnimation() == null || playingAnim != checkingAnim) {
                     getAnimator().playAnimation(anim, 0.18F);
@@ -576,7 +552,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
                             ? citizenPatchData.currentOptionalCompositeMotion
                             : citizenPatchData.currentOptionalMotion;
                     if (tracked != motion) {
-                        animator.stopPlaying(anim.get().getAccessor()); // skip stopCompositeOnLayer's priority-guessing entirely
+                        animator.stopPlaying(anim.get().getAccessor());
                     }
                 }
             }

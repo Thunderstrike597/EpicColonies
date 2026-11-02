@@ -14,8 +14,8 @@ public class EpicColoniesCommand {
     public static void register(RegisterCommandsEvent event) {
         event.getDispatcher().register(
                 Commands.literal(EpicColonies.MODID)
-                        .requires(source -> source.hasPermission(2)) // optional
-                        .then(CommandCitizenModify.register(event.getDispatcher()))
+                        .requires(source -> source.hasPermission(2))
+                        .then(CommandCitizenModify.build())
         );
     }
 }

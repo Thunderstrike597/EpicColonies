@@ -19,10 +19,10 @@ public abstract class ModEquipmentTypesMixin {
         if (!stack.isDamageableItem()) {
             int max = stack.getMaxDamage();
             if (max > 0) {
-                // Unbreakable via NBT: durability is still real, so rate it normally
+
                 cir.setReturnValue(Math.min(max / vanillaDurability, 5));
             } else {
-                // Max damage is 0: durability is unknowable, so pick a fallback tier (1 = vanilla-equivalent)
+
                 cir.setReturnValue(1);
             }
         }
