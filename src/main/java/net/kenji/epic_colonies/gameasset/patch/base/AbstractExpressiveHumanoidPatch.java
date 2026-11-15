@@ -23,6 +23,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,6 +33,8 @@ import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import org.checkerframework.checker.units.qual.C;
 import org.jline.utils.Log;
@@ -75,6 +78,9 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     protected int lastYTickCount = 0;
     protected double lastY = -1;
     protected ItemStack lastHeldItem = ItemStack.EMPTY;
+    protected ItemStack lastOffhandItem = ItemStack.EMPTY;
+    protected static final EquipmentSlot[] ARMOR_SLOTS = { EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD };
+    protected final ItemStack[] lastArmorItems = { ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY };
 
     protected static float LOOK_RANGE = 8.0F;
     protected static float FADE_DISTANCE = 2.0F;
@@ -272,6 +278,8 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     @Override
     public void tick(LivingEvent.LivingTickEvent event) {
         super.tick(event);
+        if(needsManualEquipmentTracking())
+            tickEquipmentChanges();
         if(lastY == -1 || lastYTickCount <= 0){
             lastY = this.getOriginal().position().y();
             lastYTickCount = 5;
@@ -281,6 +289,68 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         }
     }
 
+
+    /**
+     * MineColonies' AbstractEntityCitizen (citizens AND visitors) overrides LivingEntity#detectEquipmentUpdates()
+     * without calling super, so vanilla never applies held-item attribute modifiers and never fires
+     * LivingEquipmentChangeEvent for them. Epic Fight relies on both:
+     *  - MobPatch#attack -> Mob#doHurtTarget reads ATTACK_DAMAGE (weapon damage was never added)
+     *  - EntityEvents#equipChangeEvent applies weapon/armor capability modifiers (damage_bonus, armor negation,
+     *    impact, max strikes, WEIGHT, STUN_ARMOR) and stun reduction.
+     * Other MineColonies entities (mercenaries, raiders) go through vanilla normally, so they must NOT run this,
+     * otherwise every equipment change would be applied/fired twice.
+     */
+    protected boolean needsManualEquipmentTracking(){
+        return this.getOriginal() instanceof AbstractEntityCitizen;
+    }
+
+    protected void tickEquipmentChanges(){
+        T entity = this.getOriginal();
+
+        ItemStack mainStack = entity.getMainHandItem();
+        if(entity.equipmentHasChanged(lastHeldItem, mainStack)){
+            onHandItemChanged(EquipmentSlot.MAINHAND, InteractionHand.MAIN_HAND, lastHeldItem, mainStack);
+            lastHeldItem = mainStack.copy();
+        }
+
+        ItemStack offStack = entity.getOffhandItem();
+        if(entity.equipmentHasChanged(lastOffhandItem, offStack)){
+            onHandItemChanged(EquipmentSlot.OFFHAND, InteractionHand.OFF_HAND, lastOffhandItem, offStack);
+            lastOffhandItem = offStack.copy();
+        }
+
+        // Armor: attributes are server-authoritative, and only the event is needed here - MineColonies already
+        // applies the vanilla armor/toughness modifiers itself (AbstractEntityCitizen#onArmorAdd / onArmorRemove).
+        if(!entity.level().isClientSide()){
+            for(int i = 0; i < ARMOR_SLOTS.length; i++){
+                EquipmentSlot slot = ARMOR_SLOTS[i];
+                ItemStack current = entity.getItemBySlot(slot);
+                if(entity.equipmentHasChanged(lastArmorItems[i], current)){
+                    MinecraftForge.EVENT_BUS.post(new LivingEquipmentChangeEvent(entity, slot, lastArmorItems[i], current));
+                    lastArmorItems[i] = current.copy();
+                }
+            }
+        }
+    }
+
+    private void onHandItemChanged(EquipmentSlot slot, InteractionHand hand, ItemStack from, ItemStack to){
+        T entity = this.getOriginal();
+
+        if(entity.level().isClientSide()){
+            // Client only needs the motion/AI refresh; attributes are server-authoritative
+            updateHeldItem(EpicFightCapabilities.getItemStackCapability(from), EpicFightCapabilities.getItemStackCapability(to), from, to, hand);
+            return;
+        }
+
+        // Vanilla item modifiers (sword damage, attack speed, etc.)
+        if(!from.isEmpty())
+            entity.getAttributes().removeAttributeModifiers(from.getAttributeModifiers(slot));
+        if(!to.isEmpty())
+            entity.getAttributes().addTransientAttributeModifiers(to.getAttributeModifiers(slot));
+
+        // Epic Fight's equipChangeEvent applies weapon capability modifiers and calls updateHeldItem() itself
+        MinecraftForge.EVENT_BUS.post(new LivingEquipmentChangeEvent(entity, slot, from, to));
+    }
 
     public int getCitizenItemSlotOfWeaponCategory(WeaponCategory category){
         if(!(this.getOriginal() instanceof AbstractEntityCitizen citizen))return -1;

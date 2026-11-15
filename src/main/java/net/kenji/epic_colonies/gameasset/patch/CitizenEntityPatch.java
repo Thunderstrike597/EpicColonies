@@ -227,10 +227,10 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
 
 
         if (this.getOriginal().level().isClientSide() && citizen.getCitizenDataView() == null) {
-                CitizenMeshCache.Entry cached = CitizenMeshCache.get(citizen.getUUID());
-                if (cached != null) {
-                    this.getOriginal().setIsChild(cached.isChild());
-                }
+            CitizenMeshCache.Entry cached = CitizenMeshCache.get(citizen.getUUID());
+            if (cached != null) {
+                this.getOriginal().setIsChild(cached.isChild());
+            }
         }
         if (!this.getOriginal().level().isClientSide() && citizen.getCitizenData() == null) {
             CitizenMeshCache.Entry cached = CitizenMeshCache.get(citizen.getUUID());
@@ -288,7 +288,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     private void onCitizenTick(){
         tickFacialAnim();
         setSleepDir();
-        handleHeldItem();
 
         if(!this.isLogicalClient()) {
             tickCurrentOptionalMotion();
@@ -310,7 +309,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         if(EpicColoniesConfigCommon.DISABLE_HAPPINESS_FACIAL_FEATURES.get())return FacialEmotionExpressions.getAnimationFromHappiness(happiness);
         if(citizenDataView != null && citizen.level().isClientSide()){
             if(citizenDataView.isChild()) return DEFAULT_BROW_ANIM;
-           happiness = citizenDataView.getHappiness();
+            happiness = citizenDataView.getHappiness();
         }
         if(citizen.getCitizenColonyHandler() == null || citizen.getCitizenColonyHandler().getColony() == null) return facialAnim;
         IColony colony = citizen.getCitizenColonyHandler().getColony();
@@ -323,16 +322,6 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         return FacialEmotionExpressions.getAnimationFromHappiness(happiness);
     }
 
-    public void handleHeldItem(){
-        ItemStack mainStack = this.getOriginal().getMainHandItem();
-        CapabilityItem fromCap = EpicFightCapabilities.getItemStackCapability(mainStack);
-        if(this.getOriginal().equipmentHasChanged(mainStack, lastHeldItem)){
-            CapabilityItem toCap = EpicFightCapabilities.getItemStackCapability(lastHeldItem);
-            updateHeldItem(fromCap, toCap, lastHeldItem, mainStack, InteractionHand.MAIN_HAND);
-            lastHeldItem = mainStack;
-        }
-
-    }
 
 
 
@@ -536,8 +525,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
 
         tryStopAnim(LivingMotions.SIT);
 
-       // debugLogNearestPlayer("Logging prevOptionalCompositeMotion: " + citizenPatchData.prevOptionalCompositeMotion);
-       // debugLogNearestPlayer("Logging currentOptionalCompositeMotion: " + citizenPatchData.currentOptionalCompositeMotion);
+        // debugLogNearestPlayer("Logging prevOptionalCompositeMotion: " + citizenPatchData.prevOptionalCompositeMotion);
+        // debugLogNearestPlayer("Logging currentOptionalCompositeMotion: " + citizenPatchData.currentOptionalCompositeMotion);
 
     }
 
