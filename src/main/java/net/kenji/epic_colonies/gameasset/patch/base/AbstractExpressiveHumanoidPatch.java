@@ -26,6 +26,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -54,14 +56,19 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.Style;
 import yesman.epicfight.world.capabilities.item.WeaponCategory;
+import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 import yesman.epicfight.world.entity.ai.goal.CombatBehaviors;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> extends HumanoidMobPatch<T> {
+    private static final UUID[] EFM_WEAPON_MODIFIER_IDS = {
+            EpicFightAttributes.ARMOR_NEGATION_MODIFIER,
+            EpicFightAttributes.MAX_STRIKE_MODIFIER,
+            EpicFightAttributes.IMPACT_MODIFIER,
+            EpicFightAttributes.ATTACK_SPEED_MODIFIER
+    };
+
     protected static int MAX_COMPOSITE_PLAY_COUNTER = 20;
     protected int compositeAnimPlayCounter = MAX_COMPOSITE_PLAY_COUNTER;
     protected static AnimationManager.AnimationAccessor<? extends StaticAnimation> DEFAULT_BROW_ANIM = null;
@@ -332,7 +339,63 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             }
         }
     }
+    @Override
+    public void updateHeldItem(CapabilityItem fromCap, CapabilityItem toCap, ItemStack from, ItemStack to, InteractionHand hand) {
+        if (hand == InteractionHand.OFF_HAND) {
+            clearOffhandWeaponModifiers(from, to);
+        }
 
+        super.updateHeldItem(fromCap, toCap, from, to, hand);
+
+        if (hand == InteractionHand.OFF_HAND) {
+            AttributeInstance negation = this.getOriginal().getAttribute(EpicFightAttributes.OFFHAND_ARMOR_NEGATION.get());
+            if (negation != null) {
+                negation.removeModifier(EpicFightAttributes.ATTACK_SPEED_MODIFIER); // leak #1: wrong attribute
+            }
+        }
+    }
+
+    private void clearOffhandWeaponModifiers(ItemStack from, ItemStack to) {
+        Attribute[] offhandAttributes = {
+                EpicFightAttributes.OFFHAND_ATTACK_SPEED.get(),
+                EpicFightAttributes.OFFHAND_ARMOR_NEGATION.get(),
+                EpicFightAttributes.OFFHAND_IMPACT.get(),
+                EpicFightAttributes.OFFHAND_MAX_STRIKES.get()
+        };
+
+        for (Attribute attribute : offhandAttributes) {
+            AttributeInstance instance = this.getOriginal().getAttribute(attribute);
+            if (instance == null) continue;
+            for (UUID id : EFM_WEAPON_MODIFIER_IDS) {
+                instance.removeModifier(id); // no-op if absent
+            }
+        }
+
+        // Vanilla attack speed goes onto OFFHAND_ATTACK_SPEED via raw addTransientModifier too
+        AttributeInstance offhandSpeed = this.getOriginal().getAttribute(EpicFightAttributes.OFFHAND_ATTACK_SPEED.get());
+        if (offhandSpeed != null) {
+            for (ItemStack stack : new ItemStack[]{ from, to }) {
+                if (!stack.isEmpty()) {
+                    stack.getAttributeModifiers(EquipmentSlot.MAINHAND).get(Attributes.ATTACK_SPEED)
+                            .forEach(modifier -> offhandSpeed.removeModifier(modifier.getId()));
+                }
+            }
+        }
+    }
+
+    public void debugCycleOffhand(ItemStack weapon) {
+        CapabilityItem emptyCap = EpicFightCapabilities.getItemStackCapability(ItemStack.EMPTY);
+        CapabilityItem weaponCap = EpicFightCapabilities.getItemStackCapability(weapon);
+
+        for (int i = 0; i < 3; i++) {
+            updateHeldItem(emptyCap, weaponCap, ItemStack.EMPTY, weapon, InteractionHand.OFF_HAND);
+            updateHeldItem(weaponCap, emptyCap, weapon, ItemStack.EMPTY, InteractionHand.OFF_HAND);
+        }
+
+        AttributeInstance negation = this.getOriginal().getAttribute(EpicFightAttributes.OFFHAND_ARMOR_NEGATION.get());
+        EpicColonies.LOGGER.info("[debugCycleOffhand] OFFHAND_ARMOR_NEGATION after cycling = {} (base {})",
+                negation.getValue(), negation.getBaseValue());
+    }
     private void onHandItemChanged(EquipmentSlot slot, InteractionHand hand, ItemStack from, ItemStack to){
         T entity = this.getOriginal();
 
