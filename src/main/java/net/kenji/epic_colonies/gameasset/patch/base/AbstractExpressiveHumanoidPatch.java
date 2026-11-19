@@ -18,11 +18,14 @@ import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
 import net.kenji.epic_colonies.network.ServerBowActionPacket;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.PathfinderMob;
@@ -43,6 +46,7 @@ import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
+import yesman.epicfight.registry.entries.EpicFightAttributes;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.Factions;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
@@ -52,10 +56,18 @@ import yesman.epicfight.world.capabilities.item.WeaponCategory;
 import yesman.epicfight.world.entity.ai.goal.CombatBehaviors;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> extends HumanoidMobPatch<T> {
+
+    private static final ResourceLocation[] EFM_WEAPON_MODIFIER_IDS = {
+            EpicFightAttributes.ARMOR_NEGATION_MODIFIER,
+            EpicFightAttributes.MAX_STRIKE_MODIFIER,
+            EpicFightAttributes.IMPACT_MODIFIER,
+            EpicFightAttributes.ATTACK_SPEED_MODIFIER
+    };
     protected static int MAX_COMPOSITE_PLAY_COUNTER = 20;
     protected int compositeAnimPlayCounter = MAX_COMPOSITE_PLAY_COUNTER;
     protected static AnimationManager.AnimationAccessor<? extends StaticAnimation> DEFAULT_BROW_ANIM = null;
@@ -94,6 +106,65 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         }
     }
 
+    @Override
+    public void updateHeldItem(CapabilityItem fromCap, CapabilityItem toCap, ItemStack from, ItemStack to, InteractionHand hand) {
+        if (hand == InteractionHand.OFF_HAND) {
+            clearOffhandWeaponModifiers(from, to);
+        }
+
+        super.updateHeldItem(fromCap, toCap, from, to, hand);
+
+        if (hand == InteractionHand.OFF_HAND) {
+            AttributeInstance negation = this.getOriginal().getAttribute(EpicFightAttributes.OFFHAND_ARMOR_NEGATION);
+            if (negation != null) {
+                negation.removeModifier(EpicFightAttributes.ATTACK_SPEED_MODIFIER); // misplaced by Epic Fight
+            }
+        }
+    }
+
+    private void clearOffhandWeaponModifiers(ItemStack from, ItemStack to) {
+        List<Holder<Attribute>> offhandAttributes = List.of(
+                EpicFightAttributes.OFFHAND_ATTACK_SPEED,
+                EpicFightAttributes.OFFHAND_ARMOR_NEGATION,
+                EpicFightAttributes.OFFHAND_IMPACT,
+                EpicFightAttributes.OFFHAND_MAX_STRIKES
+        );
+
+        for (Holder<Attribute> attribute : offhandAttributes) {
+            AttributeInstance instance = this.getOriginal().getAttribute(attribute);
+            if (instance == null) continue;
+            for (ResourceLocation id : EFM_WEAPON_MODIFIER_IDS) {
+                instance.removeModifier(id); // no-op if absent
+            }
+        }
+
+        // Vanilla attack speed goes onto OFFHAND_ATTACK_SPEED via raw addTransientModifier too
+        AttributeInstance offhandSpeed = this.getOriginal().getAttribute(EpicFightAttributes.OFFHAND_ATTACK_SPEED);
+        if (offhandSpeed != null) {
+            for (ItemStack stack : new ItemStack[]{ from, to }) {
+                if (!stack.isEmpty()) {
+                    stack.getAttributeModifiers().forEach(EquipmentSlot.MAINHAND, (attribute, modifier) -> {
+                        if (attribute == Attributes.ATTACK_SPEED) {
+                            offhandSpeed.removeModifier(modifier.id());
+                        }
+                    });
+                }
+            }
+        }
+    }
+    public void debugCycleOffhand(ItemStack weapon) {
+        CapabilityItem emptyCap = EpicFightCapabilities.getItemStackCapability(ItemStack.EMPTY);
+        CapabilityItem weaponCap = EpicFightCapabilities.getItemStackCapability(weapon);
+
+        for (int i = 0; i < 3; i++) {
+            updateHeldItem(emptyCap, weaponCap, ItemStack.EMPTY, weapon, InteractionHand.OFF_HAND);
+            updateHeldItem(weaponCap, emptyCap, weapon, ItemStack.EMPTY, InteractionHand.OFF_HAND);
+        }
+
+        AttributeInstance negation = this.getOriginal().getAttribute(EpicFightAttributes.OFFHAND_ARMOR_NEGATION);
+        EpicColonies.LOGGER.info("[debugCycleOffhand] OFFHAND_ARMOR_NEGATION after cycling = {} (base {})",
+                negation.getValue(), negation.getBaseValue());
+    }
     protected Player getNearestPlayer(Entity entity){
         Player nearest = entity.level().getNearestPlayer(entity, LOOK_RANGE);
 
