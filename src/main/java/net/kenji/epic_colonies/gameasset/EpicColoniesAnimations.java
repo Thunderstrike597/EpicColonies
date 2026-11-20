@@ -2,6 +2,7 @@ package net.kenji.epic_colonies.gameasset;
 
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.EpicColoniesConfigClient;
+import net.kenji.epic_colonies.api.animation_types.BlinkAnimation;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,14 +23,12 @@ public class EpicColoniesAnimations {
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_BLINK;
     public static AnimationManager.AnimationAccessor<StaticAnimation> CHILD_BLINK;
 
-    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_BLINK_ANGRY;
-    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_BLINK_HAPPY;
-    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_BLINK_SAD;
-    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_ANGRY_NO_BLINK;
-    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_HAPPY_NO_BLINK;
-    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_SAD_NO_BLINK;
+
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_FACIAL_DEFAULT;
 
+    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_HAPPY;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_SAD;
+    public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_ANGRY;
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_EYES_CLOSED;
 
     public static AnimationManager.AnimationAccessor<StaticAnimation> CITIZEN_EYES_MOVE;
@@ -44,16 +43,13 @@ public class EpicColoniesAnimations {
 
 
     private static void build(AnimationManager.AnimationBuilder builder){
-        CITIZEN_BLINK = builder.nextAccessor("citizen/living/citizen_blink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
+        CITIZEN_BLINK = builder.nextAccessor("citizen/living/citizen_blink", (accessor -> new BlinkAnimation(10, new BlinkAnimation.Timing(35, 340, 0.08F),0.1F, false, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
         CHILD_BLINK = builder.nextAccessor("citizen/living/child_blink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
 
-        CITIZEN_BLINK_ANGRY = builder.nextAccessor("citizen/living/citizen_blink_angry", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
-        CITIZEN_BLINK_HAPPY = builder.nextAccessor("citizen/living/citizen_blink_happy", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
-        CITIZEN_BLINK_SAD = builder.nextAccessor("citizen/living/citizen_blink_sad", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
         CITIZEN_FACIAL_DEFAULT = builder.nextAccessor("citizen/living/citizen_facial_default", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
-        CITIZEN_ANGRY_NO_BLINK = builder.nextAccessor("citizen/living/citizen_angry_noblink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
-        CITIZEN_HAPPY_NO_BLINK = builder.nextAccessor("citizen/living/citizen_happy_noblink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
-        CITIZEN_SAD_NO_BLINK = builder.nextAccessor("citizen/living/citizen_sad_noblink", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
+        CITIZEN_HAPPY = builder.nextAccessor("citizen/living/citizen_happy", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
+        CITIZEN_SAD = builder.nextAccessor("citizen/living/citizen_sad", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
+        CITIZEN_ANGRY = builder.nextAccessor("citizen/living/citizen_angry", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
 
         CITIZEN_EYES_CLOSED = builder.nextAccessor("citizen/living/citizen_eyes_closed", (accessor -> new StaticAnimation(0.2F,true, accessor, EpicColoniesArmatures.CITIZEN_REGULAR)));
 

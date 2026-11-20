@@ -21,10 +21,13 @@
     "AccessorAbstractArrow",
     "AbstractEntityAIStructureMixin",
     "MixinAbstractEntityAiStructure",
-    "ModEquipmentTypesMixin"
+    "ModEquipmentTypesMixin",
+    "InventoryCitizenMixin",
+    "ContainerCitizenInventoryMixin"
   ],
   "client": [
-    "RenderBipedCitizenMixin"
+    "RenderBipedCitizenMixin",
+    "WindowCitizenInventoryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
