@@ -64,6 +64,8 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     public static WeaponMotionDetails HUMANOID_S_LONGSWORD;
     public static WeaponMotionDetails HUMANOID_S_SPEAR;
     public static WeaponMotionDetails HUMANOID_S_GREATSWORD;
+    /// ===EFN-COMPAT-MOTIONS=== ///
+    public static WeaponMotionDetails HUMANOID_YAMATO;
 
 
 

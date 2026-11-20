@@ -213,10 +213,10 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     public void onAddedToWorld() {
         super.onAddedToWorld();
 
-        DEFAULT_BROW_ANIM = EpicColoniesConfigCommon.DISABLE_BLINKING.get() ? EpicColoniesAnimations.CITIZEN_FACIAL_DEFAULT : EpicColoniesAnimations.CITIZEN_BLINK;
+        DEFAULT_BROW_ANIM = EpicColoniesAnimations.CITIZEN_FACIAL_DEFAULT;
         DEFAULT_EYES_ANIM = EpicColoniesAnimations.CITIZEN_EYES_MOVE;
 
-        facialAnim = EpicColoniesConfigCommon.DISABLE_BLINKING.get() ? EpicColoniesAnimations.CITIZEN_FACIAL_DEFAULT : EpicColoniesAnimations.CITIZEN_BLINK;
+        facialAnim = EpicColoniesAnimations.CITIZEN_FACIAL_DEFAULT;
         eyeMoveAnim = EpicColoniesAnimations.CITIZEN_EYES_MOVE;
 
         animator.playAnimation(facialAnim, 0F);
@@ -451,10 +451,12 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         return Math.abs(this.getOriginal().xxa) > (double)0.01F || Math.abs(this.getOriginal().zza) > (double)0.01F;
     }
 
-    public void playCompositeOnLayer(AnimationManager.AnimationAccessor<? extends StaticAnimation> anim, Layer.Priority layerPriority){
-        AnimationPlayer animPlayer = this.getClientAnimator().getCompositeLayer(layerPriority).animationPlayer;
+    public void playCompositeOnLayer(AnimationManager.AnimationAccessor<? extends StaticAnimation> anim) {
+        if (anim == null) return;
+        AnimationPlayer animPlayer = this.getClientAnimator().getCompositeLayer(anim.get().getPriority()).animationPlayer;
+        var playing = animPlayer.getAnimation();
 
-        if(animPlayer.getAnimation() == null || animPlayer.getAnimation().get() != anim.get()){
+        if (playing == null || playing.get().getRealAnimation().get() != anim.get()) {
             animator.playAnimationInstantly(anim);
         }
     }
@@ -513,8 +515,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         super.clientTick(event);
         onCitizenTick();
 
-        playCompositeOnLayer(facialAnim, Layer.Priority.HIGHEST);
-        playCompositeOnLayer(eyeMoveAnim, Layer.Priority.LOWEST);
+        playCompositeOnLayer(facialAnim);
+        playCompositeOnLayer(eyeMoveAnim);
 
         playCompositeOptionalAnimation();
         if (citizenPatchData.prevOptionalCompositeMotion != citizenPatchData.currentOptionalCompositeMotion) {

@@ -8,6 +8,7 @@ import net.kenji.epic_colonies.client.events.EpicFightClientEvents;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.behaviours.compat.cd_moveset.CdMovesetCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.compat.efn.EFNCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.behaviours.compat.efn_x_epicfight_extra.EpicFightXCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.behaviours.compat.wom.WomCombatBehaviours;
 import net.kenji.epic_colonies.events.ModEvents;
@@ -113,8 +114,11 @@ public class EpicColonies {
         if(ModList.get().isLoaded("cdmoveset") && (!ModList.get().isLoaded("epicfightx") && !ModList.get().isLoaded("efn"))){
             CdMovesetCombatBehaviours.init();
         }
-        if(ModList.get().isLoaded("epicfightx") && ModList.get().isLoaded("efn")){
-            EpicFightXCombatBehaviours.init();
+        if( ModList.get().isLoaded("efn")) {
+            EFNCombatBehaviours.init();
+            if (ModList.get().isLoaded("epicfightx")) {
+                EpicFightXCombatBehaviours.init();
+            }
         }
 
 

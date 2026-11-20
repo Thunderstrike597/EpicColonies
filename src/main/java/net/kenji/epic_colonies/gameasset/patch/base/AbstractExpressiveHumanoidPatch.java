@@ -11,6 +11,7 @@ import com.mojang.datafixers.util.Pair;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.CitizenPatchData;
+import net.kenji.epic_colonies.api.managers.BlinkManager;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
@@ -159,6 +160,11 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         }
     }
 
+    public List<AnimationManager.AnimationAccessor<? extends StaticAnimation>> getBlinkAnimations(){
+        return List.of(EpicColoniesAnimations.CITIZEN_BLINK);
+    }
+
+
     public boolean shouldRun() {
         return this.getTarget() != null;
     }
@@ -285,6 +291,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     @Override
     public void tick(LivingEvent.LivingTickEvent event) {
         super.tick(event);
+        BlinkManager.manageBlinking(event);
         if(needsManualEquipmentTracking())
             tickEquipmentChanges();
         if(lastY == -1 || lastYTickCount <= 0){

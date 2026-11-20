@@ -5,12 +5,14 @@ import com.minecolonies.api.colony.jobs.IJobView;
 import com.minecolonies.api.colony.jobs.ModJobs;
 import com.minecolonies.api.colony.jobs.registry.JobEntry;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
+import com.minecolonies.api.inventory.InventoryCitizen;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import java.util.*;
 
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.EpicColoniesConfigClient;
+import net.kenji.epic_colonies.cosmetic.ICosmeticArmorHolder;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.kenji.epic_colonies.mixins.AccessorHumanoidArmorLayer;
 import net.kenji.epic_colonies.mixins.AccessorWearableItemLayer;
@@ -106,112 +108,118 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
             if (jobView == null)
                 return;
             jobEntry = jobView.getEntry();
-        }
+        }else return;
 
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (slot.getType() == Type.ARMOR) {
+        InventoryCitizen inventoryCitizen = view.getInventory();
 
+        if(inventoryCitizen instanceof ICosmeticArmorHolder iHolder) {
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                ItemStack cosmeticStack = iHolder.ec$getCosmeticArmorItemFromSlot(slot);
 
-                if (EpicColoniesConfigClient.JOB_ONLY_ARMOR.get()) {
-                    if (jobEntry == null)
-                        return;
-                    String jobName = jobEntry.getKey().toString();
-                    if (!EpicColoniesConfigClient.VISIBLE_ARMOR_JOBS.get().contains(jobName)) {
-                        Map<EquipmentSlot, Boolean> allHidden = new EnumMap<>(EquipmentSlot.class);
-                        for (EquipmentSlot slot2 : EquipmentSlot.values()) {
-                            allHidden.put(slot2, false);
+                if (slot.getType() == Type.ARMOR) {
+                    if (EpicColoniesConfigClient.JOB_ONLY_ARMOR.get()) {
+                        if (jobEntry == null)
+                            return;
+                        String jobName = jobEntry.getKey().toString();
+                        if (!EpicColoniesConfigClient.VISIBLE_ARMOR_JOBS.get().contains(jobName)) {
+                            Map<EquipmentSlot, Boolean> allHidden = new EnumMap<>(EquipmentSlot.class);
+                            for (EquipmentSlot slot2 : EquipmentSlot.values()) {
+                                allHidden.put(slot2, false);
+                            }
+                            shouldRenderArmorMap.put(entityliving.getUUID(), allHidden);
+                            return;
                         }
-                        shouldRenderArmorMap.put(entityliving.getUUID(), allHidden);
-                        return;
                     }
-                }
-                if (hidePartHelmet(slot)) {
+                    if(slot == EquipmentSlot.HEAD) {
+                        if (hidePartHelmet(slot) && cosmeticStack.isEmpty()) {
+                            shouldRenderArmorMap
+                                    .computeIfAbsent(entityliving.getUUID(), id -> new EnumMap<>(EquipmentSlot.class))
+                                    .put(slot, false);
+                            continue;
+                        }
+                    }
+
                     shouldRenderArmorMap
                             .computeIfAbsent(entityliving.getUUID(), id -> new EnumMap<>(EquipmentSlot.class))
-                            .put(slot, false);
-                    continue;
-                }
-
-                shouldRenderArmorMap
-                        .computeIfAbsent(entityliving.getUUID(), id -> new EnumMap<>(EquipmentSlot.class))
-                        .put(slot, true);
+                            .put(slot, true);
 
 
-                ItemStack itemstack = entityliving.getItemBySlot(slot);
-                Item item = itemstack.getItem();
+                    ItemStack itemstack = cosmeticStack.isEmpty() ? entityliving.getItemBySlot(slot) : cosmeticStack;
+                    Item item = itemstack.getItem();
 
-                if (item instanceof ArmorItem) {
+                    if (item instanceof ArmorItem) {
 
-                    ArmorItem armorItem = (ArmorItem) item;
-                    if (slot != armorItem.getEquipmentSlot()) {
-                        return;
-                    }
+                        ArmorItem armorItem = (ArmorItem) item;
+                        if (slot != armorItem.getEquipmentSlot()) {
+                            return;
+                        }
 
-                    poseStack.pushPose();
-                    float head = 0.0F;
-                    if (slot == EquipmentSlot.HEAD) {
-                        poseStack.translate((double) 0.0F, (double) head * 0.055, (double) 0.0F);
-                    }
+                        poseStack.pushPose();
+                        float head = 0.0F;
+                        if (slot == EquipmentSlot.HEAD) {
+                            poseStack.translate((double) 0.0F, (double) head * 0.055, (double) 0.0F);
+                        }
 
-                    HumanoidModel<?> defaultModel = ((AccessorHumanoidArmorLayer) vanillaLayer).invokeGetArmorModel(slot);
-                    Model armorModel = ForgeHooksClient.getArmorModel(entityliving, itemstack, slot, defaultModel);
-                    SkinnedMesh armorMesh = this.getArmorModel(vanillaLayer, defaultModel, armorModel, entityliving, armorItem, itemstack, slot);
-                    if (armorMesh == null) {
+                        HumanoidModel<?> defaultModel = ((AccessorHumanoidArmorLayer) vanillaLayer).invokeGetArmorModel(slot);
+                        Model armorModel = ForgeHooksClient.getArmorModel(entityliving, itemstack, slot, defaultModel);
+                        SkinnedMesh armorMesh = this.getArmorModel(vanillaLayer, defaultModel, armorModel, entityliving, armorItem, itemstack, slot);
+                        if (armorMesh == null) {
+                            poseStack.popPose();
+                            return;
+                        }
+
+
+                        if (armorModel instanceof HumanoidModel humanoidModel) {
+                            boolean shouldSit = entityliving.isPassenger() && entityliving.getVehicle() != null && entityliving.getVehicle().shouldRiderSit();
+                            float f8 = 0.0F;
+                            float f5 = 0.0F;
+                            if (!shouldSit && entityliving.isAlive()) {
+                                f8 = entityliving.walkAnimation.speed(partialTicks);
+                                f5 = entityliving.walkAnimation.position(partialTicks);
+                                if (entityliving.isBaby()) {
+                                    f5 *= 3.0F;
+                                }
+
+                                if (f8 > 1.0F) {
+                                    f8 = 1.0F;
+                                }
+                            }
+
+                            try {
+                                humanoidModel.setupAnim(entityliving, f8, f5, bob, yRot, xRot);
+                            } catch (ClassCastException var29) {
+                            }
+
+                            humanoidModel.head.loadPose(humanoidModel.head.getInitialPose());
+                            humanoidModel.hat.loadPose(humanoidModel.hat.getInitialPose());
+                            humanoidModel.body.loadPose(humanoidModel.body.getInitialPose());
+                            humanoidModel.leftArm.loadPose(humanoidModel.leftArm.getInitialPose());
+                            humanoidModel.rightArm.loadPose(humanoidModel.rightArm.getInitialPose());
+                            humanoidModel.leftLeg.loadPose(humanoidModel.leftLeg.getInitialPose());
+                            humanoidModel.rightLeg.loadPose(humanoidModel.rightLeg.getInitialPose());
+                        }
+
+                        armorMesh.initialize();
+
+                        if (armorItem instanceof DyeableLeatherItem dyeable && dyeable.hasCustomColor(itemstack)) {
+                            DyeableLeatherItem dyeableItem = (DyeableLeatherItem) armorItem;
+                            int i = dyeableItem.getColor(itemstack);
+                            float r = (float) (i >> 16 & 255) / 255.0F;
+                            float g = (float) (i >> 8 & 255) / 255.0F;
+                            float b = (float) (i & 255) / 255.0F;
+                            ((AccessorWearableItemLayer) this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), r, g, b, ((AccessorWearableItemLayer) this).invokeGetArmorTexture(itemstack, entityliving, armorMesh, slot, (String) null, defaultModel), poses);
+                            ((AccessorWearableItemLayer) this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), 1.0F, 1.0F, 1.0F, ((AccessorWearableItemLayer) this).invokeGetArmorTexture(itemstack, entityliving, armorMesh, slot, "overlay", defaultModel), poses);
+                        } else {
+                            ((AccessorWearableItemLayer) this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), 1.0F, 1.0F, 1.0F, ((AccessorWearableItemLayer) this).invokeGetArmorTexture(itemstack, entityliving, armorMesh, slot, (String) null, defaultModel), poses);
+                        }
+
+                        ArmorTrim.getTrim(entityliving.level().registryAccess(), itemstack).ifPresent((armorTrim) -> ((AccessorWearableItemLayer) this).invokeRenderTrim(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), armorItem.getMaterial(), armorTrim, slot, poses));
+                        if (itemstack.hasFoil()) {
+                            ((AccessorWearableItemLayer) this).invokeRenderGlint(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), poses);
+                        }
+
                         poseStack.popPose();
-                        return;
                     }
-
-
-                    if (armorModel instanceof HumanoidModel humanoidModel) {
-                        boolean shouldSit = entityliving.isPassenger() && entityliving.getVehicle() != null && entityliving.getVehicle().shouldRiderSit();
-                        float f8 = 0.0F;
-                        float f5 = 0.0F;
-                        if (!shouldSit && entityliving.isAlive()) {
-                            f8 = entityliving.walkAnimation.speed(partialTicks);
-                            f5 = entityliving.walkAnimation.position(partialTicks);
-                            if (entityliving.isBaby()) {
-                                f5 *= 3.0F;
-                            }
-
-                            if (f8 > 1.0F) {
-                                f8 = 1.0F;
-                            }
-                        }
-
-                        try {
-                            humanoidModel.setupAnim(entityliving, f8, f5, bob, yRot, xRot);
-                        } catch (ClassCastException var29) {
-                        }
-
-                        humanoidModel.head.loadPose(humanoidModel.head.getInitialPose());
-                        humanoidModel.hat.loadPose(humanoidModel.hat.getInitialPose());
-                        humanoidModel.body.loadPose(humanoidModel.body.getInitialPose());
-                        humanoidModel.leftArm.loadPose(humanoidModel.leftArm.getInitialPose());
-                        humanoidModel.rightArm.loadPose(humanoidModel.rightArm.getInitialPose());
-                        humanoidModel.leftLeg.loadPose(humanoidModel.leftLeg.getInitialPose());
-                        humanoidModel.rightLeg.loadPose(humanoidModel.rightLeg.getInitialPose());
-                    }
-
-                    armorMesh.initialize();
-
-                    if (armorItem instanceof DyeableLeatherItem dyeable && dyeable.hasCustomColor(itemstack)) {
-                        DyeableLeatherItem dyeableItem = (DyeableLeatherItem) armorItem;
-                        int i = dyeableItem.getColor(itemstack);
-                        float r = (float) (i >> 16 & 255) / 255.0F;
-                        float g = (float) (i >> 8 & 255) / 255.0F;
-                        float b = (float) (i & 255) / 255.0F;
-                        ((AccessorWearableItemLayer) this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), r, g, b, ((AccessorWearableItemLayer) this).invokeGetArmorTexture(itemstack, entityliving, armorMesh, slot, (String) null, defaultModel), poses);
-                        ((AccessorWearableItemLayer) this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), 1.0F, 1.0F, 1.0F, ((AccessorWearableItemLayer) this).invokeGetArmorTexture(itemstack, entityliving, armorMesh, slot, "overlay", defaultModel), poses);
-                    } else {
-                        ((AccessorWearableItemLayer) this).invokeRenderArmor(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), 1.0F, 1.0F, 1.0F, ((AccessorWearableItemLayer) this).invokeGetArmorTexture(itemstack, entityliving, armorMesh, slot, (String) null, defaultModel), poses);
-                    }
-
-                    ArmorTrim.getTrim(entityliving.level().registryAccess(), itemstack).ifPresent((armorTrim) -> ((AccessorWearableItemLayer) this).invokeRenderTrim(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), armorItem.getMaterial(), armorTrim, slot, poses));
-                    if (itemstack.hasFoil()) {
-                        ((AccessorWearableItemLayer) this).invokeRenderGlint(poseStack, buf, packedLight, armorMesh, entitypatch.getArmature(), poses);
-                    }
-
-                    poseStack.popPose();
                 }
             }
         }

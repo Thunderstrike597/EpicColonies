@@ -22,10 +22,13 @@
     "MixinAbstractEntityAiStructure",
     "AbstractEntityAIStructureMixin",
     "ModEquipmentTypesMixin",
-    "MixinMageGuardCombatHandler"
+    "MixinMageGuardCombatHandler",
+    "ContainerCitizenInventoryMixin",
+    "InventoryCitizenMixin"
   ],
   "client": [
-    "RenderBipedCitizenMixin"
+    "RenderBipedCitizenMixin",
+    "WindowCitizenInventoryMixin"
   ],
   "injectors": {
     "defaultRequire": 1
