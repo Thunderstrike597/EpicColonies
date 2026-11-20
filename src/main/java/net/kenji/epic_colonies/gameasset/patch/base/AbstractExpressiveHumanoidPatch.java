@@ -314,6 +314,10 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     protected void tickEquipmentChanges(){
         T entity = this.getOriginal();
 
+        // Server only. Epic Fight's updateHeldItem -> modifyLivingMotionByCurrentItem sends SPChangeLivingMotion,
+        // which throws on the client. The server already syncs the new living motions to clients through it.
+        if(entity.level().isClientSide()) return;
+
         ItemStack mainStack = entity.getMainHandItem();
         if(entity.equipmentHasChanged(lastHeldItem, mainStack)){
             onHandItemChanged(EquipmentSlot.MAINHAND, InteractionHand.MAIN_HAND, lastHeldItem, mainStack);
@@ -398,12 +402,6 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
     }
     private void onHandItemChanged(EquipmentSlot slot, InteractionHand hand, ItemStack from, ItemStack to){
         T entity = this.getOriginal();
-
-        if(entity.level().isClientSide()){
-            // Client only needs the motion/AI refresh; attributes are server-authoritative
-            updateHeldItem(EpicFightCapabilities.getItemStackCapability(from), EpicFightCapabilities.getItemStackCapability(to), from, to, hand);
-            return;
-        }
 
         // Vanilla item modifiers (sword damage, attack speed, etc.)
         if(!from.isEmpty())
