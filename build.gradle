@@ -170,7 +170,7 @@ dependencies {
     implementation "curse.maven:minecolonies-mages-ironspells-integration-1506482:8441293"
 
 
-    compileOnly "curse.maven:fantasy-armor-1083998:7850813"
+    implementation "curse.maven:fantasy-armor-1083998:7850813"
 
     implementation "curse.maven:curios-309927:6529130"         // Curios API - 9.5.1, 1.21.1
 

@@ -86,6 +86,16 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
     }
 
     public static boolean shouldHidePart(AbstractEntityCitizen citizen, EquipmentSlot slot){
+        ICitizenDataView view = citizen.getCitizenDataView();
+        if(view != null) {
+            if (view.getInventory() instanceof ICosmeticArmorHolder iHolder) {
+                return (!citizen.getItemBySlot(slot).isEmpty()
+                        || !iHolder.ec$getCosmeticArmorItemFromSlot(slot).isEmpty())
+                        && shouldRenderArmorMap
+                        .getOrDefault(citizen.getUUID(), Collections.emptyMap())
+                        .getOrDefault(slot, true);
+            }
+        }
         return !citizen.getItemBySlot(slot).isEmpty()
                 && shouldRenderArmorMap
                 .getOrDefault(citizen.getUUID(), Collections.emptyMap())

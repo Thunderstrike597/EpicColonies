@@ -9,8 +9,8 @@
     "MixinAttackMoveAi",
     "MobPatchMixin",
     "AccessorTargetAi",
-    "MixinRangeCombatAi",
     "MixinRangerCombatAi",
+    "MixinRangeCombatAi",
     "MixinRaiderRangedAi",
     "EntityAiVisitorMixin",
     "LivingEntityAccessor",
@@ -18,12 +18,13 @@
     "AccessorHumanoidArmorLayer",
     "AccessorLivingEntityRenderer",
     "AccessorWearableItemLayer",
-    "AccessorAbstractArrow",
-    "AbstractEntityAIStructureMixin",
     "MixinAbstractEntityAiStructure",
+    "AbstractEntityAIStructureMixin",
     "ModEquipmentTypesMixin",
+    "ContainerCitizenInventoryMixin",
     "InventoryCitizenMixin",
-    "ContainerCitizenInventoryMixin"
+    "AbstractEntityCitizenOffhandMixin",
+    "EntityCitizenOffhandMixin"
   ],
   "client": [
     "RenderBipedCitizenMixin",

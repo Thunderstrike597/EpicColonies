@@ -4,13 +4,12 @@ import com.mojang.logging.LogUtils;
 
 import net.kenji.epic_colonies.client.events.EpicFightClientEvents;
 import net.kenji.epic_colonies.gameasset.behaviours.CompatMobCombatBehaviours;
+import net.kenji.epic_colonies.gameasset.behaviours.compat.efn.EFNCombatBehaviours;
 import net.kenji.epic_colonies.gameasset.behaviours.compat.efn_x_epicfight_extra.EpicFightXCombatBehaviours;
 import net.kenji.epic_colonies.events.ModEvents;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
 import net.kenji.epic_colonies.gameasset.EpicColoniesWeaponCapabilityPresets;
-import net.kenji.epic_colonies.item.EpicColoniesItems;
-import net.kenji.epic_colonies.tab.EpicColoniesTab;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -68,9 +67,6 @@ public class EpicColonies {
         IEventBus modEventBus = ModLoadingContext.get().getActiveContainer().getEventBus();
         // Register the commonSetup method for modloading
 
-        EpicColoniesItems.register(modEventBus);
-        EpicColoniesTab.register(modEventBus);
-
         modEventBus.addListener(EpicColoniesAnimations::registerAnimations);
 
         modEventBus.addListener(ModEvents::commonSetup);
@@ -82,8 +78,9 @@ public class EpicColonies {
             EpicFightClientEventHooks.Registry.ADD_PATCHED_ENTITY.registerEvent(EpicFightClientEvents::registerPatchedEntityRenderers);
 
             EpicFightEventHooks.Registry.WEAPON_CAPABILITY_PRESET.registerEvent(EpicColonies::registerWeaponType);
-            EpicFightClientEventHooks.Registry.PATCHED_ITEM.registerEvent(EpicFightClientEvents::registerItemRenderer);
-        }        EpicFightEventHooks.Registry.ENTITY_PATCH.registerEvent(ModEvents::registerPatchedEntities);
+        }
+
+        EpicFightEventHooks.Registry.ENTITY_PATCH.registerEvent(ModEvents::registerPatchedEntities);
 
 
         container.registerConfig(ModConfig.Type.CLIENT, EpicColoniesConfigClient.SPEC, "EpicColonies-Client.toml");
@@ -105,8 +102,11 @@ public class EpicColonies {
         if(ModList.get().isLoaded("cdmoveset")){
             //CdMovesetCombatBehaviours.init();
         }
-        if(ModList.get().isLoaded("epicfightx") && ModList.get().isLoaded("efn")){
-            EpicFightXCombatBehaviours.init();
+        if( ModList.get().isLoaded("efn")) {
+            EFNCombatBehaviours.init();
+            if (ModList.get().isLoaded("epicfightx")) {
+                EpicFightXCombatBehaviours.init();
+            }
         }
 
     }
