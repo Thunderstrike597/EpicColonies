@@ -99,7 +99,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         swordDualBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -120,7 +121,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         daggerBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
@@ -198,7 +200,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         tachiBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -219,7 +222,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
 
         longswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(1, 3).build())
@@ -237,7 +241,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
 
         spearOneHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimationsX.SPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
@@ -247,7 +252,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         spearTwoHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X2), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -260,7 +266,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(45, DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         greatswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -279,7 +286,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         katanaSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -296,7 +304,8 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
     }
 
 }

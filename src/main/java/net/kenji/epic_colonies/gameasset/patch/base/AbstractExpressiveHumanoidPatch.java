@@ -11,6 +11,7 @@ import com.mojang.datafixers.util.Pair;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.CitizenPatchData;
+import net.kenji.epic_colonies.api.handlers.CitizenGuardHandler;
 import net.kenji.epic_colonies.api.managers.BlinkManager;
 import net.kenji.epic_colonies.gameasset.EpicColoniesStyles;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
@@ -24,6 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -46,6 +48,7 @@ import yesman.epicfight.api.animation.Animator;
 import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
+import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.registry.entries.EpicFightAttributes;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
@@ -69,6 +72,11 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             EpicFightAttributes.IMPACT_MODIFIER,
             EpicFightAttributes.ATTACK_SPEED_MODIFIER
     };
+
+    protected final CitizenGuardHandler guard = new CitizenGuardHandler(this);
+    public CitizenGuardHandler getGuard() { return this.guard; }
+
+
     protected static int MAX_COMPOSITE_PLAY_COUNTER = 20;
     protected int compositeAnimPlayCounter = MAX_COMPOSITE_PLAY_COUNTER;
     protected static AnimationManager.AnimationAccessor<? extends StaticAnimation> DEFAULT_BROW_ANIM = null;
@@ -106,7 +114,14 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             Log.info(log);
         }
     }
-
+    @Override
+    public AttackResult tryHurt(DamageSource source, float amount) {
+        if (!this.isLogicalClient()) {
+            AttackResult blocked = this.guard.tryBlock(source, amount);
+            if (blocked != null) return blocked;
+        }
+        return super.tryHurt(source, amount);
+    }
     @Override
     public void updateHeldItem(CapabilityItem fromCap, CapabilityItem toCap, ItemStack from, ItemStack to, InteractionHand hand) {
         if (hand == InteractionHand.OFF_HAND) {

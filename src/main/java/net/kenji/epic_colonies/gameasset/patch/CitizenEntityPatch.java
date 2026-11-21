@@ -45,6 +45,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import org.jline.utils.Log;
 import yesman.epicfight.api.animation.*;
 import yesman.epicfight.api.animation.types.DynamicAnimation;
@@ -72,6 +73,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
 
     public Map<IState, Integer> taskCounterMap = new HashMap<>();
 
+    private LivingMotion lastClientCompositeMotion = null; // client-side only
 
 
     public static AssetAccessor<EpicColoniesMesh> getMeshFromTexture(AbstractEntityCitizen citizen, boolean isChild){
@@ -342,6 +344,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         onCitizenTick();
         manageHeadRotWithEyes();
         super.preTickServer();
+        this.guard.serverTick();
     }
 
     protected void setSleepDir(){
@@ -432,6 +435,8 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             citizenPatchData.currentOptionalCompositeMotion = null;
             resetMotion = null;
         }
+        LivingMotion guardMotion = this.guard.getCompositeMotion();
+        if (guardMotion != null) compositeMotion = guardMotion; // overrides EAT / USE / work motions while guarding
 
         citizenPatchData.isAsleep = citizen.getCitizenSleepHandler().isAsleep();
 
@@ -553,12 +558,15 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         playCompositeOnLayer(eyeMoveAnim);
 
         playCompositeOptionalAnimation();
-        if (citizenPatchData.prevOptionalCompositeMotion != citizenPatchData.currentOptionalCompositeMotion) {
+
+        LivingMotion currentComposite = citizenPatchData.currentOptionalCompositeMotion;
+        if (currentComposite != lastClientCompositeMotion) {   // edge-triggered: once per change, not every tick
             getClientAnimator().resetCompositeMotion();
+            lastClientCompositeMotion = currentComposite;
         }
+
         tryStopAnim(LivingMotions.CLIMB);
         tryStopAnim(LivingMotions.DIGGING);
-
         tryStopAnim(LivingMotions.SIT);
     }
 
