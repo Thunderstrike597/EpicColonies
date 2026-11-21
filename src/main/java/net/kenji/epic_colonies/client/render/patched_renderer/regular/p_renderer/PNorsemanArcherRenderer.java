@@ -1,13 +1,12 @@
-package net.kenji.epic_colonies.client.render.patched_renderer.p_renderer;
+package net.kenji.epic_colonies.client.render.patched_renderer.regular.p_renderer;
 
 import com.minecolonies.api.entity.mobs.AbstractEntityMinecoloniesMonster;
+import com.minecolonies.core.client.model.raiders.ModelArcherNorsemen;
 import com.minecolonies.core.client.render.CitizenArmorLayer;
-import com.minecolonies.core.client.render.mobs.pirates.RendererChiefPirate;
-import com.minecolonies.core.client.render.mobs.pirates.RendererPirate;
+import com.minecolonies.core.client.render.mobs.norsemen.RendererArcherNorsemen;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
 import net.kenji.epic_colonies.gameasset.patch.MinecoloniesMonsterPatch;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.entity.EntityType;
@@ -17,9 +16,9 @@ import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRender
 import yesman.epicfight.client.renderer.patched.layer.PatchedItemInHandLayer;
 import yesman.epicfight.client.renderer.patched.layer.WearableItemLayer;
 
-public class PPirateRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, HumanoidModel<AbstractEntityMinecoloniesMonster>, RendererPirate,
+public class PNorsemanArcherRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, ModelArcherNorsemen, RendererArcherNorsemen,
 EpicColoniesMesh> {
-    public PPirateRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
+    public PNorsemanArcherRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
         super(context, entityType);
         this.addPatchedLayer(ItemInHandLayer.class, new PatchedItemInHandLayer<>());
         this.addPatchedLayer(CitizenArmorLayer.class, new WearableItemLayer<>(mesh, false, context.getModelManager()));    }
@@ -30,6 +29,6 @@ EpicColoniesMesh> {
     }
 
     public AssetAccessor<EpicColoniesMesh> getDefaultMesh() {
-        return EpicColoniesMeshes.HUMANOID_RAIDER;
+        return EpicColoniesMeshes.NORSEMAN_ARCHER;
     }
 }

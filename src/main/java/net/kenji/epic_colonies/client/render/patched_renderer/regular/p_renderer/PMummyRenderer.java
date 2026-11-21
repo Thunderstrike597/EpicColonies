@@ -1,10 +1,8 @@
-package net.kenji.epic_colonies.client.render.patched_renderer.p_renderer;
+package net.kenji.epic_colonies.client.render.patched_renderer.regular.p_renderer;
 
 import com.minecolonies.api.entity.mobs.AbstractEntityMinecoloniesMonster;
-import com.minecolonies.core.client.model.raiders.ModelArcherMummy;
 import com.minecolonies.core.client.model.raiders.ModelMummy;
 import com.minecolonies.core.client.render.CitizenArmorLayer;
-import com.minecolonies.core.client.render.mobs.egyptians.RendererArcherMummy;
 import com.minecolonies.core.client.render.mobs.egyptians.RendererMummy;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
@@ -18,9 +16,9 @@ import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRender
 import yesman.epicfight.client.renderer.patched.layer.PatchedItemInHandLayer;
 import yesman.epicfight.client.renderer.patched.layer.WearableItemLayer;
 
-public class PArcherMummyRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, ModelArcherMummy, RendererArcherMummy,
+public class PMummyRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, ModelMummy, RendererMummy,
 EpicColoniesMesh> {
-    public PArcherMummyRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
+    public PMummyRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
         super(context, entityType);
         this.addPatchedLayer(ItemInHandLayer.class, new PatchedItemInHandLayer<>());
         this.addPatchedLayer(CitizenArmorLayer.class, new WearableItemLayer<>(mesh, false, context.getModelManager()));    }

@@ -1,9 +1,9 @@
-package net.kenji.epic_colonies.client.render.patched_renderer.p_renderer;
+package net.kenji.epic_colonies.client.render.patched_renderer.regular.p_renderer;
 
 import com.minecolonies.api.entity.mobs.AbstractEntityMinecoloniesMonster;
-import com.minecolonies.core.client.model.raiders.ModelChiefNorsemen;
+import com.minecolonies.core.client.model.raiders.ModelAmazonSpearman;
 import com.minecolonies.core.client.render.CitizenArmorLayer;
-import com.minecolonies.core.client.render.mobs.norsemen.RendererChiefNorsemen;
+import com.minecolonies.core.client.render.mobs.amazon.RendererAmazonSpearman;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
 import net.kenji.epic_colonies.gameasset.patch.MinecoloniesMonsterPatch;
@@ -16,9 +16,9 @@ import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRender
 import yesman.epicfight.client.renderer.patched.layer.PatchedItemInHandLayer;
 import yesman.epicfight.client.renderer.patched.layer.WearableItemLayer;
 
-public class PNorsemanChiefRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, ModelChiefNorsemen, RendererChiefNorsemen,
+public class PAmazonSpearmanRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, ModelAmazonSpearman, RendererAmazonSpearman,
 EpicColoniesMesh> {
-    public PNorsemanChiefRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
+    public PAmazonSpearmanRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
         super(context, entityType);
         this.addPatchedLayer(ItemInHandLayer.class, new PatchedItemInHandLayer<>());
         this.addPatchedLayer(CitizenArmorLayer.class, new WearableItemLayer<>(mesh, false, context.getModelManager()));    }
@@ -29,6 +29,6 @@ EpicColoniesMesh> {
     }
 
     public AssetAccessor<EpicColoniesMesh> getDefaultMesh() {
-        return EpicColoniesMeshes.NORSEMAN_CHIEF;
+        return EpicColoniesMeshes.AMAZON_SPEARMAN;
     }
 }

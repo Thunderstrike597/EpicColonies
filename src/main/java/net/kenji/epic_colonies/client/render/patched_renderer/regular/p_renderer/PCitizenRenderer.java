@@ -1,4 +1,4 @@
-package net.kenji.epic_colonies.client.render.patched_renderer.p_renderer;
+package net.kenji.epic_colonies.client.render.patched_renderer.regular.p_renderer;
 
 import com.minecolonies.api.client.render.modeltype.CitizenModel;
 import com.minecolonies.api.client.render.modeltype.ModModelTypes;
@@ -6,16 +6,13 @@ import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.api.colony.ICitizenDataView;
 import com.minecolonies.api.colony.jobs.IJob;
 import com.minecolonies.api.colony.jobs.IJobView;
-import com.minecolonies.api.colony.jobs.ModJobs;
 import com.minecolonies.api.colony.jobs.registry.JobEntry;
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import com.minecolonies.core.client.render.CitizenArmorLayer;
 import com.minecolonies.core.client.render.RenderBipedCitizen;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.EpicColoniesConfigClient;
-import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import net.kenji.epic_colonies.api.CitizenArmatureTypes;
 import net.kenji.epic_colonies.api.data.CitizenMeshCache;
 import net.kenji.epic_colonies.api.texture_detection.FaceOffsetDetector;
@@ -24,8 +21,6 @@ import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.patched_layers.CitizenDetailsLayer;
 import net.kenji.epic_colonies.client.patched_layers.CitizenWearableItemLayer;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
-import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
-import net.kenji.epic_colonies.network.ServerCitizenArmaturePacket;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -33,14 +28,11 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import org.jline.utils.Log;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 import yesman.epicfight.client.renderer.patched.layer.PatchedItemInHandLayer;
-
-import java.util.Map;
 
 public class PCitizenRenderer extends PatchedLivingEntityRenderer<AbstractEntityCitizen, CitizenEntityPatch<AbstractEntityCitizen>, CitizenModel<AbstractEntityCitizen>, RenderBipedCitizen, EpicColoniesMesh> {
 

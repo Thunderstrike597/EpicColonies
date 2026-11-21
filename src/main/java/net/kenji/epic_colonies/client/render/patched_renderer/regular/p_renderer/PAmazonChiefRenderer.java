@@ -1,30 +1,34 @@
-package net.kenji.epic_colonies.client.render.patched_renderer.p_renderer;
+package net.kenji.epic_colonies.client.render.patched_renderer.regular.p_renderer;
 
-import com.minecolonies.core.client.model.MercenaryModel;
+import com.minecolonies.api.entity.mobs.AbstractEntityMinecoloniesMonster;
+import com.minecolonies.core.client.model.raiders.ModelAmazonChief;
 import com.minecolonies.core.client.render.CitizenArmorLayer;
-import com.minecolonies.core.client.render.mobs.RenderMercenary;
+import com.minecolonies.core.client.render.mobs.amazon.RendererChiefAmazon;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMesh;
 import net.kenji.epic_colonies.client.meshes.EpicColoniesMeshes;
-import net.kenji.epic_colonies.gameasset.patch.MercenaryPatch;
+import net.kenji.epic_colonies.gameasset.patch.MinecoloniesMonsterPatch;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.PathfinderMob;
 import yesman.epicfight.api.asset.AssetAccessor;
 import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 import yesman.epicfight.client.renderer.patched.layer.PatchedItemInHandLayer;
 import yesman.epicfight.client.renderer.patched.layer.WearableItemLayer;
 
-public class PMercenaryRenderer extends PatchedLivingEntityRenderer<PathfinderMob, MercenaryPatch<PathfinderMob>, MercenaryModel, RenderMercenary,
+public class PAmazonChiefRenderer extends PatchedLivingEntityRenderer<AbstractEntityMinecoloniesMonster, MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster>, ModelAmazonChief, RendererChiefAmazon,
 EpicColoniesMesh> {
-    public PMercenaryRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
+    public PAmazonChiefRenderer(Meshes.MeshAccessor<EpicColoniesMesh> mesh, EntityRendererProvider.Context context, EntityType<?> entityType) {
         super(context, entityType);
         this.addPatchedLayer(ItemInHandLayer.class, new PatchedItemInHandLayer<>());
         this.addPatchedLayer(CitizenArmorLayer.class, new WearableItemLayer<>(mesh, false, context.getModelManager()));    }
 
+    @Override
+    public AssetAccessor<EpicColoniesMesh> getMeshProvider(MinecoloniesMonsterPatch<AbstractEntityMinecoloniesMonster> entitypatch) {
+        return super.getMeshProvider(entitypatch);
+    }
 
     public AssetAccessor<EpicColoniesMesh> getDefaultMesh() {
-        return EpicColoniesMeshes.MERCENARY;
+        return EpicColoniesMeshes.AMAZON_CHIEF;
     }
 }
