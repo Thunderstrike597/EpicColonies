@@ -1,4 +1,4 @@
-package net.kenji.epic_colonies.api;
+package net.kenji.epic_colonies.api.interfaces;
 
 import net.minecraft.core.BlockPos;
 
