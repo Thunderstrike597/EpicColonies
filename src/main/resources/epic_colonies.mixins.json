@@ -24,7 +24,9 @@
     "ModEquipmentTypesMixin",
     "MixinMageGuardCombatHandler",
     "ContainerCitizenInventoryMixin",
-    "InventoryCitizenMixin"
+    "InventoryCitizenMixin",
+    "AbstractEntityCitizenOffhandMixin",
+    "EntityCitizenOffhandMixin"
   ],
   "client": [
     "RenderBipedCitizenMixin",

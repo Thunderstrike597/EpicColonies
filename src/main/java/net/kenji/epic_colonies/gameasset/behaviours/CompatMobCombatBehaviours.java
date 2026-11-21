@@ -77,20 +77,11 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 motion(CapabilityItem.Styles.ONE_HAND, swordOneHandBehaviour, Animations.BIPED_HOLD_LONGSWORD, Animations.BIPED_WALK, Animations.BIPED_RUN),
                 motion(CapabilityItem.Styles.TWO_HAND, swordDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
         );
-        HUMANOID_SWORD_DUAL = register(
-                EpicColoniesWeaponCategory.DUAL_SWORDS,
-                motion(CapabilityItem.Styles.TWO_HAND, swordDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
-        );
         HUMANOID_DAGGER = register(
                 CapabilityItem.WeaponCategories.DAGGER,
                 motion(CapabilityItem.Styles.ONE_HAND, daggerBehaviour, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN),
                 motion(CapabilityItem.Styles.TWO_HAND, daggerDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL),
                 motion(EpicColoniesStyles.ONE_HAND_CLOSE_RANGE, daggerBehaviourRanged, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN)
-        );
-
-        HUMANOID_DAGGER_DUAL = register(
-                EpicColoniesWeaponCategory.DUAL_DAGGER,
-                motion(CapabilityItem.Styles.TWO_HAND, daggerDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
         );
         HUMANOID_AXE = register(
                 CapabilityItem.WeaponCategories.AXE,

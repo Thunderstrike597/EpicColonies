@@ -33,19 +33,12 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 CompatMobCombatBehaviours.motion(CapabilityItem.Styles.ONE_HAND, swordSBehaviour, Animations.BIPED_HOLD_LONGSWORD, Animations.BIPED_WALK, Animations.BIPED_RUN),
                 CompatMobCombatBehaviours.motion(CapabilityItem.Styles.TWO_HAND, CompatMobCombatBehaviours.swordDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
         );
-        CompatMobCombatBehaviours.HUMANOID_S_DAGGER_DUAL = register(
-                EpicColoniesWeaponCategory.DUAL_SWORDS,
-                CompatMobCombatBehaviours.motion(CapabilityItem.Styles.TWO_HAND, CompatMobCombatBehaviours.swordDualBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
-        );
+
         CompatMobCombatBehaviours.HUMANOID_S_DAGGER = register(
                 CapabilityItem.WeaponCategories.DAGGER,
                 CompatMobCombatBehaviours.motion(CapabilityItem.Styles.ONE_HAND, CompatMobCombatBehaviours.daggerBehaviour, Animations.BIPED_IDLE, Animations.BIPED_WALK, Animations.BIPED_HOLD_SPEAR, Animations.BIPED_RUN),
                 CompatMobCombatBehaviours.motion(CapabilityItem.Styles.TWO_HAND, daggerDualSBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
                 );
-        CompatMobCombatBehaviours.HUMANOID_S_DAGGER_DUAL = register(
-                EpicColoniesWeaponCategory.DUAL_DAGGER,
-                CompatMobCombatBehaviours.motion(CapabilityItem.Styles.TWO_HAND, daggerDualSBehaviour, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_HOLD_DUAL_WEAPON, Animations.BIPED_RUN_DUAL)
-        );
         CompatMobCombatBehaviours.HUMANOID_S_TACHI = register(
                 CapabilityItem.WeaponCategories.TACHI,
                 CompatMobCombatBehaviours.motion(CapabilityItem.Styles.TWO_HAND, tachiSBehaviour, Animations.BIPED_HOLD_TACHI, Animations.BIPED_HOLD_TACHI, Animations.BIPED_RUN_SPEAR)

@@ -12,6 +12,7 @@ import java.util.*;
 
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.EpicColoniesConfigClient;
+import net.kenji.epic_colonies.api.helpers.NoopVertexConsumer;
 import net.kenji.epic_colonies.cosmetic.ICosmeticArmorHolder;
 import net.kenji.epic_colonies.gameasset.patch.CitizenEntityPatch;
 import net.kenji.epic_colonies.mixins.AccessorHumanoidArmorLayer;
@@ -19,9 +20,11 @@ import net.kenji.epic_colonies.mixins.AccessorWearableItemLayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
@@ -77,6 +80,16 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
     }
 
     public static boolean shouldHidePart(AbstractEntityCitizen citizen, EquipmentSlot slot){
+        ICitizenDataView view = citizen.getCitizenDataView();
+        if(view != null) {
+            if (view.getInventory() instanceof ICosmeticArmorHolder iHolder) {
+                return (!citizen.getItemBySlot(slot).isEmpty()
+                        || !iHolder.ec$getCosmeticArmorItemFromSlot(slot).isEmpty())
+                        && shouldRenderArmorMap
+                        .getOrDefault(citizen.getUUID(), Collections.emptyMap())
+                        .getOrDefault(slot, true);
+            }
+        }
         return !citizen.getItemBySlot(slot).isEmpty()
                 && shouldRenderArmorMap
                 .getOrDefault(citizen.getUUID(), Collections.emptyMap())
@@ -242,61 +255,39 @@ public class CitizenWearableItemLayer<E extends AbstractEntityCitizen, T extends
                     skinnedMesh = null;
                 }
             } else {
-                Iterable<ItemStack> armorItems = entityliving.getArmorSlots();
-                ItemStack head = entityliving.getItemBySlot(EquipmentSlot.HEAD);
-                ItemStack chest = entityliving.getItemBySlot(EquipmentSlot.CHEST);
-                ItemStack legs = entityliving.getItemBySlot(EquipmentSlot.LEGS);
-                ItemStack feet = entityliving.getItemBySlot(EquipmentSlot.FEET);
-                if (armorItems instanceof List) {
-                    List<ItemStack> armorItemList = (List)armorItems;
-                    armorItemList.set(0, ItemStack.EMPTY);
-                    armorItemList.set(1, ItemStack.EMPTY);
-                    armorItemList.set(2, ItemStack.EMPTY);
-                    armorItemList.set(3, ItemStack.EMPTY);
-                    armorItemList.set(slot.getIndex(), itemstack);
+                prepareForBake(originalModel, slot);
+                if (forgeHooksArmorModel instanceof HumanoidModel<?> armorHumanoid && armorHumanoid != originalModel) {
+                    prepareForBake(armorHumanoid, slot);
                 }
 
-                PoseStack ps = new PoseStack();
-                ps.translate(0.0F, 0.0F, 10000.0F);
-                if (forgeHooksArmorModel instanceof HumanoidModel) {
-                    HumanoidModel<?> humanoidModel = (HumanoidModel)forgeHooksArmorModel;
-                    switch (slot) {
-                        case FEET:
-                            humanoidModel.rightLeg.visible = true;
-                            humanoidModel.leftLeg.visible = true;
-                            break;
-                        case LEGS:
-                            humanoidModel.body.visible = true;
-                            humanoidModel.rightLeg.visible = true;
-                            humanoidModel.leftLeg.visible = true;
-                            break;
-                        case CHEST:
-                            humanoidModel.body.visible = true;
-                            humanoidModel.rightArm.visible = true;
-                            humanoidModel.leftArm.visible = true;
-                            break;
-                        case HEAD:
-                            humanoidModel.head.visible = true;
-                            humanoidModel.hat.visible = true;
-                    }
-                }
-
-                originalRenderer.render(ps, Minecraft.getInstance().renderBuffers().bufferSource(), 0, entityliving, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-                if (armorItems instanceof List) {
-                    List<ItemStack> armorItemList = (List)armorItems;
-                    armorItemList.set(0, feet);
-                    armorItemList.set(1, legs);
-                    armorItemList.set(2, chest);
-                    armorItemList.set(3, head);
-                }
-
-                skinnedMesh = HumanoidModelBaker.bakeArmor(entityliving, itemstack, armorItem, slot, originalModel, forgeHooksArmorModel, (HumanoidModel)originalRenderer.getParentModel(), (HumanoidMesh)this.mesh.get());
+                skinnedMesh = HumanoidModelBaker.bakeArmor(entityliving, itemstack, armorItem, slot, originalModel,
+                        forgeHooksArmorModel, (HumanoidModel) originalRenderer.getParentModel(), (HumanoidMesh) this.mesh.get());
             }
 
             putModel(registryName, skinnedMesh);
             return skinnedMesh;
         }
     }
+    private static void prepareForBake(HumanoidModel<?> model, EquipmentSlot slot) {
+        model.young = false;
+        model.crouching = false;
+        model.riding = false;
+        model.leftArmPose = HumanoidModel.ArmPose.EMPTY;
+        model.rightArmPose = HumanoidModel.ArmPose.EMPTY;
 
+        for (ModelPart part : new ModelPart[] { model.head, model.hat, model.body,
+                model.rightArm, model.leftArm, model.rightLeg, model.leftLeg }) {
+            part.loadPose(part.getInitialPose());
+        }
+
+        model.setAllVisible(false);
+        switch (slot) {
+            case HEAD -> { model.head.visible = true; model.hat.visible = true; }
+            case CHEST -> { model.body.visible = true; model.rightArm.visible = true; model.leftArm.visible = true; }
+            case LEGS -> { model.body.visible = true; model.rightLeg.visible = true; model.leftLeg.visible = true; }
+            case FEET -> { model.rightLeg.visible = true; model.leftLeg.visible = true; }
+            default -> {}
+        }
+    }
 
 }

@@ -2,7 +2,6 @@ package net.kenji.epic_colonies.client.events;
 
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.MobPatchFactory;
-import net.kenji.epic_colonies.client.render.item_render.DualSwordsRender;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,10 +18,4 @@ public class EpicFightClientEvents {
             );
         }
     }
-    @SubscribeEvent
-    public static void registerRenderer(PatchedRenderersEvent.RegisterItemRenderer event) {
-        event.addItemRenderer(EpicColonies.identifier("dual_weapon"), DualSwordsRender::new);
-
-    }
-
 }

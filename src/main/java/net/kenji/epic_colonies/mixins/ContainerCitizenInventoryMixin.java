@@ -5,6 +5,8 @@ import com.minecolonies.api.inventory.InventoryCitizen;
 import com.minecolonies.api.inventory.container.ContainerCitizenInventory;
 import net.kenji.epic_colonies.cosmetic.CosmeticArmorContainer;
 import net.kenji.epic_colonies.cosmetic.CosmeticArmorSlot;
+import net.kenji.epic_colonies.offhand.CitizenOffhandContainer;
+import net.kenji.epic_colonies.offhand.CitizenOffhandSlot;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *   next 27                                 player main inventory
  *   next 9                                  player hotbar
  *   [ec$cosmeticStart, ec$cosmeticStart+4)  our cosmetic slots (always appended LAST so no existing index moves)
+ *   ec$cosmeticStart + 4                    our offhand slot (also excluded from shift-click destinations, see below)
  */
 @Mixin(value = ContainerCitizenInventory.class, remap = false)
 public abstract class ContainerCitizenInventoryMixin extends AbstractContainerMenu {
@@ -64,6 +67,9 @@ public abstract class ContainerCitizenInventoryMixin extends AbstractContainerMe
                     CosmeticArmorSlot.START_X + i * CosmeticArmorSlot.SPACING,
                     CosmeticArmorSlot.START_Y));
         }
+
+        // Offhand slot sits after the cosmetic slots, so the shift-click cap below excludes it too.
+        this.addSlot(new CitizenOffhandSlot(new CitizenOffhandContainer(citizen, inventory)));
     }
 
     /**
@@ -80,8 +86,8 @@ public abstract class ContainerCitizenInventoryMixin extends AbstractContainerMe
      *
      * this.slots.size() is the only NonNullList.size() call in quickMoveStack in 1.20.1 (slots.get(index) is a different method).
      */
-    @Redirect(method = "quickMoveStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/NonNullList;size()I"))
+    @Redirect(method = "quickMoveStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/NonNullList;size()I"), remap = true)
     private int ec$excludeCosmeticFromShiftClick(NonNullList<?> list) {
         return ec$cosmeticStart >= 0 ? ec$cosmeticStart : list.size();
     }
-}
+}

@@ -15,9 +15,7 @@ import net.kenji.epic_colonies.events.ModEvents;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
 import net.kenji.epic_colonies.gameasset.EpicColoniesWeaponCapabilityPresets;
-import net.kenji.epic_colonies.item.EpicColoniesItems;
 import net.kenji.epic_colonies.network.EpicColoniesPacketHandler;
-import net.kenji.epic_colonies.tab.EpicColoniesTab;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -79,8 +77,6 @@ public class EpicColonies {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the commonSetup method for modloading
 
-        EpicColoniesItems.register(modEventBus);
-        EpicColoniesTab.register(modEventBus);
 
         modEventBus.addListener(ModEvents::registerPatchedEntities);
         modEventBus.addListener(EpicColoniesAnimations::registerAnimations);
