@@ -2,6 +2,7 @@ package net.kenji.epic_colonies.gameasset.behaviours;
 
 import com.mojang.datafixers.util.Pair;
 import net.kenji.epic_colonies.EpicColoniesConfigCommon;
+import net.kenji.epic_colonies.gameasset.patch.base.AbstractExpressiveHumanoidPatch;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.world.capabilities.entitypatch.HumanoidMobPatch;
@@ -31,6 +32,9 @@ public abstract class CombatBehaviourBase {
      LEFT,
      BACK
     }
+    private static boolean notGuarding(Object p) {
+        return !(p instanceof AbstractExpressiveHumanoidPatch<?> e) || !e.getGuard().isGuarding();
+    }
 
     public static int getAttackWeight(AttackWeightType type){
         return switch (type){
@@ -51,6 +55,9 @@ public abstract class CombatBehaviourBase {
             case BACK -> EpicColoniesConfigCommon.BACK_DODGE_WEIGHT.get();
         };
     }
+    public static int getGuardWeight() {
+        return EpicColoniesConfigCommon.GUARD_WEIGHT.get();
+    }
         public record WeaponMotions(Style style, CombatBehaviors.Builder<HumanoidMobPatch<?>> behaviour , AnimationManager.AnimationAccessor<? extends StaticAnimation> idleMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> walkMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> jogMotion,
@@ -60,7 +67,17 @@ public abstract class CombatBehaviourBase {
     public record WeaponMotionDetails(WeaponCategory category, WeaponMotions[] motions) {
 
     }
-
+    @SuppressWarnings("unchecked")
+    protected static CombatBehaviors.BehaviorSeries.Builder createGuardBehaviourSeries(float weight, int minTicks, int maxTicks) {
+        CombatBehaviors.Behavior.Builder behaviour = CombatBehaviors.Behavior.builder()
+                .withinEyeHeight().withinDistance(0, 4)
+                .custom(p -> p instanceof AbstractExpressiveHumanoidPatch<?> e && e.getGuard().canStartGuard())
+                .behavior(p -> {
+                    if (p instanceof AbstractExpressiveHumanoidPatch<?> e)
+                        e.getGuard().startGuard(minTicks + e.getOriginal().getRandom().nextInt(maxTicks - minTicks + 1));
+                });
+        return CombatBehaviors.BehaviorSeries.builder().weight(weight).canBeInterrupted(false).nextBehavior(behaviour);
+    }
     @SuppressWarnings("unchecked")
     protected static CombatBehaviors.BehaviorSeries.Builder createBehaviourSeries(float weight, DynamicBehaviour... dynamicBehaviours){
         CombatBehaviors.BehaviorSeries.Builder behaviorSeries = CombatBehaviors.BehaviorSeries.builder().weight(weight).canBeInterrupted(false);
@@ -137,5 +154,6 @@ public abstract class CombatBehaviourBase {
         behaviourList.add(pair);
         return pair;
     }
+
 
 }

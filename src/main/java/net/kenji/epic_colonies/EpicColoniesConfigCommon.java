@@ -25,6 +25,7 @@ public class EpicColoniesConfigCommon {
     public static ForgeConfigSpec.ConfigValue<Integer> LEFT_DODGE_WEIGHT;
     public static ForgeConfigSpec.ConfigValue<Integer> RIGHT_DODGE_WEIGHT;
     public static ForgeConfigSpec.ConfigValue<Integer> BACK_DODGE_WEIGHT;
+    public static ForgeConfigSpec.ConfigValue<Integer> GUARD_WEIGHT;
 
     static {
         BUILDER.push("Values");
@@ -101,6 +102,9 @@ public class EpicColoniesConfigCommon {
         BACK_DODGE_WEIGHT = BUILDER
                 .comment("(NEEDS RESTART TO TAKE EFFECT) Weight of the back dodge")
                 .define("Dodge Weight Back", 40);
+        GUARD_WEIGHT = BUILDER
+                .comment("(NEEDS RESTART TO TAKE EFFECT) Weight of the guard motion")
+                .define("Guard Weight", 90);
 
         BUILDER.pop();
 

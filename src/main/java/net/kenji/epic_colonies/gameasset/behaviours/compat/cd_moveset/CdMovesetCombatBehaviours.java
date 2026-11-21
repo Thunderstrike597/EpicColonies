@@ -82,7 +82,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         daggerDualSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(CorruptAnimations.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
@@ -120,7 +121,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
 
         longswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(CorruptAnimations.LONGSWORD_OLD_AUTO1).distanceMinMax(1, 3).build())
@@ -140,7 +142,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
 
         spearOneHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(CorruptAnimations.SSPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
@@ -150,7 +153,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         spearTwoHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X2), DynamicBehaviour.of(CorruptAnimations.SSPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -163,7 +167,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         greatswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(CorruptAnimations.GREATSWORD_OLD_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -180,7 +185,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
         katanaSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(CorruptAnimations.KATANA_AUTO1).distanceMinMax(1, 3).build())
         ).newBehaviorSeries(
@@ -197,7 +203,8 @@ public class CdMovesetCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.20F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.20F).build())
-        );
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+
     }
    
 }

@@ -60,6 +60,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
     private HumanoidArmature currentCitizenArmature = EpicColoniesArmatures.CITIZEN_REGULAR.get();
 
     public Map<IState, Integer> taskCounterMap = new HashMap<>();
+    private LivingMotion lastClientCompositeMotion = null; // client-side only
 
 
     public static AssetAccessor<EpicColoniesMesh> getMeshFromTexture(AbstractEntityCitizen citizen, boolean isChild){
@@ -409,11 +410,14 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             }
         }
 
-
+        LivingMotion guardMotion = this.guard.getCompositeMotion();
+        if (guardMotion != null)
+            compositeMotion = guardMotion; // overrides EAT / USE / work motions while guarding
 
         citizenPatchData.isAsleep = citizen.getCitizenSleepHandler().isAsleep();
 
         citizenPatchData.currentOptionalMotion = motion;
+
         citizenPatchData.currentOptionalCompositeMotion = compositeMotion;
 
         EpicColoniesPacketHandler.sendToAll(new ClientCitizenSyncPacket(citizen.getId(), this.getOriginal().getUUID(), citizenPatchData));
@@ -510,6 +514,7 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         return this.getTarget() != null || this.getOriginal().getEntityStateController().getState() == EntityAICitizenAvoidEntity.FleeStates.RUNNING;
     }
 
+
     @Override
     protected void clientTick(LivingEvent.LivingTickEvent event) {
         super.clientTick(event);
@@ -519,17 +524,16 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
         playCompositeOnLayer(eyeMoveAnim);
 
         playCompositeOptionalAnimation();
-        if (citizenPatchData.prevOptionalCompositeMotion != citizenPatchData.currentOptionalCompositeMotion) {
+
+        LivingMotion currentComposite = citizenPatchData.currentOptionalCompositeMotion;
+        if (currentComposite != lastClientCompositeMotion) {   // edge-triggered: once per change, not every tick
             getClientAnimator().resetCompositeMotion();
+            lastClientCompositeMotion = currentComposite;
         }
+
         tryStopAnim(LivingMotions.CLIMB);
         tryStopAnim(LivingMotions.DIGGING);
-
         tryStopAnim(LivingMotions.SIT);
-
-        // debugLogNearestPlayer("Logging prevOptionalCompositeMotion: " + citizenPatchData.prevOptionalCompositeMotion);
-        // debugLogNearestPlayer("Logging currentOptionalCompositeMotion: " + citizenPatchData.currentOptionalCompositeMotion);
-
     }
 
     private void tryStopAnim(LivingMotion motion) {

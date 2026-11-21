@@ -11,6 +11,7 @@ import com.mojang.datafixers.util.Pair;
 import io.redspace.ironsspellbooks.item.SpellBook;
 import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.CitizenPatchData;
+import net.kenji.epic_colonies.api.handlers.CitizenGuardHandler;
 import net.kenji.epic_colonies.api.managers.BlinkManager;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
@@ -23,6 +24,7 @@ import net.kenji.epic_colonies.network.ServerBowActionPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -47,6 +49,7 @@ import yesman.epicfight.api.animation.LivingMotion;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.asset.AssetAccessor;
+import yesman.epicfight.api.utils.AttackResult;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.network.EpicFightNetworkManager;
 import yesman.epicfight.network.server.SPChangeLivingMotion;
@@ -69,6 +72,8 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             EpicFightAttributes.IMPACT_MODIFIER,
             EpicFightAttributes.ATTACK_SPEED_MODIFIER
     };
+    protected final CitizenGuardHandler guard = new CitizenGuardHandler(this);
+    public CitizenGuardHandler getGuard() { return this.guard; }
 
     protected static int MAX_COMPOSITE_PLAY_COUNTER = 20;
     protected int compositeAnimPlayCounter = MAX_COMPOSITE_PLAY_COUNTER;
@@ -236,6 +241,15 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
             return combatAI instanceof MageCombatAI;
         }
         return false;
+    }
+
+    @Override
+    public AttackResult tryHurt(DamageSource source, float amount) {
+        if (!this.isLogicalClient()) {
+            AttackResult blocked = this.guard.tryBlock(source, amount);
+            if (blocked != null) return blocked;
+        }
+        return super.tryHurt(source, amount);
     }
 
     @Override
@@ -461,6 +475,7 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         else{
             bowUseCounter = 0;
         }
+        this.guard.serverTick();
     }
     @Override
     public void setAIAsInfantry(boolean holdingRangedWeapon) {
