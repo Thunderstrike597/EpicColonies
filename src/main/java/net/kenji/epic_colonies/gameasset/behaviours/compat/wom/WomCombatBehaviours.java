@@ -44,11 +44,11 @@ public class WomCombatBehaviours extends CombatBehaviourBase {
     @SuppressWarnings("unchecked")
     private static void buildMotions(){
         agonyBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimsAgony.AGONY_AUTO_3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -58,11 +58,11 @@ public class WomCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         ruineBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimsRuine.RUINE_AUTO_3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -72,11 +72,11 @@ public class WomCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         tormentBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(WOMAnimations.TORMENT_AUTO_3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -86,11 +86,11 @@ public class WomCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         staffBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(WOMAnimations.STAFF_AUTO_3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(

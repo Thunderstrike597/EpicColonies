@@ -236,7 +236,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:packet-fixer-689467:7221527")
     implementation fg.deobf("curse.maven:distant-horizons-508933:9004753")
-    compileOnly fg.deobf("curse.maven:epic-fight-indestructible-unofficially-enhanced-1526088:8855553")
+    implementation fg.deobf("curse.maven:epic-fight-indestructible-unofficially-enhanced-1526088:8855553")
   if (!gradle.startParameter.taskNames.any { it.toLowerCase().contains('runserver') }) {
       implementation fg.deobf("curse.maven:smooth-camera-movement-1241658:6612383")
       implementation fg.deobf("curse.maven:architectury-api-419699:5137938")

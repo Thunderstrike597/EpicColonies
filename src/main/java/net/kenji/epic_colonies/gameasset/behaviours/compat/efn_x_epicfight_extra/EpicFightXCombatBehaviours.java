@@ -81,19 +81,19 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
     @SuppressWarnings("unchecked")
     private static void buildMotions(){
         swordBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -103,19 +103,19 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         swordDualBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNDualSwordAnimations.NF_DUAL_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -133,13 +133,13 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.X5), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO5).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.X5), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO5).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -149,13 +149,13 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         );
 
         daggerBehaviourRanged = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.X5), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO5).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.X5), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNShortSwordAnimations.NF_SHORTSWORD_AUTO5).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -171,11 +171,11 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO3).distanceMinMax(1, 2).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO1).distanceMinMax(1, 2).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of((AnimationManager.AnimationAccessor<? extends StaticAnimation>) AnimationsX.DAGGER_DUAL_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -185,19 +185,19 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         );
 
         axeBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(AnimationsX.AXE_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.AXE_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNSwordAnimations.NF_SWORD_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -207,19 +207,19 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         tachiBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO4).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.QUAD), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.X5), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO4).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO5).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.X5), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO4).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNTachiAnimations.NF_TACHI_AUTO5).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -230,15 +230,15 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
 
 
         longswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.LONGSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -249,7 +249,7 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
 
 
         spearOneHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimationsX.SPEAR_ONEHAND_AUTO).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X1), DynamicBehaviour.of(AnimationsX.SPEAR_ONEHAND_AUTO).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -259,11 +259,11 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         spearTwoHandSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X2), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X2), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X2), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X2), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.SPEAR_TWOHAND_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -273,17 +273,17 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         greatswordSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X4), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(EFNGreatSwordAnimations.NG_GREATSWORD_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(
@@ -293,15 +293,15 @@ public class EpicFightXCombatBehaviours extends CombatBehaviourBase {
         ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
 
         katanaSBehaviour = CombatBehaviors.builder().newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.DOUBLE), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
-                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO2).distanceMinMax(1, 3).build(), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO3).distanceMinMax(1, 3).build())
+                createBehaviourSeries(getAttackWeight(AttackWeightType.TRIPLE), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO2).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build(), DynamicBehaviour.of(AnimationsX.UCHIGATANA_AUTO3).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.BACK), DynamicBehaviour.of(Animations.BIPED_ROLL_BACKWARD).distanceMinMax(0, 1.5F).build())
         ).newBehaviorSeries(

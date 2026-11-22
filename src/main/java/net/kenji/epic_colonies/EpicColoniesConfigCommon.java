@@ -26,6 +26,8 @@ public class EpicColoniesConfigCommon {
     public static ForgeConfigSpec.ConfigValue<Integer> RIGHT_DODGE_WEIGHT;
     public static ForgeConfigSpec.ConfigValue<Integer> BACK_DODGE_WEIGHT;
     public static ForgeConfigSpec.ConfigValue<Integer> GUARD_WEIGHT;
+    public static ForgeConfigSpec.ConfigValue<Double> MIN_ATTACK_DISTANCE;
+    public static ForgeConfigSpec.ConfigValue<Double> MAX_ATTACK_DISTANCE;
 
     static {
         BUILDER.push("Values");
@@ -105,6 +107,12 @@ public class EpicColoniesConfigCommon {
         GUARD_WEIGHT = BUILDER
                 .comment("(NEEDS RESTART TO TAKE EFFECT) Weight of the guard motion")
                 .define("Guard Weight", 90);
+        MIN_ATTACK_DISTANCE = BUILDER
+                .comment("(NEEDS RESTART TO TAKE EFFECT) The Minimum Distance Required For An Attack")
+                .defineInRange("Min Attack Distance", 1F, 0F, 10F);
+        MAX_ATTACK_DISTANCE = BUILDER
+                .comment("(NEEDS RESTART TO TAKE EFFECT) The Maximum Distance Required For An Attack")
+                .defineInRange("Max Attack Distance", 3F, 0.1F, 20F);
 
         BUILDER.pop();
 
