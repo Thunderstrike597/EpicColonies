@@ -53,6 +53,12 @@ public abstract class CombatBehaviourBase {
     public static int getGuardWeight() {
         return EpicColoniesConfigCommon.GUARD_WEIGHT.get();
     }
+    public static float getMinAttackDist() {
+        return (float)(double)EpicColoniesConfigCommon.MIN_ATTACK_DISTANCE.get();
+    }
+    public static float getMaxAttackDist() {
+        return (float)(double)EpicColoniesConfigCommon.MAX_ATTACK_DISTANCE.get();
+    }
     public record WeaponMotions(Style style, CombatBehaviors.Builder<HumanoidMobPatch<?>> behaviour , AnimationManager.AnimationAccessor<? extends StaticAnimation> idleMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> walkMotion,
                                 AnimationManager.AnimationAccessor<? extends StaticAnimation> jogMotion,
