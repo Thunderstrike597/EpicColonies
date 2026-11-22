@@ -9,6 +9,7 @@ public class EpicColoniesConfigCommon {
     public static ForgeConfigSpec.ConfigValue<Integer> MINE_COUNTER;
     public static ForgeConfigSpec.ConfigValue<Boolean> UNBREAKABLE_TOOLS_FIX;
     public static ForgeConfigSpec.ConfigValue<Boolean> ARCHER_DAGGER_MELEE;
+    public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_BLINKING;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_HAPPINESS_FACIAL_FEATURES;
     public static ForgeConfigSpec.ConfigValue<Boolean> DISABLE_EYES_FOLLOW;
 
@@ -54,7 +55,9 @@ public class EpicColoniesConfigCommon {
 
         BUILDER.pop();
         BUILDER.push("Animated Facial Features");
-
+        DISABLE_BLINKING = BUILDER
+                .comment("If true, citizens will no longer blink")
+                .define("Disable Citizen Blinking", false);
         DISABLE_HAPPINESS_FACIAL_FEATURES = BUILDER
                 .comment("If true, citizens will no longer smile/frown/look-angry when happiness is above/below a certain point (The will remain neutral in expression)")
                 .define("Disable Citizen Facial Expressions", false);

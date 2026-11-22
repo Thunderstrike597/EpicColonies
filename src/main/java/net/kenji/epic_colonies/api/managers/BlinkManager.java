@@ -2,6 +2,7 @@ package net.kenji.epic_colonies.api.managers;
 
 import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 import net.kenji.epic_colonies.EpicColoniesConfigClient;
+import net.kenji.epic_colonies.EpicColoniesConfigCommon;
 import net.kenji.epic_colonies.api.animation_types.BlinkAnimation;
 import net.kenji.epic_colonies.gameasset.patch.base.AbstractExpressiveHumanoidPatch;
 import net.minecraft.util.Mth;
@@ -44,7 +45,7 @@ public class BlinkManager {
     }
 
     public static void manageBlinking(LivingEvent.LivingTickEvent event) {
-        if(EpicColoniesConfigClient.DISABLE_BLINKING.get())return;
+        if(EpicColoniesConfigCommon.DISABLE_BLINKING.get())return;
 
         LivingEntity entity = event.getEntity();
         if (!entity.level().isClientSide()) return;
