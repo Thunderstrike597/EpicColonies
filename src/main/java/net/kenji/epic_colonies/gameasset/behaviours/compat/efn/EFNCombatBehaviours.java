@@ -77,7 +77,7 @@ public class EFNCombatBehaviours extends CombatBehaviourBase {
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
 
 

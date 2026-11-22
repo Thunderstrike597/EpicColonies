@@ -130,7 +130,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         swordDualBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.SWORD_DUAL_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
@@ -148,7 +148,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         daggerBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.DAGGER_AUTO1).distanceMinMax(1, 2).build())
@@ -213,7 +213,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         tachiBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.TACHI_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
@@ -231,7 +231,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
 
         longswordOneHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
@@ -250,7 +250,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         longswordTwoHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.LONGSWORD_LIECHTENAUER_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
@@ -268,7 +268,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
 
         spearOneHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
@@ -279,7 +279,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         spearTwoHandBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.SPEAR_TWOHAND_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
@@ -293,7 +293,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         greatswordBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.GREATSWORD_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
@@ -307,7 +307,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
         katanaBehaviour = CombatBehaviors.builder().newBehaviorSeries(
                 createBehaviourSeries(getAttackWeight(AttackWeightType.SINGLE_X3), CombatBehaviourBase.DynamicBehaviour.of(Animations.UCHIGATANA_AUTO1).distanceMinMax(getMinAttackDist(), getMaxAttackDist()).build())
@@ -325,7 +325,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.LEFT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_LEFT).distanceMinMax(0, 1.8F).build())
         ).newBehaviorSeries(
                 createBehaviourSeries(getDodgeWeight(DodgeWeightType.RIGHT), CombatBehaviourBase.DynamicBehaviour.of(Animations.BIPED_STEP_RIGHT).distanceMinMax(0, 1.8F).build())
-        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), 28, 50));
+        ).newBehaviorSeries(createGuardBehaviourSeries(getGuardWeight(), getMinGuardTicks(), getMaxGuardTicks()));
 
     }
 }
