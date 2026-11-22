@@ -62,6 +62,7 @@ public class CompatMobCombatBehaviours extends CombatBehaviourBase{
     public static WeaponMotionDetails HUMANOID_S_GREATSWORD;
     /// ===EFN-COMPAT-MOTIONS=== ///
     public static WeaponMotionDetails HUMANOID_YAMATO;
+    public static WeaponMotionDetails HUMANOID_HF_MURASAMA;
 
 
 
