@@ -78,9 +78,15 @@ public final class CitizenMeshCache {
     @Nullable
     public static JobEntry resolveJob(@Nullable String jobId) {
         if (jobId == null) return null;
-        // Swap this for whatever MineColonies actually exposes, e.g.
-        // MinecoloniesAPIProxy.getInstance().getJobRegistry().getValue(new ResourceLocation(jobId));
-        return IJobRegistry.getInstance().get(ResourceLocation.fromNamespaceAndPath("minecolonies", jobId));
+        try {
+            ResourceLocation location = jobId.contains(":")
+                    ? ResourceLocation.parse(jobId)
+                    : ResourceLocation.fromNamespaceAndPath("minecolonies", jobId);
+            return IJobRegistry.getInstance().get(location);
+        } catch (IllegalArgumentException e) {
+            EpicColonies.LOGGER.warn("Invalid cached job id: {}", jobId, e);
+            return null;
+        }
     }
     @Nullable
     public static ResourceLocation resolveTextLocation(@Nullable String jobId) {
