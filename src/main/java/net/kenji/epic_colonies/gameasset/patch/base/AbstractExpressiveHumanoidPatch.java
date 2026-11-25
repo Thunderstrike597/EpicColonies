@@ -13,6 +13,10 @@ import net.kenji.epic_colonies.EpicColonies;
 import net.kenji.epic_colonies.api.CitizenPatchData;
 import net.kenji.epic_colonies.api.handlers.CitizenGuardHandler;
 import net.kenji.epic_colonies.api.managers.BlinkManager;
+import net.kenji.epic_colonies.gameasset.ai.goal.GatedAnimatedAttackGoal;
+import net.kenji.epic_colonies.gameasset.ai.goal.GatedTargetChasingGoal;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import yesman.epicfight.gameasset.MobCombatBehaviors;
 import net.kenji.epic_colonies.gameasset.behaviours.CombatBehaviourBase;
 import net.kenji.epic_colonies.gameasset.EpicColoniesAnimations;
 import net.kenji.epic_colonies.gameasset.EpicColoniesLivingMotions;
@@ -477,10 +481,32 @@ public abstract class AbstractExpressiveHumanoidPatch<T extends PathfinderMob> e
         }
         this.guard.serverTick();
     }
+    /**
+     * When true, Epic Fight's attack/chase goals stand down so the owning mod's own AI can move the entity
+     * (e.g. MineColonies guards retreating on low health). Default: never.
+     */
+    public boolean shouldSuppressCombatGoals() {
+        return false;
+    }
+
+    // Same goals as HumanoidMobPatch#setAIAsInfantry, but gated by shouldSuppressCombatGoals().
     @Override
     public void setAIAsInfantry(boolean holdingRangedWeapon) {
-        if(!holdingRangedWeapon){
-            super.setAIAsInfantry(false);
+        if(holdingRangedWeapon) return;
+
+        CombatBehaviors.Builder<HumanoidMobPatch<?>> builder = this.getHoldingItemWeaponMotionBuilder();
+        if (builder != null) {
+            this.original.goalSelector.addGoal(0, new GatedAnimatedAttackGoal<>(this, builder.build(this), this::shouldSuppressCombatGoals));
+            this.original.goalSelector.addGoal(1, new GatedTargetChasingGoal(this, this.getOriginal(), 1.0D, true, this::shouldSuppressCombatGoals));
+        }
+    }
+
+    // Same goals as HumanoidMobPatch#setAIAsMounted (cavalry), but gated by shouldSuppressCombatGoals().
+    @Override
+    public void setAIAsMounted(Entity ridingEntity) {
+        if (this.isArmed() && ridingEntity instanceof AbstractHorse) {
+            this.original.goalSelector.addGoal(0, new GatedAnimatedAttackGoal<>(this, MobCombatBehaviors.MOUNT_HUMANOID_BEHAVIORS.build(this), this::shouldSuppressCombatGoals));
+            this.original.goalSelector.addGoal(1, new GatedTargetChasingGoal(this, this.getOriginal(), 1.0D, true, this::shouldSuppressCombatGoals));
         }
     }
     @Override

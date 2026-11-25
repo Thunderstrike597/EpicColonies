@@ -102,7 +102,7 @@ minecraft {
             property 'forge.enabledGameTestNamespaces', mod_id
 
             jvmArgs '-Depic_colonies.debugDamage=true'
-
+            jvmArgs '-Depic_colonies.debugRetreat=true'
         }
 
         server {
