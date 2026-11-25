@@ -543,6 +543,28 @@ public class CitizenEntityPatch<C extends AbstractEntityCitizen> extends Abstrac
             compositeAnimPlayCounter--;
         }
     }
+    /**
+     * MineColonies' guard retreat ("flee on low health") switches the worker AI to GUARD_FLEE, walks to the hut,
+     * then sits in GUARD_REGEN until healed - but it never clears the target. Epic Fight's goals only look at
+     * the target, so without this they keep chasing/attacking and override the retreat path.
+     * GUARD_REGEN goes back to ATTACKING by itself if the target comes within 10 blocks, so the goals resume then.
+     */
+    @Override
+    public boolean shouldSuppressCombatGoals() {
+        AbstractEntityCitizen citizen = this.getOriginal();
+
+        // civilians running away (EntityAICitizenAvoidEntity)
+        if (citizen.getEntityStateController() != null
+                && citizen.getEntityStateController().getState() == EntityAICitizenAvoidEntity.FleeStates.RUNNING)
+            return true;
+
+        if (citizen.getCitizenJobHandler() == null) return false;
+        IJob<?> job = citizen.getCitizenJobHandler().getColonyJob();
+        if (job == null || job.getWorkerAI() == null) return false;
+
+        IState workerState = job.getWorkerAI().getState();
+        return workerState == AIWorkerState.GUARD_FLEE || workerState == AIWorkerState.GUARD_REGEN;
+    }
 
     @Override
     public boolean shouldRun() {

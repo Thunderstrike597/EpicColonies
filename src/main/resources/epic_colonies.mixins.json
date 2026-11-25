@@ -24,7 +24,9 @@
     "ContainerCitizenInventoryMixin",
     "InventoryCitizenMixin",
     "AbstractEntityCitizenOffhandMixin",
-    "EntityCitizenOffhandMixin"
+    "EntityCitizenOffhandMixin",
+    "MixinAbstractEntityAIGuardFlee",
+    "EntityCitizenDeathMixin"
   ],
   "client": [
     "RenderBipedCitizenMixin",
